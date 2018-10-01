@@ -25,15 +25,7 @@ public class DBUserManager {
     public boolean addUser(String username, String password){
         try{
 
-            //TODO Password hashing
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256"); //https://stackoverflow.com/questions/2624192/good-hash-function-for-strings
-            byte[] hashBytes = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
-            //https://www.mkyong.com/java/java-sha-hashing-example/
-            StringBuilder encryptedPassword = new StringBuilder();
-            for(byte b : hashBytes){
-                encryptedPassword.append(String.format("%02x", b));
-            }
-
+            String encryptedPassword = hashWithSHA256(password);
             System.out.println("Password: " + password);
             System.out.println("Encrypted: " + encryptedPassword);
 
@@ -75,10 +67,22 @@ public class DBUserManager {
         }
     }
 
+    private String hashWithSHA256(String s) throws NoSuchAlgorithmException{
+        //TODO Check wether this is enough or if salt is to be used
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256"); //https://www.mkyong.com/java/java-sha-hashing-example/
+        byte[] hashBytes = messageDigest.digest(s.getBytes(StandardCharsets.UTF_8));
+        StringBuilder encryptedPassword = new StringBuilder();
+        for(byte b : hashBytes){
+            encryptedPassword.append(String.format("%02x", b));
+        }
+        return encryptedPassword.toString();
+    }
+
     public static void main(String[] args) {
         DBUserManager dbUserManager = new DBUserManager();
         dbUserManager.addUser("erik", "hejsan");
         dbUserManager.addUser("joacim", "tjenare");
         dbUserManager.addUser("joacima", "tjenare");
+        dbUserManager.addUser("ecke", "apa");
     }
 }
