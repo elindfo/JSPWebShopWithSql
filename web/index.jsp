@@ -1,36 +1,27 @@
 <%@ page import="java.util.Date" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<link href="webshop.css" rel="stylesheet" type="text/css">
+<%Date date = new Date();%>
 <html>
 <head>
-    <title>$Webshop Eljest$</title>
-</head>
-<body>
-
- <a href="http://www.google.com">google.com</a><br><br>
-</body>
-</html>
-
-
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<link href="webshop.css" rel="stylesheet" type="text/css">
-
+    <title>Webshop</title>
 </head>
 <body>
 
 <div class="topnav">
-    <a href="#">login</a>
-    <a href="#">logout</a>
+    <a href="login.jsp">login</a>
+    <a href="about:blank">logout</a>
     <a href="#">Cart</a>
 </div>
 
 <div class="content">
-    <p>content</p>
     <h1>WELCOME</h1>
 </div>
 
 <div class="footer">
     <p>Erik & Jocke</p>
+    <%=date%>
 </div>
 
 </body>

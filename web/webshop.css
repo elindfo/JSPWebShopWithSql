@@ -12,6 +12,7 @@ body {
 .topnav {
     overflow: hidden;
     background-color: #333;
+    height: 5%;
 }
 
 /* Style the topnav links */
@@ -34,11 +35,19 @@ body {
 .content {
     background-color: #ddd;
     padding: 10px;
-    height: 200px; /* Should be removed. Only for demonstration */
+    height: 80%;
+
 }
 
 /* Style the footer */
 .footer {
     background-color: #f1f1f1;
     padding: 10px;
+    alignment: bottom;
+    height: 10%;
+}
+
+.table {
+    border: 1px solid #333333;
+    border-bottom: 1px;
 }

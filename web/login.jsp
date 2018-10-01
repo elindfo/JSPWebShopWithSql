@@ -7,7 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link href="webshop.css" rel="stylesheet" type="text/css">
-
+<html>
+<title>Webshop</title>
+<head>
 </head>
 <body>
 
@@ -18,12 +20,12 @@
 </div>
 
 <div class="content">
-    <form action="home.jsp" method="get" style="alignment: center">
+    <form action="redirectLogin.jsp" method="post">
         Username:<br>
         <input type="text" name="username" style="background-color: darkgray"><br>
         Password:<br>
         <input type="password" name="password" style="background-color: darkgray"><br><br>
-        <input type="submit" name="submit" style="background-color: darkgray">
+        <input type="submit" name="login" style="background-color: darkgray">
     </form>
 </div>
 

@@ -1,4 +1,4 @@
-package webshop.bl.view;
+package webshop.view;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
