@@ -7,10 +7,8 @@ public class DBManager {
 
     //http://www.vogella.com/tutorials/MySQLJava/article.html
 
-    private static Connection connection;
-    private static Statement statement;
-    private static PreparedStatement preparedStatement;
-    private static ResultSet resultSet;
+    private static Connection connection = null;
+    private static DBManager dbManager = null;
 
     static{
         try {
@@ -26,33 +24,14 @@ public class DBManager {
 
     private DBManager(){}
 
-    public synchronized static void write(String query) throws SQLException{
-        statement = connection.createStatement();
-        //resultSet = statement.executeQuery(query);
-
-    }
-
-    public synchronized static void delete(String query){
-
-    }
-
-    public synchronized static void read(String query) throws  SQLException{
-        statement = connection.createStatement();
-        resultSet = statement.executeQuery(query);
-        while(resultSet.next()){
-            System.out.println(resultSet.getString("username"));
+    public static DBManager getInstance(){
+        if(dbManager == null){
+            dbManager = new DBManager();
         }
+        return dbManager;
     }
 
-    public synchronized static void update(String query){
-
-    }
-
-    public static void main(String[] args){
-        try {
-            DBManager.read("select * from user;");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Connection getConnection(){
+        return connection;
     }
 }
