@@ -1,17 +1,10 @@
-<%@ page import="java.util.Date" %>
-
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>$Webshop Eljest$</title>
-</head>
-<body>
-
- <a href="http://www.google.com">google.com</a><br><br>
-</body>
-</html>
-
-
+<%--
+  Created by IntelliJ IDEA.
+  User: jgranb
+  Date: 2018-10-01
+  Time: 19:25
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link href="webshop.css" rel="stylesheet" type="text/css">
 
@@ -26,7 +19,6 @@
 
 <div class="content">
     <p>content</p>
-    <h1>WELCOME</h1>
 </div>
 
 <div class="footer">
