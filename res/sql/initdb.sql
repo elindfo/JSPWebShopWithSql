@@ -3,6 +3,7 @@ CREATE DATABASE IF NOT EXISTS webshop;
 USE webshop;
 
 DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS item_category;
 DROP TABLE IF EXISTS item_prc;
 DROP TABLE IF EXISTS item_qty;
 DROP TABLE IF EXISTS item;
@@ -27,5 +28,11 @@ CREATE TABLE item_prc(
 CREATE TABLE item_qty(
   iid INT NOT NULL PRIMARY KEY,
   qty INT NOT NULL,
+  FOREIGN KEY(iid) REFERENCES item(iid)
+);
+
+CREATE TABLE item_category(
+  iid INT NOT NULL PRIMARY KEY,
+  category VARCHAR(30) NOT NULL,
   FOREIGN KEY(iid) REFERENCES item(iid)
 );
