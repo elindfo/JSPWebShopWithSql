@@ -124,15 +124,66 @@ public class DBItemManager {
         }
     }
 
-    public Item findById(){
-        return null;
+    public Item findById(int iid){
+
+        try{
+            dbManager.getConnection().setAutoCommit(false); //Init transaction
+
+            String findByIidQuery =
+                    "SELECT item.iid, item.iname, item_prc.prc, item_qty.qty, item_category.category\n" +
+                            "FROM item\n" +
+                            "INNER JOIN item_prc\n" +
+                            "ON item.iid = item_prc.iid\n" +
+                            "INNER JOIN item_qty\n" +
+                            "ON item_prc.iid = item_qty.iid\n" +
+                            "INNER JOIN item_category\n" +
+                            "ON item_qty.iid = item_category.iid\n" +
+                            "WHERE item.iid = ?;";
+
+            PreparedStatement itemByCategoryQuery = dbManager.getConnection().prepareStatement(findByIidQuery);
+
+            itemByCategoryQuery.setInt(1, iid);
+
+            ResultSet result = itemByCategoryQuery.executeQuery();
+
+            Item foundItem = null;
+
+            if(result.next()){
+                Item.Category cat = null;
+                for(Item.Category c : Item.Category.values()){
+                    if(c.toString().equals(result.getString("category"))){
+                        cat = c;
+                        break;
+                    }
+                }
+                foundItem = new Item(result.getInt("iid"), result.getString("iname"), result.getDouble("prc"), result.getInt("qty"), cat);
+            }
+
+            dbManager.getConnection().commit();
+            return foundItem;
+        }catch(SQLException e){
+            e.printStackTrace();
+            if(dbManager.getConnection() != null){
+                try {
+                    dbManager.getConnection().rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            return null;
+        }finally{
+            if(dbManager.getConnection() != null){
+                try {
+                    dbManager.getConnection().setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
         DBItemManager itemManager = new DBItemManager();
-        List<Item> items = itemManager.findByCategory(Item.Category.SPORTS);
-        for(Item i : items){
-            System.out.println(i.toString());
-        }
+        System.out.println(itemManager.findById(4));
     }
 }
