@@ -1,4 +1,4 @@
-SELECT item.iname, item_prc.prc, item_qty.qty, item_category.category
+SELECT item.iid, item.iname, item_prc.prc, item_qty.qty, item_category.category
 FROM item
 INNER JOIN item_prc
 ON item.iid = item_prc.iid
