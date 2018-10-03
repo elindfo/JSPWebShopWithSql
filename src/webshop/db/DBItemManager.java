@@ -63,8 +63,8 @@ public class DBItemManager {
         }
     }
 
-    public boolean addItem(String name, double price, int qty, Item.Category category){
-        return addItem(new Item(name, price, qty, category));
+    public boolean addItem(int id, String name, double price, int qty, Item.Category category){
+        return addItem(new Item(id, name, price, qty, category));
     }
 
     public List<Item> findByCategory(Item.Category category){
@@ -72,7 +72,7 @@ public class DBItemManager {
             dbManager.getConnection().setAutoCommit(false); //Init transaction
 
             String findByCategoryQuery =
-                    "SELECT item.iname, item_prc.prc, item_qty.qty, item_category.category\n" +
+                    "SELECT item.iid, item.iname, item_prc.prc, item_qty.qty, item_category.category\n" +
                             "FROM item\n" +
                             "INNER JOIN item_prc\n" +
                             "ON item.iid = item_prc.iid\n" +
@@ -98,7 +98,7 @@ public class DBItemManager {
                         break;
                     }
                 }
-                foundItems.add(new Item(result.getString("iname"), result.getDouble("prc"), result.getInt("qty"), cat));
+                foundItems.add(new Item(result.getInt("iid"), result.getString("iname"), result.getDouble("prc"), result.getInt("qty"), cat));
             }
 
             dbManager.getConnection().commit();
