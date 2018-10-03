@@ -41,4 +41,9 @@ public class Item {
     public void setQty(int qty) {
         this.qty = qty;
     }
+
+    @Override
+    public String toString(){
+        return String.format("Item[name:%s, price:%.2f, quantity:%d, category:%s]", name, price, qty, category.toString());
+    }
 }
