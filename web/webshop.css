@@ -1,21 +1,20 @@
 {
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-    margin: 0;
+    margin: 5px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Style the top navigation bar */
 .topnav {
     overflow: hidden;
-    background-color: #333;
+    background-color: #333333;
+    border-radius: 5px;
     height: 5%;
 }
 
-/* Style the topnav links */
+
 .topnav a {
     float: left;
     display: block;
@@ -25,21 +24,59 @@ body {
     text-decoration: none;
 }
 
-/* Change color on hover */
 .topnav a:hover {
-    background-color: #ddd;
+    background-color: #ee3355;
     color: black;
 }
 
-/* Style the content */
+.topnav puser{
+    text-align: center;
+    padding: 14px 16px;
+    display: block;
+    float: right;
+    color: #f1f1f1;
+}
+
+
+.topnav p {
+    text-align: center;
+    padding: 14px 16px;
+    display: block;
+    float: right;
+    color: #ee3355;
+}
+
 .content {
     background-color: #ddd;
     padding: 10px;
     height: 80%;
-
+    overflow: scroll;
 }
 
-/* Style the footer */
+.color-animation-welcome-text{
+
+    font-size: 150px;
+}
+
+.color-animation-welcome-text:hover{
+    -webkit-animation-direction: normal;
+    -webkit-animation-duration: 10s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: colours;
+    -webkit-animation-timing-function: ease;
+}
+
+@-webkit-keyframes colours {
+    0% {color: #39f;}
+    15% {color: #8bc5d1;}
+    30% {color: #f8cb4a;}
+    45% {color: #95b850;}
+    60% {color: #944893;}
+    75% {color: #c71f00;}
+    90% {color: #bdb280;}
+    100% {color: #39f;}
+}
+
 .footer {
     background-color: #f1f1f1;
     padding: 10px;
@@ -47,7 +84,52 @@ body {
     height: 10%;
 }
 
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr td {
+    padding: 20px 20px 20px 20px;
+}
+
 .table {
-    border: 1px solid #333333;
-    border-bottom: 1px;
+    overflow: auto;
+    width: 50%;
+    border: 0px solid #333333;
+}
+
+.my-button{ /*button rounded edges*/
+    background-color: #333333;
+    color: #f1f1f1;
+    border-radius: 5px;
+    min-width: 30px;
+    text-align: center;
+    padding: 10px 20px;
+    display: inline-block;
+    font-size: 11px;
+}
+
+.my-button:hover{
+    background-color: black;
+    color: #ee3355;
+    box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+}
+
+form.search input[type=text]{ /*Styled buttons black with pink text*/
+    padding: 5px;
+    font-size: 16px;
+    float: left;
+    width: 80%;
+    border: 1px #333333;
+    background-color: #f1f1f1;
+}
+
+form.search button{ /*Not yet tested*/
+    float: left;
+    border: 1px #333333;
+    border-left: none;
+    cursor: pointer;
+    width: 20%;
+    padding: 5px;
+
 }
