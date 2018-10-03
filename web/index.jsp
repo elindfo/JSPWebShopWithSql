@@ -10,13 +10,12 @@
 <body>
 
 <div class="topnav">
-    <a href="login.jsp">login</a>
-    <a href="about:blank">logout</a>
-    <a href="#">Cart</a>
+    <a href="login">login</a>
+
 </div>
 
 <div class="content">
-    <h1>WELCOME</h1>
+    <div class="color-animation-welcome-text">Welcome!</div>
 </div>
 
 <div class="footer">
