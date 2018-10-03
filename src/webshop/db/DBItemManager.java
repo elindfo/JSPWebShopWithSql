@@ -5,6 +5,7 @@ import webshop.bl.Item;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DBItemManager {
@@ -62,8 +63,65 @@ public class DBItemManager {
         }
     }
 
-    public List<Item> findByCategory(){
-        return null;
+    public boolean addItem(String name, double price, int qty, Item.Category category){
+        return addItem(new Item(name, price, qty, category));
+    }
+
+    public List<Item> findByCategory(Item.Category category){
+        try{
+            dbManager.getConnection().setAutoCommit(false); //Init transaction
+
+            String findByCategoryQuery =
+                    "SELECT item.iname, item_prc.prc, item_qty.qty, item_category.category\n" +
+                            "FROM item\n" +
+                            "INNER JOIN item_prc\n" +
+                            "ON item.iid = item_prc.iid\n" +
+                            "INNER JOIN item_qty\n" +
+                            "ON item_prc.iid = item_qty.iid\n" +
+                            "INNER JOIN item_category\n" +
+                            "ON item_qty.iid = item_category.iid\n" +
+                            "WHERE item_category.category = ?;";
+
+            PreparedStatement itemByCategoryQuery = dbManager.getConnection().prepareStatement(findByCategoryQuery);
+
+            itemByCategoryQuery.setString(1, category.toString());
+
+            ResultSet result = itemByCategoryQuery.executeQuery();
+
+            List<Item> foundItems = new ArrayList<>();
+
+            while(result.next()){
+                Item.Category cat = null;
+                for(Item.Category c : Item.Category.values()){
+                    if(c.toString().equals(result.getString("category"))){
+                        cat = c;
+                        break;
+                    }
+                }
+                foundItems.add(new Item(result.getString("iname"), result.getDouble("prc"), result.getInt("qty"), cat));
+            }
+
+            dbManager.getConnection().commit();
+            return foundItems;
+        }catch(SQLException e){
+            e.printStackTrace();
+            if(dbManager.getConnection() != null){
+                try {
+                    dbManager.getConnection().rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            return new ArrayList<>();
+        }finally{
+            if(dbManager.getConnection() != null){
+                try {
+                    dbManager.getConnection().setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public Item findById(){
@@ -72,6 +130,9 @@ public class DBItemManager {
 
     public static void main(String[] args) {
         DBItemManager itemManager = new DBItemManager();
-        itemManager.addItem(new Item("Biljardbord", 5000.0, 3, Item.Category.SPORTS));
+        List<Item> items = itemManager.findByCategory(Item.Category.SPORTS);
+        for(Item i : items){
+            System.out.println(i.toString());
+        }
     }
 }
