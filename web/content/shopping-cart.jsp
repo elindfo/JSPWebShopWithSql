@@ -6,20 +6,19 @@
 </head>
 <body>
 
-<div class="topnav">
-    <a href="servlethandler?action=browse">Home</a>
-    <a href="servlethandler?action=viewCart">Cart</a>
-    <a href="logout">Logout</a>
-    <puser><%out.println(session.getAttribute("username"));%></puser>
-    <puser>User: </puser>
-</div>
+    <div class="topnav">
+        <a href="servlethandler?action=browse">Home</a>
+        <a href="servlethandler?action=viewCart">Cart</a>
+        <a href="logout">Logout</a>
+        <puser><%out.println(session.getAttribute("username"));%></puser>
+        <puser>User: </puser>
+    </div>
 
-<div class="content">
-</div>
+    <div class="content"></div>
 
-<div class="footer">
-    <p>Erik & Jocke</p>
-</div>
+    <div class="footer">
+        <p>Erik & Jocke</p>
+    </div>
 
 </body>
 </html>

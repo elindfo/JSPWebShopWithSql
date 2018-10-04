@@ -7,35 +7,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Proxy {
-    private static DBUserManager dbUserManager = new DBUserManager();
-    private static DBItemManager dbItemManager = new DBItemManager();
 
     private Proxy(){
     }
 
     public static boolean authenticateUser(String username, String password){
-        return dbUserManager.authenticate(username, password);
+        return DBUserManager.authenticate(username, password);
     }
 
     public static boolean addUser(String username, String password){
-        return dbUserManager.addUser(username, password);
+        return DBUserManager.addUser(username, password);
     }
 
     public static boolean addItem(Item item){
-        return dbItemManager.addItem(item.getName(), item.getPrice(), item.getQty(), item.getCategory());
+        return DBItemManager.addItem(item.getName(), item.getPrice(), item.getQty(), item.getCategory());
     }
 
     public static List<Item> findByCategory(Item.Category category){
-        return getDeepCopy(dbItemManager.findByCategory(category));
+        return getDeepCopy(DBItemManager.findByCategory(category));
     }
 
     public static Item findById(int iid){
-        Item item = dbItemManager.findById(iid);
+        Item item = DBItemManager.findById(iid);
         return new Item(item.getId(), item.getName(), item.getPrice(), item.getQty(), item.getCategory());
     }
 
     public static List<Item> findAllItems(){
-        return getDeepCopy(dbItemManager.findAllItems());
+        return getDeepCopy(DBItemManager.findAllItems());
     }
 
     private static List<Item> getDeepCopy(List<Item> items){

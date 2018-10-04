@@ -34,8 +34,8 @@ public class LoginServlet extends HttpServlet {
             request.getSession().setMaxInactiveInterval(1);
             requestDispatcher.forward(request,response);
         } else {
-            request.getSession().setAttribute("username", username);
-            request.getSession().setAttribute("password", password);
+            request.setAttribute("username", username);
+            request.setAttribute("password", password);
             //RequestDispatcher requestDispatcher = request.getRequestDispatcher("servlethandler?action=browse");
             //requestDispatcher.forward(request, response);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/content/browse.jsp");

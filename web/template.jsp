@@ -9,21 +9,20 @@
 <link href="webshop.css" rel="stylesheet" type="text/css">
 
 </head>
+
 <body>
+    <div class="topnav">
+        <a href="#">login</a>
+        <a href="#">logout</a>
+        <a href="#">Cart</a>
+    </div>
 
-<div class="topnav">
-    <a href="#">login</a>
-    <a href="#">logout</a>
-    <a href="#">Cart</a>
-</div>
+    <div class="content">
+        <p>content</p>
+    </div>
 
-<div class="content">
-    <p>content</p>
-</div>
-
-<div class="footer">
-    <p>Erik & Jocke</p>
-</div>
-
+    <div class="footer">
+        <p>Erik & Jocke</p>
+    </div>
 </body>
 </html>

@@ -9,21 +9,22 @@ public class DBManager {
 
     private static Connection connection = null;
 
-    static{
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/webshop?" +
-                    "user=eoj&password=abcd");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     private DBManager(){}
 
     public static Connection getConnection(){
+        if(connection == null){
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                System.out.println("DBMANAGER: GETTING CONNECTION");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost/webshop?" +
+                        "user=eoj&password=abcd");
+                System.out.println("DBMANAGER: CONNECTION SET");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         return connection;
     }
 }
