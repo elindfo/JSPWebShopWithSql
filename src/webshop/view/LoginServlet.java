@@ -36,11 +36,10 @@ public class LoginServlet extends HttpServlet {
         } else {
             request.getSession().setAttribute("username", username);
             request.getSession().setAttribute("password", password);
-            ServletHandler servletHandler = new ServletHandler();
-            request.setAttribute("action", "browse");
-            servletHandler.doGet(request,response);
-            //RequestDispatcher requestDispatcher = request.getRequestDispatcher("/content/browse.jsp");
-            //requestDispatcher.forward(request,response);
+            //RequestDispatcher requestDispatcher = request.getRequestDispatcher("servlethandler?action=browse");
+            //requestDispatcher.forward(request, response);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/content/browse.jsp");
+            requestDispatcher.forward(request,response);
         }
 
     }

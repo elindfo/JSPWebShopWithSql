@@ -15,6 +15,11 @@
 </div>
 
 <div class="content">
+    <form>
+        <input type="search" placeholder="Search" style="background-color: white" formaction="servlethandler?action=searchByNames">
+        <button formaction="servlethandler?action=searchByName">search</button>
+    </form>
+
     <div class="color-animation-welcome-text">Welcome!</div>
 </div>
 

@@ -1,5 +1,8 @@
 package webshop.view;
 
+import webshop.bl.Item;
+import webshop.bl.Proxy;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +13,7 @@ import java.util.ArrayList;
 
 public class ServletHandler extends HttpServlet {
 
-    private ArrayList<Iteminfo> items = new ArrayList<>();
+    private ArrayList<Item> items = new ArrayList<>();
     private HttpSession session = null;
 
     public ServletHandler() {
@@ -19,9 +22,9 @@ public class ServletHandler extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         session = request.getSession();
         String action = request.getParameter("action");
+
         switch (action) {
             case "searchByName": {
                 this.searchByName(request, response);
@@ -61,7 +64,7 @@ public class ServletHandler extends HttpServlet {
      * @throws IOException
      */
     private void searchByName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //TODO Database interaction and formating
+        //TODO Database interaction and formatin
         request.setAttribute("items", items);
         request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
     }
@@ -108,8 +111,15 @@ public class ServletHandler extends HttpServlet {
      * @throws IOException
      */
     private void browse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        items.add(Proxy.findById(3));
+
+        //items = (ArrayList<Item>) Proxy.findAllItems();
         request.setAttribute("items", items);
-        request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
+        //Item item = new Item(1,"Fullkorn", 25.5,2,Item.Category.SPORTS);
+        //items.add(item);
+        //request.setAttribute("items", items);
+        getServletConfig().getServletContext().getRequestDispatcher("/content/browse.jsp").forward(request, response);
+        //request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
     }
 
     /**
@@ -135,4 +145,6 @@ public class ServletHandler extends HttpServlet {
         request.setAttribute("items", items);
         request.getRequestDispatcher("/content/shopping-cart.jsp").forward(request, response);
     }
+
+
 }
