@@ -36,8 +36,11 @@ public class LoginServlet extends HttpServlet {
         } else {
             request.getSession().setAttribute("username", username);
             request.getSession().setAttribute("password", password);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/content/browse.jsp");
-            requestDispatcher.forward(request,response);
+            ServletHandler servletHandler = new ServletHandler();
+            request.setAttribute("action", "browse");
+            servletHandler.doGet(request,response);
+            //RequestDispatcher requestDispatcher = request.getRequestDispatcher("/content/browse.jsp");
+            //requestDispatcher.forward(request,response);
         }
 
     }
