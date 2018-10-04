@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class ServletHandler extends HttpServlet {
 
-    private ArrayList<Item> items = null;
+    private ArrayList<Item> items = new ArrayList<>();
     private HttpSession session = null;
 
     public ServletHandler() {
@@ -22,9 +22,9 @@ public class ServletHandler extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        items =  new ArrayList<>();
         session = request.getSession();
         String action = request.getParameter("action");
+
         switch (action) {
             case "searchByName": {
                 this.searchByName(request, response);
@@ -111,8 +111,15 @@ public class ServletHandler extends HttpServlet {
      * @throws IOException
      */
     private void browse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("items", Proxy.findAllItems());
-        request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
+        items.add(Proxy.findById(3));
+
+        //items = (ArrayList<Item>) Proxy.findAllItems();
+        request.setAttribute("items", items);
+        //Item item = new Item(1,"Fullkorn", 25.5,2,Item.Category.SPORTS);
+        //items.add(item);
+        //request.setAttribute("items", items);
+        getServletConfig().getServletContext().getRequestDispatcher("/content/browse.jsp").forward(request, response);
+        //request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
     }
 
     /**

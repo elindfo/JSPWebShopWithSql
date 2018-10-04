@@ -7,12 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Proxy {
-    private static DBUserManager dbUserManager;
-    private static DBItemManager dbItemManager;
+    private static DBUserManager dbUserManager = new DBUserManager();
+    private static DBItemManager dbItemManager = new DBItemManager();
 
     private Proxy(){
-        this.dbUserManager = new DBUserManager();
-        this.dbItemManager = new DBItemManager();
     }
 
     public static boolean authenticateUser(String username, String password){
@@ -33,8 +31,7 @@ public class Proxy {
 
     public static Item findById(int iid){
         Item item = dbItemManager.findById(iid);
-        Item itemDeepCopy = new Item(item.getId(), item.getName(), item.getPrice(), item.getQty(), item.getCategory());
-        return itemDeepCopy;
+        return new Item(item.getId(), item.getName(), item.getPrice(), item.getQty(), item.getCategory());
     }
 
     public static List<Item> findAllItems(){
