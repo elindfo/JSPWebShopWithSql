@@ -1,5 +1,8 @@
 package webshop.view;
 
+import webshop.bl.Item;
+import webshop.bl.Proxy;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +13,7 @@ import java.util.ArrayList;
 
 public class ServletHandler extends HttpServlet {
 
-    private ArrayList<Iteminfo> items = new ArrayList<>();
+    private ArrayList<Item> items = null;
     private HttpSession session = null;
 
     public ServletHandler() {
@@ -19,7 +22,7 @@ public class ServletHandler extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        items =  new ArrayList<>();
         session = request.getSession();
         String action = request.getParameter("action");
         switch (action) {
@@ -61,7 +64,7 @@ public class ServletHandler extends HttpServlet {
      * @throws IOException
      */
     private void searchByName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //TODO Database interaction and formating
+        //TODO Database interaction and formatin
         request.setAttribute("items", items);
         request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
     }
@@ -108,7 +111,7 @@ public class ServletHandler extends HttpServlet {
      * @throws IOException
      */
     private void browse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("items", items);
+        request.setAttribute("items", Proxy.findAllItems());
         request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
     }
 
@@ -135,4 +138,6 @@ public class ServletHandler extends HttpServlet {
         request.setAttribute("items", items);
         request.getRequestDispatcher("/content/shopping-cart.jsp").forward(request, response);
     }
+
+
 }

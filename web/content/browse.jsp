@@ -1,7 +1,12 @@
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="webshop.bl.Item" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <link href="${pageContext.request.contextPath}/webshop.css" rel="stylesheet" type="text/css">
-
+<%
+    ArrayList<Item> items = new ArrayList<>();
+    items = (ArrayList<Item>) session.getAttribute("items");
+%>
 <html>
 <head>
     <title>Webshop</title>
@@ -21,11 +26,12 @@
     <div class="search">
 
     </div>
+
     <div class="table">
         <table>
             <tr>
                 <th>
-                    <h6>Item</h6>
+                    <h6>Id</h6>
                 </th>
                 <th>
                     <h6>Name</h6>
@@ -33,21 +39,30 @@
                 <th>
                     <h6>Price</h6>
                 </th>
+                <th>
+                    <h6>Quantity</h6>
+                </th>
             </tr>
-            <% for (int i = 1; i < 50; i=i+3) {%>
+            <% for(Item i : items) {%>
             <tr>
                 <td>
                     <%----%>
-                    <%=i%>
+                    <%=i.getId()%>
                 </td>
                 <td>
                     <%--load name from ItemInfo--%>
                     <%--<%=itemlist.get(i).getName()%>--%>
-                    <%=(i+1)%>
+                    <%=i.getName()%>
                 </td>
                 <td>
                     <%--load price from ItemInfo--%>
-                    <%=(i+2)%>
+
+                    <%=i.getPrice()%>
+                </td>
+                <td>
+                    <%--load price from ItemInfo--%>
+
+                    <%=i.getQty()%>
                 </td>
                 <td>
                     <a class="my-button" href="servlethandler?action=addToCart">buy</a>
