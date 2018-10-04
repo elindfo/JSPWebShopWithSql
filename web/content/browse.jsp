@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <link href="${pageContext.request.contextPath}/webshop.css" rel="stylesheet" type="text/css">
+
 <html>
 <head>
     <title>Webshop</title>
@@ -36,7 +37,7 @@
             <% for (int i = 1; i < 50; i=i+3) {%>
             <tr>
                 <td>
-                    <%--load Itemnumber--%>
+                    <%----%>
                     <%=i%>
                 </td>
                 <td>
@@ -49,7 +50,7 @@
                     <%=(i+2)%>
                 </td>
                 <td>
-                    <a class="my-button">buy</a>
+                    <a class="my-button" href="servlethandler?action=addToCart">buy</a>
                 </td>
             </tr>
             <%}%>
