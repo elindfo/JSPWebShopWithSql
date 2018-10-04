@@ -8,7 +8,6 @@ public class DBManager {
     //http://www.vogella.com/tutorials/MySQLJava/article.html
 
     private static Connection connection = null;
-    private static DBManager dbManager = null;
 
     static{
         try {
@@ -24,14 +23,7 @@ public class DBManager {
 
     private DBManager(){}
 
-    public static DBManager getInstance(){
-        if(dbManager == null){
-            dbManager = new DBManager();
-        }
-        return dbManager;
-    }
-
-    public Connection getConnection(){
+    public static Connection getConnection(){
         return connection;
     }
 }

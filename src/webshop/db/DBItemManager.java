@@ -10,25 +10,21 @@ import java.util.List;
 
 public class DBItemManager {
 
-    private DBManager dbManager;
+    private DBItemManager(){}
 
-    public DBItemManager(){
-        this.dbManager = DBManager.getInstance();
-    }
-
-    public boolean addItem(String name, double price, int qty, Item.Category category){
+    public static boolean addItem(String name, double price, int qty, Item.Category category){
         try{
-            dbManager.getConnection().setAutoCommit(false); //Init transaction
+            DBManager.getConnection().setAutoCommit(false); //Init transaction
 
             String insertItemQuery = "INSERT INTO item (iname) VALUES(?);";
             String insertItemPrcQuery = "INSERT INTO item_prc (iid, prc) VALUES(LAST_INSERT_ID(), ?);";
             String insertItemQtyQuery = "INSERT INTO item_qty (iid, qty) VALUES(LAST_INSERT_ID(), ?);";
             String insertItemCategoryQuery = "INSERT INTO item_category (iid, category) VALUES(LAST_INSERT_ID(), ?)";
 
-            PreparedStatement itemQuery = dbManager.getConnection().prepareStatement(insertItemQuery);
-            PreparedStatement itemPrcQuery = dbManager.getConnection().prepareStatement(insertItemPrcQuery);
-            PreparedStatement itemQtyQuery = dbManager.getConnection().prepareStatement(insertItemQtyQuery);
-            PreparedStatement itemCategoryQuery = dbManager.getConnection().prepareStatement(insertItemCategoryQuery);
+            PreparedStatement itemQuery = DBManager.getConnection().prepareStatement(insertItemQuery);
+            PreparedStatement itemPrcQuery = DBManager.getConnection().prepareStatement(insertItemPrcQuery);
+            PreparedStatement itemQtyQuery = DBManager.getConnection().prepareStatement(insertItemQtyQuery);
+            PreparedStatement itemCategoryQuery = DBManager.getConnection().prepareStatement(insertItemCategoryQuery);
 
             itemQuery.setString(1, name);
             itemPrcQuery.setDouble(1, price);
@@ -40,22 +36,22 @@ public class DBItemManager {
             itemQtyQuery.execute();
             itemCategoryQuery.execute();
 
-            dbManager.getConnection().commit();
+            DBManager.getConnection().commit();
             return true;
         }catch(SQLException e){
             e.printStackTrace();
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().rollback();
+                    DBManager.getConnection().rollback();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
             }
             return false;
         }finally{
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().setAutoCommit(true);
+                    DBManager.getConnection().setAutoCommit(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -63,19 +59,19 @@ public class DBItemManager {
         }
     }
 
-    public boolean update(int id, String name, double price, int qty, Item.Category category){
+    public static boolean update(int id, String name, double price, int qty, Item.Category category){
         try{
-            dbManager.getConnection().setAutoCommit(false); //Init transaction
+            DBManager.getConnection().setAutoCommit(false); //Init transaction
 
             String updateItemQuery = "UPDATE item SET item.iname = ? WHERE item.iid = ?;";
             String updateItemPrcQuery = "UPDATE item_prc SET item_prc.prc = ? WHERE item_prc.iid = ?;";
             String updateItemQtyQuery = "UPDATE item_qty SET item_qty.qty = ? WHERE item_qty.iid = ?;";
             String updateItemCategoryQuery = "UPDATE item_category SET item_category.category = ? WHERE item_category.iid = ?;";
 
-            PreparedStatement updateItem = dbManager.getConnection().prepareStatement(updateItemQuery);
-            PreparedStatement updateItemPrc = dbManager.getConnection().prepareStatement(updateItemPrcQuery);
-            PreparedStatement updateItemQty = dbManager.getConnection().prepareStatement(updateItemQtyQuery);
-            PreparedStatement updateItemCategory = dbManager.getConnection().prepareStatement(updateItemCategoryQuery);
+            PreparedStatement updateItem = DBManager.getConnection().prepareStatement(updateItemQuery);
+            PreparedStatement updateItemPrc = DBManager.getConnection().prepareStatement(updateItemPrcQuery);
+            PreparedStatement updateItemQty = DBManager.getConnection().prepareStatement(updateItemQtyQuery);
+            PreparedStatement updateItemCategory = DBManager.getConnection().prepareStatement(updateItemCategoryQuery);
 
             updateItem.setString(1, name);
             updateItem.setInt(2, id);
@@ -91,22 +87,22 @@ public class DBItemManager {
             updateItemQty.execute();
             updateItemCategory.execute();
 
-            dbManager.getConnection().commit();
+            DBManager.getConnection().commit();
             return true;
         }catch(SQLException e){
             e.printStackTrace();
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().rollback();
+                    DBManager.getConnection().rollback();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
             }
             return false;
         }finally{
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().setAutoCommit(true);
+                    DBManager.getConnection().setAutoCommit(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -114,9 +110,9 @@ public class DBItemManager {
         }
     }
 
-    public Item findByName(String iname){
+    public static Item findByName(String iname){
         try{
-            dbManager.getConnection().setAutoCommit(false); //Init transaction
+            DBManager.getConnection().setAutoCommit(false); //Init transaction
 
             String findByIidQuery =
                     "SELECT item.iid, item.iname, item_prc.prc, item_qty.qty, item_category.category\n" +
@@ -129,7 +125,7 @@ public class DBItemManager {
                             "ON item_qty.iid = item_category.iid\n" +
                             "WHERE item.iname = ?;";
 
-            PreparedStatement itemByCategoryQuery = dbManager.getConnection().prepareStatement(findByIidQuery);
+            PreparedStatement itemByCategoryQuery = DBManager.getConnection().prepareStatement(findByIidQuery);
 
             itemByCategoryQuery.setString(1, iname);
 
@@ -148,22 +144,22 @@ public class DBItemManager {
                 foundItem = new Item(result.getInt("iid"), result.getString("iname"), result.getDouble("prc"), result.getInt("qty"), cat);
             }
 
-            dbManager.getConnection().commit();
+            DBManager.getConnection().commit();
             return foundItem;
         }catch(SQLException e){
             e.printStackTrace();
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().rollback();
+                    DBManager.getConnection().rollback();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
             }
             return null;
         }finally{
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().setAutoCommit(true);
+                    DBManager.getConnection().setAutoCommit(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -172,9 +168,9 @@ public class DBItemManager {
     }
 
 
-    public List<Item> findByCategory(Item.Category category){
+    public static List<Item> findByCategory(Item.Category category){
         try{
-            dbManager.getConnection().setAutoCommit(false); //Init transaction
+            DBManager.getConnection().setAutoCommit(false); //Init transaction
 
             String findByCategoryQuery =
                     "SELECT item.iid, item.iname, item_prc.prc, item_qty.qty, item_category.category\n" +
@@ -187,7 +183,7 @@ public class DBItemManager {
                             "ON item_qty.iid = item_category.iid\n" +
                             "WHERE item_category.category = ?;";
 
-            PreparedStatement itemByCategoryQuery = dbManager.getConnection().prepareStatement(findByCategoryQuery);
+            PreparedStatement itemByCategoryQuery = DBManager.getConnection().prepareStatement(findByCategoryQuery);
 
             itemByCategoryQuery.setString(1, category.toString());
 
@@ -206,22 +202,22 @@ public class DBItemManager {
                 foundItems.add(new Item(result.getInt("iid"), result.getString("iname"), result.getDouble("prc"), result.getInt("qty"), cat));
             }
 
-            dbManager.getConnection().commit();
+            DBManager.getConnection().commit();
             return foundItems;
         }catch(SQLException e){
             e.printStackTrace();
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().rollback();
+                    DBManager.getConnection().rollback();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
             }
             return new ArrayList<>();
         }finally{
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().setAutoCommit(true);
+                    DBManager.getConnection().setAutoCommit(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -229,9 +225,9 @@ public class DBItemManager {
         }
     }
 
-    public List<Item> findAllItems(){
+    public static List<Item> findAllItems(){
         try{
-            dbManager.getConnection().setAutoCommit(false); //Init transaction
+            DBManager.getConnection().setAutoCommit(false); //Init transaction
 
             String findByCategoryQuery =
                     "SELECT item.iid, item.iname, item_prc.prc, item_qty.qty, item_category.category\n" +
@@ -243,7 +239,7 @@ public class DBItemManager {
                             "INNER JOIN item_category\n" +
                             "ON item_qty.iid = item_category.iid;";
 
-            PreparedStatement findAllItemsQuery = dbManager.getConnection().prepareStatement(findByCategoryQuery);
+            PreparedStatement findAllItemsQuery = DBManager.getConnection().prepareStatement(findByCategoryQuery);
 
             ResultSet result = findAllItemsQuery.executeQuery();
 
@@ -260,22 +256,22 @@ public class DBItemManager {
                 foundItems.add(new Item(result.getInt("iid"), result.getString("iname"), result.getDouble("prc"), result.getInt("qty"), cat));
             }
 
-            dbManager.getConnection().commit();
+            DBManager.getConnection().commit();
             return foundItems;
         }catch(SQLException e){
             e.printStackTrace();
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().rollback();
+                    DBManager.getConnection().rollback();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
             }
             return new ArrayList<>();
         }finally{
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().setAutoCommit(true);
+                    DBManager.getConnection().setAutoCommit(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -283,9 +279,9 @@ public class DBItemManager {
         }
     }
 
-    public Item findById(int iid){
+    public static Item findById(int iid){
         try{
-            dbManager.getConnection().setAutoCommit(false); //Init transaction
+            DBManager.getConnection().setAutoCommit(false); //Init transaction
 
             String findByIidQuery =
                     "SELECT item.iid, item.iname, item_prc.prc, item_qty.qty, item_category.category\n" +
@@ -298,7 +294,7 @@ public class DBItemManager {
                             "ON item_qty.iid = item_category.iid\n" +
                             "WHERE item.iid = ?;";
 
-            PreparedStatement itemByCategoryQuery = dbManager.getConnection().prepareStatement(findByIidQuery);
+            PreparedStatement itemByCategoryQuery = DBManager.getConnection().prepareStatement(findByIidQuery);
 
             itemByCategoryQuery.setInt(1, iid);
 
@@ -317,22 +313,22 @@ public class DBItemManager {
                 foundItem = new Item(result.getInt("iid"), result.getString("iname"), result.getDouble("prc"), result.getInt("qty"), cat);
             }
 
-            dbManager.getConnection().commit();
+            DBManager.getConnection().commit();
             return foundItem;
         }catch(SQLException e){
             e.printStackTrace();
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().rollback();
+                    DBManager.getConnection().rollback();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
             }
             return null;
         }finally{
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().setAutoCommit(true);
+                    DBManager.getConnection().setAutoCommit(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -341,12 +337,8 @@ public class DBItemManager {
     }
 
     public static void main(String[] args) {
-        DBItemManager itemManager = new DBItemManager();
-        itemManager.update(3, "Gitarr", 28000.0, 3, Item.Category.MUSIC);
-        /*itemManager.addItem("Biljardbord", 10000.0, 10, Item.Category.SPORTS);
-        itemManager.addItem("Biljardkö", 500.0, 20, Item.Category.SPORTS);
-        itemManager.addItem("Gitarr", 15000.0, 3, Item.Category.MUSIC);
-        itemManager.addItem("Plektrum", 10.0, 300, Item.Category.MUSIC);*/
+
+        DBItemManager.addItem("sockerbeta", 110.0, 3010, Item.Category.ELECTRONICS);
 
     }
 }
