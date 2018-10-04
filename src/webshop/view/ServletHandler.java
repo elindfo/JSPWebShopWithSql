@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class ServletHandler extends HttpServlet {
 
-    ArrayList<Iteminfo> products = new ArrayList<>();
-    HttpSession session = null;
+    private ArrayList<Iteminfo> items = new ArrayList<>();
+    private HttpSession session = null;
 
     public ServletHandler() {
         super();
@@ -36,55 +36,103 @@ public class ServletHandler extends HttpServlet {
                 break;
             }
             case "browse": {
-                this.browseRedirect(request, response);
+                this.browse(request, response);
                 break;
             }
             case "viewCart": {
                 this.viewCart(request, response);
                 break;
             }
+            case "emptyCart": {
+                this.emptyCart(request, response);
+                break;
+            }
             default:
-                this.shop(request, response);
+                this.browse(request, response);
         }
-        //add products from search
-        session.setAttribute("products", products);
 
-
-        request.getRequestDispatcher("browseshop.jsp").forward(request, response);
     }
 
+    /**
+     * This method will initiate a search filtered by name, which is provided as a parameter "name"
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void searchByName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //TODO Database interaction and formating
+        request.setAttribute("items", items);
+        request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
+    }
+
+    /**
+     * This method will initiate a search filtered by category, which is provided as a parameter "category".
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void searchByCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //TODO Database interaction and formating
+        request.setAttribute("items", items);
+        request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
+    }
+
+    /**
+     * This method will check if an item is in stock and add it to the customers cart. If item is not available the customer needs to be notified in some way.
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void addToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //TODO Database interaction and formating create interface to db? proxy yes.. that's right proxy
+        /*
+        * ItemInfo item = new ItemInfo();
+        * if(proxy.getItem(request.getParameter("item").getQuantity() > 0){
+        *
+        * items.add(item);
+        * request.setAttribute("items", items);
+        * }*/
+
+        request.setAttribute("items", items);
+        //request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
+    }
+
+    /**
+     * This method will redirect the customer to browse.jsp.
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void browse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("items", items);
+        request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
+    }
+
+    /**
+     * This method will redirect to shopping-cart.jsp if items is not null or empty.
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     private void viewCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("products", products);
+        request.setAttribute("items", items);
         request.getRequestDispatcher("/content/shopping-cart.jsp").forward(request, response);
     }
 
-
-    private void browseRedirect(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("products", products);
-        request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
-
-    }
-
-    private void addToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //TODO Database interaction and formating
-        request.setAttribute("products", products);
-        request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
-    }
-
-    private void searchByCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //TODO Database interaction and formating
-        request.setAttribute("products", products);
-        request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
-    }
-
-    private void searchByName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //TODO Database interaction and formating
-        request.setAttribute("products", products);
-        request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
-    }
-
-    private void shop(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("products", products);
-        request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
+    /**
+     * This method will empty the customers shoppingcart
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void emptyCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("items", items);
+        request.getRequestDispatcher("/content/shopping-cart.jsp").forward(request, response);
     }
 }
