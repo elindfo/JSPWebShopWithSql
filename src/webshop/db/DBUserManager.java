@@ -13,22 +13,18 @@ public class DBUserManager {
 
     //TODO Investigate synchronize
 
-    private DBManager dbManager;
+    private DBUserManager(){}
 
-    public DBUserManager(){
-        this.dbManager = DBManager.getInstance();
-    }
-
-    public boolean authenticate(String username, String password){
+    public static boolean authenticate(String username, String password){
 
         try {
             String encryptedPassword = hashWithSHA256(password);
 
-            dbManager.getConnection().setAutoCommit(false);
+            DBManager.getConnection().setAutoCommit(false);
 
             String query = "SELECT count(*) FROM user WHERE hashedpw = ? AND uname = ?";
 
-            PreparedStatement psmt = dbManager.getConnection().prepareStatement(query);
+            PreparedStatement psmt = DBManager.getConnection().prepareStatement(query);
 
             psmt.setString(1, encryptedPassword);
             psmt.setString(2, username);
@@ -39,14 +35,14 @@ public class DBUserManager {
             if(resultSet.next()){
                 userFound = resultSet.getInt(1) != 0;
             }
-            dbManager.getConnection().commit();
+            DBManager.getConnection().commit();
             return userFound;
         } catch (SQLException e) {
             System.out.println("SQLException");
             System.out.println("Error: " + e.getErrorCode());
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().rollback();
+                    DBManager.getConnection().rollback();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
@@ -56,9 +52,9 @@ public class DBUserManager {
             System.err.println("Exception: Unable to find hashing algorithm");
             return false;
         } finally{
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try{
-                    dbManager.getConnection().setAutoCommit(true);
+                    DBManager.getConnection().setAutoCommit(true);
                 }catch(SQLException e){
                     e.printStackTrace();
                 }
@@ -66,27 +62,27 @@ public class DBUserManager {
         }
     }
 
-    public boolean addUser(String username, String password){
+    public static boolean addUser(String username, String password){
         try{
             String encryptedPassword = hashWithSHA256(password);
 
-            dbManager.getConnection().setAutoCommit(false); //Initiate transaction
+            DBManager.getConnection().setAutoCommit(false); //Initiate transaction
 
             String query = "INSERT INTO user (uname, hashedpw) VALUES (?, ?);";
 
-            PreparedStatement psmt = dbManager.getConnection().prepareStatement(query);
+            PreparedStatement psmt = DBManager.getConnection().prepareStatement(query);
 
             psmt.setString(1, username);
             psmt.setString(2, encryptedPassword);
             psmt.execute();
-            dbManager.getConnection().commit();
+            DBManager.getConnection().commit();
             return true;
         } catch (SQLException e) {
             System.err.println("Exception: Unable to add user to DB");
             System.err.println("Error Code: " + e.getErrorCode());
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().rollback();
+                    DBManager.getConnection().rollback();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
@@ -96,9 +92,9 @@ public class DBUserManager {
             System.err.println("Exception: Unable to find hashing algorithm");
             return false;
         } finally{
-            if(dbManager.getConnection() != null){
+            if(DBManager.getConnection() != null){
                 try {
-                    dbManager.getConnection().setAutoCommit(true);
+                    DBManager.getConnection().setAutoCommit(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -106,7 +102,7 @@ public class DBUserManager {
         }
     }
 
-    private String hashWithSHA256(String s) throws NoSuchAlgorithmException{
+    private static String hashWithSHA256(String s) throws NoSuchAlgorithmException{
         //TODO Check wether this is enough or if salt is to be used
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256"); //https://www.mkyong.com/java/java-sha-hashing-example/
         byte[] hashBytes = messageDigest.digest(s.getBytes(StandardCharsets.UTF_8));
@@ -118,12 +114,7 @@ public class DBUserManager {
     }
 
     public static void main(String[] args) {
-        DBUserManager dbUserManager = new DBUserManager();
-        /*dbUserManager.addUser("erik", "hejsan");
-        dbUserManager.addUser("joacim", "tjenare");
-        dbUserManager.addUser("joacima", "tjenare");
-        dbUserManager.addUser("ecke", "apa");
-        dbUserManager.addUser("eckea", "adspa");*/
-        System.out.println("Authenticated: " + dbUserManager.authenticate("ecke", "apa"));
+        DBUserManager.addUser("sockersöte", "majsan");
+        System.out.println("Authenticated: " + DBUserManager.authenticate("ecke", "apa"));
     }
 }
