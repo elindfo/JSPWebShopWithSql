@@ -62,19 +62,29 @@ public class DBUserManager {
         }
     }
 
-    public static boolean addUser(String username, String password){
+    public static boolean addUser(String username, String password, int level){
+        if(level < 1 || level > 2){
+            return false;
+        }
         try{
             String encryptedPassword = hashWithSHA256(password);
 
             DBManager.getConnection().setAutoCommit(false); //Initiate transaction
 
             String query = "INSERT INTO user (uname, hashedpw) VALUES (?, ?);";
+            String levelQuery = "INSERT INTO user_level (uid, level) VALUES (LAST_INSERT_ID(), ?)";
 
             PreparedStatement psmt = DBManager.getConnection().prepareStatement(query);
+            PreparedStatement levelPsmt = DBManager.getConnection().prepareStatement(levelQuery);
+
 
             psmt.setString(1, username);
             psmt.setString(2, encryptedPassword);
+            levelPsmt.setInt(1, level);
+
             psmt.execute();
+            levelPsmt.execute();
+
             DBManager.getConnection().commit();
             return true;
         } catch (SQLException e) {
@@ -118,8 +128,9 @@ public class DBUserManager {
     }
 
     private static void fill(){
-        DBUserManager.addUser("Joacim", "usling");
-        DBUserManager.addUser("Erik", "glassfish_is_shait");
-        DBUserManager.addUser("test", "test");
+        /*DBUserManager.addUser("Joacim", "usling", 2);
+        DBUserManager.addUser("Erik", "glassfish_is_shait", 2);
+        DBUserManager.addUser("test", "test", 1);*/
+        DBUserManager.addUser("test1", "test1", -1);
     }
 }

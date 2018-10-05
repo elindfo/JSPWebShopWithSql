@@ -2,6 +2,7 @@ CREATE DATABASE IF NOT EXISTS webshop;
 
 USE webshop;
 
+DROP TABLE IF EXISTS user_level;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS item_category;
 DROP TABLE IF EXISTS item_prc;
@@ -12,6 +13,12 @@ CREATE TABLE user(
   uid INT AUTO_INCREMENT PRIMARY KEY,
   uname VARCHAR(32) UNIQUE NOT NULL,
   hashedpw CHAR(64) NOT NULL
+);
+
+CREATE TABLE user_level(
+  uid INT NOT NULL PRIMARY KEY,
+  level INT NOT NULL,
+  FOREIGN KEY(uid) REFERENCES user(uid)
 );
 
 CREATE TABLE item(
