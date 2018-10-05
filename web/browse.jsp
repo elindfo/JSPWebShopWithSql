@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="webshop.bl.Proxy" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <link href="webshop.css" rel="stylesheet" type="text/css">
@@ -36,8 +37,7 @@
                 </tr>
 
                 <%
-                    List<HashMap<String, String>> items;
-                    items= (List<HashMap<String, String>>) request.getSession().getAttribute("items");
+                    List<HashMap<String, String>> items = (List<HashMap<String, String>>)request.getAttribute("items");
                     for(int i = 0; i < items.size(); i++) {
                 %>
 

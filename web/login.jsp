@@ -15,7 +15,7 @@
     </div>
 
     <div class="content">
-        <form action="servlethandler" method="post">
+        <form action="loginservlet" method="post">
             Username:<br>
             <input type="text" name="username" style="background-color: whitesmoke"><br>
             Password:<br>
