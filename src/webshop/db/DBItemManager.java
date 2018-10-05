@@ -337,8 +337,29 @@ public class DBItemManager {
     }
 
     public static void main(String[] args) {
+        DBItemManager.fill();
 
-        DBItemManager.addItem("sockerbeta", 110.0, 3010, Item.Category.ELECTRONICS);
 
+    }
+
+    private static void fill(){
+        DBItemManager.addItem("Sockerbeta", 110.0, 3010, Item.Category.FOOD);
+        DBItemManager.addItem("Kladdkaka", 110.0, 3010, Item.Category.FOOD);
+        DBItemManager.addItem("Potatis", 110.0, 3010, Item.Category.FOOD);
+        DBItemManager.addItem("Pulsen-korv", 110.0, 3010, Item.Category.FOOD);
+        DBItemManager.addItem("Biljardbord", 110.0, 3010, Item.Category.SPORTS);
+        DBItemManager.addItem("How to play like OSullivan - DVD", 110.0, 3010, Item.Category.SPORTS);
+        DBItemManager.addItem("Metallica - Ride The Lightning", 110.0, 3010, Item.Category.MUSIC);
+        DBItemManager.addItem("Vårkonsert med Örebros kommunala musikskola", 110.0, 3010, Item.Category.MUSIC);
+        DBItemManager.addItem("Gitarr", 110.0, 3010, Item.Category.INSTRUMENTS);
+        DBItemManager.addItem("Klarinett", 110.0, 3010, Item.Category.INSTRUMENTS);
+        DBItemManager.addItem("Trummor", 110.0, 3010, Item.Category.INSTRUMENTS);
+        DBItemManager.addItem("Shure SM58", 110.0, 3010, Item.Category.INSTRUMENTS);
+        DBItemManager.addItem("Tröja", 110.0, 3010, Item.Category.CLOTHING);
+        DBItemManager.addItem("Skinnpaj", 110.0, 3010, Item.Category.CLOTHING);
+        DBItemManager.addItem("Basker", 110.0, 3010, Item.Category.CLOTHING);
+        DBItemManager.addItem("Hatt", 110.0, 3010, Item.Category.CLOTHING);
+        DBItemManager.addItem("Volvo 740", 110.0, 3010, Item.Category.VEHICLES);
+        DBItemManager.addItem("Gocart", 110.0, 3010, Item.Category.VEHICLES);
     }
 }

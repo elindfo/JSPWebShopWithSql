@@ -114,7 +114,12 @@ public class DBUserManager {
     }
 
     public static void main(String[] args) {
-        DBUserManager.addUser("sockersöte", "majsan");
-        System.out.println("Authenticated: " + DBUserManager.authenticate("ecke", "apa"));
+        DBUserManager.fill();
+    }
+
+    private static void fill(){
+        DBUserManager.addUser("Joacim", "usling");
+        DBUserManager.addUser("Erik", "glassfish_is_shait");
+        DBUserManager.addUser("test", "test");
     }
 }
