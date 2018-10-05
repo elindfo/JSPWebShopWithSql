@@ -11,28 +11,28 @@
 <body>
 
     <div class="topnav">
-        <a href="logout">back</a>
+        <a href="servlethandler?action=logout">back</a>
     </div>
 
-    <%if(session.getAttribute("username") == null){%>
+    <%--<%if(session.getAttribute("username") == null){%>--%>
 
     <div class="content">
-        <form action="login" method="post"
-            > Username:<br>
+        <form action="servlethandler" method="post">
+            Username:<br>
             <input type="text" name="username" style="background-color: whitesmoke"><br>
             Password:<br>
             <input type="password" name="password" style="background-color: whitesmoke"><br><br>
-            <input type="submit" name="login" style="background-color: whitesmoke">
+            <input type="submit" name="login" value="logga in" style="background-color: whitesmoke">
         </form>
     </div>
 
-    <%} else {%>
+    <%--<%} else {%>--%>
 
     <div class="content">
-        <p>You are already logged in as <%out.println(session.getAttribute("username"));%></p><br>
+        <%--<p>You are already logged in as <%out.println(session.getAttribute("username"));%></p><br>--%>
         <a class="my-button" href="servlethandler?action=browse">Proceed to webshop</a>
-        <a href="browse.jsp"></a>
-    <%}%>
+        <a href="browse.jsp">heje</a>
+    <%--<%}%>--%>
 
     </div>
 

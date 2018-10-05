@@ -1,9 +1,8 @@
-<%@ page import="webshop.bl.Item" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.HashMap" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<link href="${pageContext.request.contextPath}/webshop.css" rel="stylesheet" type="text/css">
+<link href="webshop.css" rel="stylesheet" type="text/css">
 <html>
 <head>
     <title>Webshop</title>
@@ -13,17 +12,12 @@
     <div class="topnav">
         <a href="servlethandler?action=browse">Home</a>
         <a href="servlethandler?action=viewCart">Cart</a>
-        <a href="logout">Logout</a>
-
-        <puser><%out.println(session.getAttribute("username"));%></puser>
+        <a href="servlethandler?action=logout">Logout</a>
+        <puser><%=request.getAttribute("username")%></puser>
         <puser>User: </puser>
     </div>
 
     <div class="content">
-        <div class="search">
-            <input type="search" placeholder="Search" style="background-color: white">
-        </div>
-
         <div class="table">
             <table>
                 <tr>
@@ -42,28 +36,28 @@
                 </tr>
 
                 <%
-                    List<Item> items = (List<Item>) request.getAttribute("items");
-                    for(Item item : items) {
+                    List<HashMap<String, String>> items;
+                    items= (List<HashMap<String, String>>) request.getSession().getAttribute("items");
+                    for(int i = 0; i < items.size(); i++) {
                 %>
 
                 <tr>
                     <td>
                         <%----%>
-                        <%=item.getId()%>
+                        <%=items.get(i).get("itemId")%>
                     </td>
                     <td>
                         <%--load name from ItemInfo--%>
                         <%--<%=itemlist.get(i).getName()%>--%>
-                        <%=item.getName()%>
+                        <%=items.get(i).get("name")%>
                     </td>
                     <td>
                                     <%--load price from ItemInfo--%>
-
-                        <%=item.getPrice()%>
+                        <%=items.get(i).get("price")%>
                     </td>
                     <td>
                                     <%--load price from ItemInfo--%>
-                        <%=item.getQty()%>
+                        <%=items.get(i).get("quantity")%>
                     </td>
                     <td>
                         <a class="my-button" href="servlethandler?action=addToCart">buy</a>
