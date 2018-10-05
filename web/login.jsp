@@ -14,8 +14,6 @@
         <a href="servlethandler?action=logout">back</a>
     </div>
 
-    <%--<%if(session.getAttribute("username") == null){%>--%>
-
     <div class="content">
         <form action="servlethandler" method="post">
             Username:<br>
@@ -23,16 +21,20 @@
             Password:<br>
             <input type="password" name="password" style="background-color: whitesmoke"><br><br>
             <input type="submit" name="login" value="logga in" style="background-color: whitesmoke">
+            <%if(request.getAttribute("failedLoginMessage") != null){%>
+                <%out.print(request.getAttribute("failedLoginMessage"));%>
+            <%}%>
         </form>
     </div>
 
-    <%--<%} else {%>--%>
-
+    <%if(request.getAttribute("failedLoginMessage") != null)%>
+    <%{%>
+        <p><%out.print(request.getAttribute("failedLoginMessage"));%></p>
+    <%}%>
     <div class="content">
         <%--<p>You are already logged in as <%out.println(session.getAttribute("username"));%></p><br>--%>
         <a class="my-button" href="servlethandler?action=browse">Proceed to webshop</a>
         <a href="browse.jsp">heje</a>
-    <%--<%}%>--%>
 
     </div>
 
