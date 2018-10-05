@@ -77,15 +77,22 @@ public class ServletHandler extends HttpServlet {
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = null;
-        String password = null;
-        if (!request.getAttribute("username").equals("") || !request.getAttribute("password").equals("")) {
-            browse(request, response);
+        String username = (String)request.getAttribute("username");
+        String password = (String)request.getAttribute("password");
+
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("login.jsp");
+
+        if (!username.equals("") && !password.equals("")) {
+            if(Proxy.authenticateUser(username, password)){
+                browse(request, response);
+            }
+            else{
+                request.setAttribute("failedLoginMessage", "Invalid username or password");
+                requestDispatcher.forward(request, response);
+            }
         } else {
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("login.jsp");
+            request.setAttribute("failedLoginMessage", "Empty field");
             requestDispatcher.forward(request, response);
-            /*RequestDispatcher requestDispatcher = request.getRequestDispatcher("browse.jsp");
-            requestDispatcher.forward(request,response);*/
         }
     }
 
