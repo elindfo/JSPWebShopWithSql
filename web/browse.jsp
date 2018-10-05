@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="webshop.bl.Proxy" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <link href="webshop.css" rel="stylesheet" type="text/css">
@@ -18,6 +19,16 @@
     </div>
 
     <div class="content">
+        <form action="servlethandler" method="post">
+            <select name="category">
+                <%List<String> categories = Proxy.getCategories();%>
+                <%for(String s : categories){%>
+                <option value=<%=s%>><%out.print(s);%></option>
+                <%}%>
+            </select>
+            <input type="submit">
+        </form>
+
         <div class="table">
             <table>
                 <tr>
