@@ -5,12 +5,21 @@ import webshop.db.DBUserManager;
 import webshop.view.ItemInfo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 public class Proxy {
 
     private Proxy(){
+    }
+
+    public static List<String> getCategories(){
+        List<String> categories = new ArrayList<>();
+        for(Item.Category c : Item.Category.values()){
+            categories.add(c.toString());
+        }
+        return categories;
     }
 
     public static boolean authenticateUser(String username, String password){
@@ -48,6 +57,12 @@ public class Proxy {
             copy.add(newItem);
         }
         return copy;
+    }
+
+    public static void main(String[] args) {
+        for(String s : Proxy.getCategories()){
+            System.out.println(s);
+        }
     }
 
 }
