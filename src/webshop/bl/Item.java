@@ -3,7 +3,7 @@ package webshop.bl;
 public class Item {
 
     public enum Category{
-        SPORTS, ELECTRONICS, MUSIC
+        CLOTHING, SPORTS, MUSIC, INSTRUMENTS, VEHICLES, FOOD
     }
 
     private int id;
