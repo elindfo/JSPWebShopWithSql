@@ -40,6 +40,30 @@ public class Item {
         return qty;
     }
 
+    public static Category convertStringToCategory(String category){
+        category = category.toUpperCase();
+        switch (category){
+            case "CLOTHING": {
+                return Category.CLOTHING;
+            }
+            case "SPORTS": {
+                return Category.SPORTS;
+            }
+            case "MUSIC": {
+                return Category.MUSIC;
+            }
+            case "INSTRUMENTS": {
+                return Category.INSTRUMENTS;
+            }
+            case "VEHICLES": {
+                return Category.VEHICLES;
+            }
+            case "FOOD": {
+                return Category.FOOD;
+            }
+            default: return Category.EVERYTHING;
+        }
+    }
 
     @Override
     public String toString(){
