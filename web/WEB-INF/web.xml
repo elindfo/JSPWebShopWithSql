@@ -12,6 +12,14 @@
         <servlet-name>ServletHandler</servlet-name>
         <url-pattern>/servlethandler</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>findByCategoryServlet</servlet-name>
+        <servlet-class>webshop.view.FindbyCategoryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>findByCategoryServlet</servlet-name>
+        <url-pattern>/findByCategory</url-pattern>
+    </servlet-mapping>
 
     <security-constraint>
         <web-resource-collection>

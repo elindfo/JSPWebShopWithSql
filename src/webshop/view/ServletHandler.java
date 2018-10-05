@@ -1,6 +1,7 @@
 package webshop.view;
 
 import webshop.bl.Item;
+import webshop.bl.Item.Category;
 import webshop.bl.Proxy;
 
 import javax.servlet.RequestDispatcher;
@@ -8,7 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,12 +29,8 @@ public class ServletHandler extends HttpServlet {
         }
         items = new ArrayList<>();
         switch (action) {
-            case "searchByName": {
-                this.searchByName(request, response);
-                break;
-            }
-            case "searchByCategory": {
-                this.searchByCategory(request, response);
+            case "findByName": {
+                this.findByName(request, response);
                 break;
             }
             case "addToCart": {
@@ -77,8 +73,8 @@ public class ServletHandler extends HttpServlet {
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = (String)request.getAttribute("username");
-        String password = (String)request.getAttribute("password");
+        String username = (String)request.getSession().getAttribute("username");
+        String password = (String)request.getSession().getAttribute("password");
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("login.jsp");
 
@@ -104,22 +100,8 @@ public class ServletHandler extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void searchByName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void findByName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //TODO Database interaction and formatin
-        request.setAttribute("items", items);
-        request.getRequestDispatcher("browse.jsp").forward(request, response);
-    }
-
-    /**
-     * This method will initiate a search filtered by category, which is provided as a parameter "category".
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    private void searchByCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //TODO Database interaction and formating
         request.setAttribute("items", items);
         request.getRequestDispatcher("browse.jsp").forward(request, response);
     }
@@ -195,8 +177,8 @@ public class ServletHandler extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        request.setAttribute("username", username);
-        request.setAttribute("password", password);
+        request.getSession().setAttribute("username", username);
+        request.getSession().setAttribute("password", password);
         request.setAttribute("action", "login");
         doGet(request, response);
     }

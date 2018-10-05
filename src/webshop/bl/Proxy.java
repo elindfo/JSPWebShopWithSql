@@ -5,7 +5,6 @@ import webshop.db.DBUserManager;
 import webshop.view.ItemInfo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,8 +33,9 @@ public class Proxy {
         return DBItemManager.addItem(item.getName(), item.getPrice(), item.getQty(), item.getCategory());
     }
 
-    public static List<Item> findByCategory(Item.Category category){
-        return getDeepCopy(DBItemManager.findByCategory(category));
+    public static List<HashMap<String, String>> findByCategory(Item.Category category){
+        ItemInfo items = new ItemInfo();
+        return items.convertListToItemInfoList(DBItemManager.findByCategory(category));
     }
 
     public static Item findById(int iid){
