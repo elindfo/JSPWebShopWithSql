@@ -17,8 +17,8 @@ public class Proxy {
         return DBUserManager.authenticate(username, password);
     }
 
-    public static boolean addUser(String username, String password){
-        return DBUserManager.addUser(username, password);
+    public static boolean addUser(String username, String password, int level){
+        return DBUserManager.addUser(username, password, level);
     }
 
     public static boolean addItem(Item item){
