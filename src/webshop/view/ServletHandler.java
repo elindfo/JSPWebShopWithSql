@@ -3,6 +3,7 @@ package webshop.view;
 import webshop.bl.Item;
 import webshop.bl.Proxy;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,10 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ServletHandler extends HttpServlet {
 
-    private ArrayList<Item> items = new ArrayList<>();
+    private ArrayList<HashMap<String, String>> items = new ArrayList<>();
     private HttpSession session = null;
 
     public ServletHandler() {
@@ -22,7 +24,6 @@ public class ServletHandler extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        session = request.getSession();
         String action = request.getParameter("action");
 
         switch (action) {
@@ -50,10 +51,55 @@ public class ServletHandler extends HttpServlet {
                 this.emptyCart(request, response);
                 break;
             }
+            case "login": {
+                this.login(request, response);
+                break;
+            }
+            case "username": {
+                this.login(request, response);
+                break;
+            }
+            case "logout": {
+                this.logout(request, response);
+                break;
+            }
             default:
                 this.browse(request, response);
         }
 
+    }
+
+    private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
+        requestDispatcher.forward(request, response);
+    }
+
+    private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = null;
+        String password = null;
+        HttpSession session = request.getSession();
+        if(request.getParameter("username") != null || request.getParameter("password") != null){
+            username = request.getParameter("username");
+            password = request.getParameter("password");
+            session.setAttribute("username", username);
+            session.setAttribute("password", password);
+        }
+
+        items = new ArrayList<>();
+        items = (ArrayList<HashMap<String,String>>) Proxy.findAllItems();
+        //request.removeAttribute("items");
+        //items = (ArrayList<Item>) Proxy.findAllItems();
+        request.getSession().setAttribute("items", items);
+        if(username == null || password == null){
+            browse(request, response);
+        }
+        else {
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("login.jsp");
+            requestDispatcher.forward(request, response);
+            /*RequestDispatcher requestDispatcher = request.getRequestDispatcher("browse.jsp");
+            requestDispatcher.forward(request,response);*/
+
+        }
     }
 
     /**
@@ -66,7 +112,7 @@ public class ServletHandler extends HttpServlet {
     private void searchByName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //TODO Database interaction and formatin
         request.setAttribute("items", items);
-        request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
+        request.getRequestDispatcher("browse.jsp").forward(request, response);
     }
 
     /**
@@ -79,7 +125,7 @@ public class ServletHandler extends HttpServlet {
     private void searchByCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //TODO Database interaction and formating
         request.setAttribute("items", items);
-        request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
+        request.getRequestDispatcher("browse.jsp").forward(request, response);
     }
 
     /**
@@ -100,7 +146,7 @@ public class ServletHandler extends HttpServlet {
         * }*/
 
         request.setAttribute("items", items);
-        //request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
+        request.getRequestDispatcher("browse.jsp").forward(request, response);
     }
 
     /**
@@ -111,15 +157,15 @@ public class ServletHandler extends HttpServlet {
      * @throws IOException
      */
     private void browse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        items.add(Proxy.findById(3));
-
+        items = new ArrayList<>();
+        items = (ArrayList<HashMap<String,String>>) Proxy.findAllItems();
+        //request.removeAttribute("items");
         //items = (ArrayList<Item>) Proxy.findAllItems();
-        request.setAttribute("items", items);
+        request.getSession().setAttribute("items", items);
         //Item item = new Item(1,"Fullkorn", 25.5,2,Item.Category.SPORTS);
         //items.add(item);
         //request.setAttribute("items", items);
-        getServletConfig().getServletContext().getRequestDispatcher("/content/browse.jsp").forward(request, response);
-        //request.getRequestDispatcher("/content/browse.jsp").forward(request, response);
+        request.getRequestDispatcher("browse.jsp").forward(request, response);
     }
 
     /**
@@ -131,7 +177,7 @@ public class ServletHandler extends HttpServlet {
      */
     private void viewCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("items", items);
-        request.getRequestDispatcher("/content/shopping-cart.jsp").forward(request, response);
+        request.getRequestDispatcher("shopping-cart.jsp").forward(request, response);
     }
 
     /**
@@ -143,7 +189,12 @@ public class ServletHandler extends HttpServlet {
      */
     private void emptyCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("items", items);
-        request.getRequestDispatcher("/content/shopping-cart.jsp").forward(request, response);
+        request.getRequestDispatcher("shopping-cart.jsp").forward(request, response);
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
     }
 
 

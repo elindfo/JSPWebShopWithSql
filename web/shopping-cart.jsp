@@ -1,5 +1,5 @@
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="webshop.view.Iteminfo" %>
+<%@ page import="webshop.view.ItemInfo" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link href="${pageContext.request.contextPath}/webshop.css" rel="stylesheet" type="text/css">
 

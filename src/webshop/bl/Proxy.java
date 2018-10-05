@@ -2,8 +2,10 @@ package webshop.bl;
 
 import webshop.db.DBItemManager;
 import webshop.db.DBUserManager;
+import webshop.view.ItemInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Proxy {
@@ -32,8 +34,10 @@ public class Proxy {
         return new Item(item.getId(), item.getName(), item.getPrice(), item.getQty(), item.getCategory());
     }
 
-    public static List<Item> findAllItems(){
-        return getDeepCopy(DBItemManager.findAllItems());
+    public static List<HashMap<String, String>> findAllItems(){
+        ItemInfo items = new ItemInfo();
+        return items.convertListToItemInfoList(DBItemManager.findAllItems());
+        //return getDeepCopy(DBItemManager.findAllItems());
     }
 
     private static List<Item> getDeepCopy(List<Item> items){
