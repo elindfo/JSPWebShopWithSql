@@ -13,6 +13,7 @@
         <a href="servlethandler?action=browse">Home</a>
         <a href="servlethandler?action=viewCart">Cart</a>
         <a href="servlethandler?action=logout">Logout</a>
+        <puser><%=request.getAttribute("username")%></puser>
         <puser>User: </puser>
     </div>
 

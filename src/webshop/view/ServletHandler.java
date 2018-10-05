@@ -15,8 +15,7 @@ import java.util.HashMap;
 
 public class ServletHandler extends HttpServlet {
 
-    private ArrayList<HashMap<String, String>> items = new ArrayList<>();
-    private HttpSession session = null;
+    private ArrayList<HashMap<String, String>> items;
 
     public ServletHandler() {
         super();
@@ -25,7 +24,10 @@ public class ServletHandler extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-
+        if(action == null || action.isEmpty()){
+            action = (String) request.getAttribute("action");
+        }
+        items = new ArrayList<>();
         switch (action) {
             case "searchByName": {
                 this.searchByName(request, response);
@@ -77,33 +79,19 @@ public class ServletHandler extends HttpServlet {
     private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = null;
         String password = null;
-        HttpSession session = request.getSession();
-        if(request.getParameter("username") != null || request.getParameter("password") != null){
-            username = request.getParameter("username");
-            password = request.getParameter("password");
-            session.setAttribute("username", username);
-            session.setAttribute("password", password);
-        }
-
-        items = new ArrayList<>();
-        items = (ArrayList<HashMap<String,String>>) Proxy.findAllItems();
-        //request.removeAttribute("items");
-        //items = (ArrayList<Item>) Proxy.findAllItems();
-        request.getSession().setAttribute("items", items);
-        if(username == null || password == null){
+        if (!request.getAttribute("username").equals("") || !request.getAttribute("password").equals("")) {
             browse(request, response);
-        }
-        else {
+        } else {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("login.jsp");
             requestDispatcher.forward(request, response);
             /*RequestDispatcher requestDispatcher = request.getRequestDispatcher("browse.jsp");
             requestDispatcher.forward(request,response);*/
-
         }
     }
 
     /**
      * This method will initiate a search filtered by name, which is provided as a parameter "name"
+     *
      * @param request
      * @param response
      * @throws ServletException
@@ -117,6 +105,7 @@ public class ServletHandler extends HttpServlet {
 
     /**
      * This method will initiate a search filtered by category, which is provided as a parameter "category".
+     *
      * @param request
      * @param response
      * @throws ServletException
@@ -138,12 +127,12 @@ public class ServletHandler extends HttpServlet {
     private void addToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //TODO Database interaction and formating create interface to db? proxy yes.. that's right proxy
         /*
-        * ItemInfo item = new ItemInfo();
-        * if(proxy.getItem(request.getParameter("item").getQuantity() > 0){
-        *
-        * items.add(item);
-        * request.setAttribute("items", items);
-        * }*/
+         * ItemInfo item = new ItemInfo();
+         * if(proxy.getItem(request.getParameter("item").getQuantity() > 0){
+         *
+         * items.add(item);
+         * request.setAttribute("items", items);
+         * }*/
 
         request.setAttribute("items", items);
         request.getRequestDispatcher("browse.jsp").forward(request, response);
@@ -151,6 +140,7 @@ public class ServletHandler extends HttpServlet {
 
     /**
      * This method will redirect the customer to browse.jsp.
+     *
      * @param request
      * @param response
      * @throws ServletException
@@ -158,7 +148,7 @@ public class ServletHandler extends HttpServlet {
      */
     private void browse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         items = new ArrayList<>();
-        items = (ArrayList<HashMap<String,String>>) Proxy.findAllItems();
+        items = (ArrayList<HashMap<String, String>>) Proxy.findAllItems();
         //request.removeAttribute("items");
         //items = (ArrayList<Item>) Proxy.findAllItems();
         request.getSession().setAttribute("items", items);
@@ -170,6 +160,7 @@ public class ServletHandler extends HttpServlet {
 
     /**
      * This method will redirect to shopping-cart.jsp if items is not null or empty.
+     *
      * @param request
      * @param response
      * @throws ServletException
@@ -182,6 +173,7 @@ public class ServletHandler extends HttpServlet {
 
     /**
      * This method will empty the customers shoppingcart
+     *
      * @param request
      * @param response
      * @throws ServletException
@@ -194,6 +186,11 @@ public class ServletHandler extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        request.setAttribute("username", username);
+        request.setAttribute("password", password);
+        request.setAttribute("action", "login");
         doGet(request, response);
     }
 
