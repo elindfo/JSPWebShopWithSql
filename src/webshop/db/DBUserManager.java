@@ -63,6 +63,9 @@ public class DBUserManager {
     }
 
     public static boolean addUser(String username, String password, int level){
+        if(level < 1 || level > 2){
+            return false;
+        }
         try{
             String encryptedPassword = hashWithSHA256(password);
 
@@ -125,8 +128,9 @@ public class DBUserManager {
     }
 
     private static void fill(){
-        DBUserManager.addUser("Joacim", "usling", 2);
+        /*DBUserManager.addUser("Joacim", "usling", 2);
         DBUserManager.addUser("Erik", "glassfish_is_shait", 2);
-        DBUserManager.addUser("test", "test", 1);
+        DBUserManager.addUser("test", "test", 1);*/
+        DBUserManager.addUser("test1", "test1", -1);
     }
 }
