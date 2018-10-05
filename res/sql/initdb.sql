@@ -2,6 +2,7 @@ CREATE DATABASE IF NOT EXISTS webshop;
 
 USE webshop;
 
+DROP TABLE IF EXISTS user_level;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS item_category;
 DROP TABLE IF EXISTS item_prc;
@@ -16,7 +17,7 @@ CREATE TABLE user(
 
 CREATE TABLE user_level(
   uid INT NOT NULL PRIMARY KEY,
-  level INT NOT NULL CHECK (level IN (1, 2)),
+  level INT NOT NULL,
   FOREIGN KEY(uid) REFERENCES user(uid)
 );
 
