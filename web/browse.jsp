@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="webshop.bl.Proxy" %>
+<%@ page import="webshop.bl.Item" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <link href="webshop.css" rel="stylesheet" type="text/css">
@@ -14,19 +15,19 @@
         <a href="servlethandler?action=browse">Home</a>
         <a href="servlethandler?action=viewCart">Cart</a>
         <a href="servlethandler?action=logout">Logout</a>
-        <puser><%=request.getAttribute("username")%></puser>
+        <puser><%=request.getSession().getAttribute("username")%></puser>
         <puser>User: </puser>
     </div>
 
     <div class="content">
-        <form action="servlethandler" method="post">
+        <form action="findByCategory" method="POST" style="padding-left: 100px">
             <select name="category">
                 <%List<String> categories = Proxy.getCategories();%>
                 <%for(String s : categories){%>
-                <option value=<%=s%>><%out.print(s);%></option>
+                <option name="category" value=<%=s%>><%out.print(s);%></option>
                 <%}%>
             </select>
-            <input type="submit">
+            <button class="my-button" value="Search" type="submit">GO</button>
         </form>
 
         <div class="table">
@@ -44,11 +45,16 @@
                     <th>
                         <h6>Quantity</h6>
                     </th>
+                    <th>
+                        <h6>Category</h6>
+                    </th>
                 </tr>
 
                 <%
+
                     List<HashMap<String, String>> items;
                     items= (List<HashMap<String, String>>) request.getSession().getAttribute("items");
+                    if(!items.isEmpty()){
                     for(int i = 0; i < items.size(); i++) {
                 %>
 
@@ -74,7 +80,9 @@
                         <a class="my-button" href="servlethandler?action=addToCart">buy</a>
                     </td>
                 </tr>
-                    <%}%>
+                    <%}
+                    }
+                    %>
             </table>
         </div>
     </div>
