@@ -14,6 +14,12 @@ CREATE TABLE user(
   hashedpw CHAR(64) NOT NULL
 );
 
+CREATE TABLE user_level(
+  uid INT NOT NULL PRIMARY KEY,
+  level INT NOT NULL CHECK (level IN (1, 2)),
+  FOREIGN KEY(uid) REFERENCES user(uid)
+);
+
 CREATE TABLE item(
   iid INT AUTO_INCREMENT PRIMARY KEY,
   iname VARCHAR(64) UNIQUE NOT NULL
