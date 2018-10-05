@@ -12,6 +12,14 @@
         <servlet-name>ServletHandler</servlet-name>
         <url-pattern>/servlethandler</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>webshop.view.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/loginservlet</url-pattern>
+    </servlet-mapping>
 
     <security-constraint>
         <web-resource-collection>
