@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,13 +70,27 @@ public class ControllerServlet extends HttpServlet {
                 this.logout(request, response);
                 break;
             }
+            case "createAccount": {
+                this.createAccount(request, response);
+                break;
+            }
             default:
                 this.browse(request, response);
         }
 
     }
 
-
+    private void createAccount(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        if(Proxy.addUser(username, password, 1)){
+            request.getSession().setAttribute("createAccountInfo", "Success! Account Created");
+        }
+        else{
+            request.getSession().setAttribute("createAccountInfo", "Error! Account already exists");
+        }
+        response.sendRedirect("createaccount.jsp");
+    }
 
 
     private void findByCategory(HttpServletRequest request, HttpServletResponse response) throws IOException {

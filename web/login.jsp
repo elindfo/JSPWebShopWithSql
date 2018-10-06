@@ -12,6 +12,7 @@
 
     <div class="topnav">
         <a href="index.jsp">Home</a>
+        <a href="createaccount.jsp">Create Account</a>
     </div>
 
     <%
