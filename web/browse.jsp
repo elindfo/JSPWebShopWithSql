@@ -14,11 +14,21 @@
         <a href="servlethandler?action=browse">Home</a>
         <a href="servlethandler?action=viewCart">Cart</a>
         <a href="servlethandler?action=logout">Logout</a>
-        <puser><%=request.getAttribute("username")%></puser>
+        <puser><%=request.getSession().getAttribute("username")%></puser>
         <puser>User: </puser>
     </div>
 
     <div class="content">
+        <form action="findByCategory" method="POST" style="padding-left: 100px">
+            <select name="category">
+                <%List<String> categories = Proxy.getCategories();%>
+                <%for(String s : categories){%>
+                <option name="category" value=<%=s%>><%out.print(s);%></option>
+                <%}%>
+            </select>
+            <button class="my-button" value="Search" type="submit">GO</button>
+        </form>
+
         <div class="table">
             <table>
                 <tr>
@@ -33,6 +43,9 @@
                     </th>
                     <th>
                         <h6>Quantity</h6>
+                    </th>
+                    <th>
+                        <h6>Category</h6>
                     </th>
                 </tr>
 
@@ -63,7 +76,9 @@
                         <a class="my-button" href="servlethandler?action=addToCart">buy</a>
                     </td>
                 </tr>
-                    <%}%>
+                    <%}
+                    }
+                    %>
             </table>
         </div>
     </div>

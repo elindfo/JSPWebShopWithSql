@@ -27,10 +27,6 @@
         </form>
     </div>
 
-    <%if(request.getAttribute("failedLoginMessage") != null)%>
-    <%{%>
-        <p><%out.print(request.getAttribute("failedLoginMessage"));%></p>
-    <%}%>
     <div class="content">
         <%--<p>You are already logged in as <%out.println(session.getAttribute("username"));%></p><br>--%>
         <a class="my-button" href="servlethandler?action=browse">Proceed to webshop</a>
