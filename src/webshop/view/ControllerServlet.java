@@ -50,6 +50,10 @@ public class ControllerServlet extends HttpServlet {
                 this.removeAllFromCart(request, response);
                 break;
             }
+            case "placeOrder": {
+                this.placeOrder(request, response);
+                break;
+            }
             case "browse": {
                 this.browse(request, response);
                 break;
@@ -173,6 +177,14 @@ public class ControllerServlet extends HttpServlet {
         }
 
         response.sendRedirect("browse.jsp");
+    }
+
+    private void placeOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(Proxy.placeOrder((ArrayList<HashMap<String, String>>) request.getSession().getAttribute("cart"))){
+            emptyCart(request, response);
+        }
+        response.sendRedirect("shopping-cart.jsp");
+
     }
 
     private void removeFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
