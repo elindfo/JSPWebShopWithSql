@@ -10,19 +10,20 @@ import java.util.List;
 
 public class Proxy {
 
+    private static final MainLogic mainLogic = new MainLogic();
+
     private Proxy(){
     }
 
+    public static boolean tryLogin(String username, String password){
+        return mainLogic.tryLogin(username, password);
+    }
     public static List<String> getCategories(){
         List<String> categories = new ArrayList<>();
         for(Item.Category c : Item.Category.values()){
             categories.add(c.toString());
         }
         return categories;
-    }
-
-    public static boolean authenticateUser(String username, String password){
-        return DBUserManager.authenticate(username, password);
     }
 
     public static boolean addUser(String username, String password, int level){

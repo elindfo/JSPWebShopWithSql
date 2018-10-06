@@ -1,6 +1,6 @@
 package webshop.bl.accounttype;
 
-public class AdminAccount extends Account{
+public class AdminAccount extends Account {
 
     public AdminAccount(int uid) {
         super(uid);

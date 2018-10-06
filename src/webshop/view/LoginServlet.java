@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("login.jsp");
 
         if (!username.isEmpty() && !password.isEmpty()) {
-            if(Proxy.authenticateUser(username, password)){
+            if(Proxy.tryLogin(username, password)){
                 request.setAttribute("items", Proxy.findAllItems());
                 request.getRequestDispatcher("browse.jsp").forward(request, response);
             }
