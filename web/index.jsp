@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="topnav">
-        <a href="login.jsp">login</a>
+        <a href="login.jsp">Login</a>
     </div>
     <div class="content">
         <div class="color-animation-welcome-text">Welcome!</div>

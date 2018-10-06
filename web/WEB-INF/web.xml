@@ -5,28 +5,12 @@
          version="4.0">
 
     <servlet>
-        <servlet-name>ServletHandler</servlet-name>
-        <servlet-class>webshop.view.ServletHandler</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ServletHandler</servlet-name>
-        <url-pattern>/servlethandler</url-pattern>
-    </servlet-mapping>
-    <servlet>
         <servlet-name>findByCategoryServlet</servlet-name>
         <servlet-class>webshop.view.FindbyCategoryServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>findByCategoryServlet</servlet-name>
         <url-pattern>/findByCategory</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>webshop.view.LoginServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/loginservlet</url-pattern>
     </servlet-mapping>
 
     <security-constraint>

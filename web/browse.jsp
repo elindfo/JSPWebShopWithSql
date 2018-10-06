@@ -3,6 +3,12 @@
 <%@ page import="webshop.bl.Proxy" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<%
+    if(request.getSession().getAttribute("username") == null){
+        response.sendRedirect("login.jsp");
+    }
+%>
+
 <link href="webshop.css" rel="stylesheet" type="text/css">
 <html>
 <head>
@@ -11,9 +17,9 @@
 
 <body>
     <div class="topnav">
-        <a href="servlethandler?action=browse">Home</a>
-        <a href="servlethandler?action=viewCart">Cart</a>
-        <a href="servlethandler?action=logout">Logout</a>
+        <a href="ServletHandler?action=browse">Browse</a>
+        <a href="ServletHandler?action=viewCart">ShoppingCart</a>
+        <a href="ServletHandler?action=logout">Logout</a>
         <puser><%=request.getSession().getAttribute("username")%></puser>
         <puser>User: </puser>
     </div>
@@ -32,21 +38,11 @@
         <div class="table">
             <table>
                 <tr>
-                    <th>
-                        <h6>Id</h6>
-                    </th>
-                    <th>
-                        <h6>Name</h6>
-                    </th>
-                    <th>
-                        <h6>Price</h6>
-                    </th>
-                    <th>
-                        <h6>Quantity</h6>
-                    </th>
-                    <th>
-                        <h6>Category</h6>
-                    </th>
+                    <th><h6>Id</h6></th>
+                    <th><h6>Name</h6></th>
+                    <th><h6>Price</h6></th>
+                    <th><h6>Quantity</h6></th>
+                    <th><h6>Category</h6></th>
                 </tr>
 
                 <%
@@ -55,29 +51,15 @@
                 %>
 
                 <tr>
-                    <td>
-                        <%----%>
-                        <%=items.get(i).get("itemId")%>
-                    </td>
-                    <td>
-                        <%--load name from ItemInfo--%>
-                        <%--<%=itemlist.get(i).getName()%>--%>
-                        <%=items.get(i).get("name")%>
-                    </td>
-                    <td>
-                                    <%--load price from ItemInfo--%>
-                        <%=items.get(i).get("price")%>
-                    </td>
-                    <td>
-                                    <%--load price from ItemInfo--%>
-                        <%=items.get(i).get("quantity")%>
-                    </td>
-                    <td>
-                        <a class="my-button" href="servlethandler?action=addToCart">buy</a>
-                    </td>
+                    <td><%=items.get(i).get("itemId")%></td>
+                    <td><%=items.get(i).get("name")%></td>
+                    <td><%=items.get(i).get("price")%></td>
+                    <td><%=items.get(i).get("quantity")%></td>
+                    <td><a class="my-button" href="servlethandler?action=addToCart">buy</a></td>
                 </tr>
-                    <%}
-                    %>
+                <%
+                    }
+                %>
             </table>
         </div>
     </div>

@@ -11,28 +11,46 @@
 <body>
 
     <div class="topnav">
-        <a href="servlethandler?action=logout">back</a>
+        <a href="index.jsp">Home</a>
     </div>
 
+    <%
+        if(session.getAttribute("loggedIn") == Boolean.TRUE){
+            response.sendRedirect("ServletHandler?action=browse");
+        }
+        else if(request.getParameter("username") != null || request.getParameter("password") != null){
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            session.setAttribute("username", username);
+            session.setAttribute("password", password);
+            response.sendRedirect("ServletHandler?action=login");
+        }
+        else{
+    %>
+
     <div class="content">
-        <form action="loginservlet" method="post">
+        <form action="login.jsp" method="post">
             Username:<br>
             <input type="text" name="username" style="background-color: whitesmoke"><br>
             Password:<br>
             <input type="password" name="password" style="background-color: whitesmoke"><br><br>
-            <input type="submit" name="login" value="logga in" style="background-color: whitesmoke">
-            <%if(request.getAttribute("failedLoginMessage") != null){%>
-                <%out.print(request.getAttribute("failedLoginMessage"));%>
-            <%}%>
+            <input type="submit" name="login" value="LogIn" style="background-color: whitesmoke">
         </form>
     </div>
 
-    <div class="content">
-        <%--<p>You are already logged in as <%out.println(session.getAttribute("username"));%></p><br>--%>
-        <a class="my-button" href="servlethandler?action=browse">Proceed to webshop</a>
-        <a href="browse.jsp">heje</a>
+    <%
+        }
+    %>
 
-    </div>
+
+
+
+
+
+
+
+
+
 
     <div class="footer">
         <p>Erik & Jocke</p>
