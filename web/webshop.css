@@ -54,7 +54,6 @@ body {
 }
 
 .color-animation-welcome-text{
-
     font-size: 150px;
 }
 
@@ -78,19 +77,19 @@ tr td {
 .table {
     overflow: auto;
     width: 50%;
-    border: 1px solid #333333;
+    border: 0px solid #333333;
     margin-left: 100px;
 }
 
 .table h6 {
     padding: 20px 20px 20px 20px;
-    font-size: 30px;
+    font-size: 16px;
 }
 
 .my-button{ /*button rounded edges*/
     background-color: #333333;
     color: #f1f1f1;
-    font-size: 39px;
+    font-size: 16px;
     border-radius: 5px;
     min-width: 30px;
     text-align: center;

@@ -17,15 +17,14 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = (String) request.getSession().getAttribute("username");
+        String password = (String) request.getSession().getAttribute("password");
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("login.jsp");
 
         if (!username.isEmpty() && !password.isEmpty()) {
             if(Proxy.tryLogin(username, password)){
-                request.setAttribute("items", Proxy.findAllItems());
+                request.getSession().setAttribute("items", Proxy.findAllItems());
                 request.getRequestDispatcher("browse.jsp").forward(request, response);
             }
             else{
@@ -40,6 +39,8 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        request.getSession().setAttribute("username", request.getParameter("username"));
+        request.getSession().setAttribute("password", request.getParameter("password"));
         doGet(request, response);
     }
 }

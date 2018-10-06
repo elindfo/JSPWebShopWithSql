@@ -50,7 +50,7 @@
                 </tr>
 
                 <%
-                    List<HashMap<String, String>> items = (List<HashMap<String, String>>)request.getAttribute("items");
+                    List<HashMap<String, String>> items = (List<HashMap<String, String>>)request.getSession().getAttribute("items");
                     for(int i = 0; i < items.size(); i++) {
                 %>
 
@@ -77,7 +77,6 @@
                     </td>
                 </tr>
                     <%}
-                    }
                     %>
             </table>
         </div>
