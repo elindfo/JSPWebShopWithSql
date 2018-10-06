@@ -9,7 +9,7 @@
     <div class="topnav">
         <a href="servlethandler?action=browse">Home</a>
         <a href="servlethandler?action=viewCart">Cart</a>
-        <a href="logout">Logout</a>
+        <a href="servlethandler?action=logout">Logout</a>
         <puser><%out.println(session.getAttribute("username"));%></puser>
         <puser>User: </puser>
     </div>
