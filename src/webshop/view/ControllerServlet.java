@@ -1,5 +1,6 @@
 package webshop.view;
 
+import webshop.bl.Item;
 import webshop.bl.Proxy;
 
 import javax.servlet.ServletException;
@@ -35,6 +36,10 @@ public class ControllerServlet extends HttpServlet {
                 this.findByName(request, response);
                 break;
             }
+            case "findByCategory": {
+                this.findByCategory(request, response);
+                break;
+            }
             case "addToCart": {
                 this.addToCart(request, response);
                 break;
@@ -63,6 +68,13 @@ public class ControllerServlet extends HttpServlet {
                 this.browse(request, response);
         }
 
+    }
+
+    private void findByCategory(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Item.Category category = Item.convertStringToCategory(request.getParameter("category"));
+        ArrayList<HashMap<String, String>> items = (ArrayList<HashMap<String, String>>) Proxy.findByCategory(category);
+        request.getSession().setAttribute("items", items);
+        response.sendRedirect("browse.jsp");
     }
 
     private void login(HttpServletRequest request, HttpServletResponse response) throws IOException {

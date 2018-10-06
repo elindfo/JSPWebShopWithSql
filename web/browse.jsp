@@ -25,7 +25,7 @@
     </div>
 
     <div class="content">
-        <form action="findByCategory" method="POST" style="padding-left: 100px">
+        <form action="ControllerServlet?action=findByCategory" method="POST" style="padding-left: 100px">
             <select name="category">
                 <%List<String> categories = Proxy.getCategories();%>
                 <%for(String s : categories){%>
