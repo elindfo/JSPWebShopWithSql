@@ -16,7 +16,6 @@
 
     <%
         if(session.getAttribute("loggedIn") == Boolean.TRUE){
-            session.setAttribute("action", "browse");
             response.sendRedirect("ServletHandler?action=browse");
         }
         else if(request.getParameter("username") != null || request.getParameter("password") != null){
