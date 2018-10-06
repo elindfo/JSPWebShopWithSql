@@ -30,11 +30,11 @@
                     <th><h6>Price</h6></th>
                     <th><h6>Quantity</h6></th>
                     <th><h6>Category</h6></th>
+                    <td><a class="my-button" href="ControllerServlet?action=emptyCart">Empty Cart</a></td>
                 </tr>
 
                 <%
                     List<HashMap<String, String>> items = (List<HashMap<String, String>>)request.getSession().getAttribute("cart");
-                    out.print(items.size());
                     for(int i = 0; i < items.size(); i++) {
                 %>
 

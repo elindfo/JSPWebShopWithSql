@@ -209,6 +209,12 @@ public class ControllerServlet extends HttpServlet {
         response.sendRedirect("shopping-cart.jsp");
     }
 
+    private void emptyCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<HashMap<String, String>> cart = ((ArrayList<HashMap<String, String>>)(request.getSession().getAttribute("cart")));
+        cart.clear();
+        response.sendRedirect("shopping-cart.jsp");
+    }
+
     /**
      * This method will redirect the customer to browse.jsp.
      *
@@ -243,10 +249,7 @@ public class ControllerServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void emptyCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("items", items);
-        request.getRequestDispatcher("shopping-cart.jsp").forward(request, response);
-    }
+
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
