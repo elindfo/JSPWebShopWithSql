@@ -46,7 +46,6 @@ public class Proxy {
     public static List<HashMap<String, String>> findAllItems(){
         ItemInfo items = new ItemInfo();
         return items.convertListToItemInfoList(DBItemManager.findAllItems());
-        //return getDeepCopy(DBItemManager.findAllItems());
     }
 
     private static List<Item> getDeepCopy(List<Item> items){

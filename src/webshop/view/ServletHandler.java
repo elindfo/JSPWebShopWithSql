@@ -49,14 +49,6 @@ public class ServletHandler extends HttpServlet {
                 this.emptyCart(request, response);
                 break;
             }
-            case "login": {
-                this.login(request, response);
-                break;
-            }
-            case "username": {
-                this.login(request, response);
-                break;
-            }
             case "logout": {
                 this.logout(request, response);
                 break;
@@ -70,26 +62,6 @@ public class ServletHandler extends HttpServlet {
     private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
         requestDispatcher.forward(request, response);
-    }
-
-    private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = (String)request.getSession().getAttribute("username");
-        String password = (String)request.getSession().getAttribute("password");
-
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("login.jsp");
-
-        if (!username.equals("") && !password.equals("")) {
-            if(Proxy.authenticateUser(username, password)){
-                browse(request, response);
-            }
-            else{
-                request.setAttribute("failedLoginMessage", "Invalid username or password");
-                requestDispatcher.forward(request, response);
-            }
-        } else {
-            request.setAttribute("failedLoginMessage", "Empty field");
-            requestDispatcher.forward(request, response);
-        }
     }
 
     /**
