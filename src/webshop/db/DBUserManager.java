@@ -112,6 +112,88 @@ public class DBUserManager {
         }
     }
 
+    public static int getUserId(String name) {
+        try{
+            DBManager.getConnection().setAutoCommit(false); //Initiate transaction
+
+            String userIdQuery = "SELECT uid FROM user WHERE uname = ?;";
+
+            PreparedStatement psmt = DBManager.getConnection().prepareStatement(userIdQuery);
+
+            psmt.setString(1, name);
+
+            ResultSet result = psmt.executeQuery();
+
+            int uid = -1;
+            if(result.next()){
+                uid = result.getInt("uid");
+            }
+
+            DBManager.getConnection().commit();
+            return uid;
+        } catch (SQLException e) {
+            System.err.println("Exception: Unable to add user to DB");
+            System.err.println("Error Code: " + e.getErrorCode());
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            return -1;
+        } finally{
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static int getUserLevel(int uid) {
+        try{
+            DBManager.getConnection().setAutoCommit(false); //Initiate transaction
+
+            String userLevelQuery = "SELECT level FROM user_level WHERE uid = ?;";
+
+            PreparedStatement psmt = DBManager.getConnection().prepareStatement(userLevelQuery);
+
+            psmt.setInt(1, uid);
+
+            ResultSet result = psmt.executeQuery();
+
+            int level = -1;
+            if(result.next()){
+                level = result.getInt("level");
+            }
+
+            DBManager.getConnection().commit();
+            return level;
+        } catch (SQLException e) {
+            System.err.println("Exception: Unable to add user to DB");
+            System.err.println("Error Code: " + e.getErrorCode());
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            return -1;
+        } finally{
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     private static String hashWithSHA256(String s) throws NoSuchAlgorithmException{
         //TODO Check wether this is enough or if salt is to be used
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256"); //https://www.mkyong.com/java/java-sha-hashing-example/
@@ -128,9 +210,12 @@ public class DBUserManager {
     }
 
     private static void fill(){
-        /*DBUserManager.addUser("Joacim", "usling", 2);
-        DBUserManager.addUser("Erik", "glassfish_is_shait", 2);
-        DBUserManager.addUser("test", "test", 1);*/
-        DBUserManager.addUser("test1", "test1", -1);
+        //DBUserManager.addUser("Joacim", "usling", 2);
+        //DBUserManager.addUser("Erik", "glassfish_is_shait", 2);
+        //DBUserManager.addUser("test", "test", 1);
+        String user = "a";
+        System.out.printf("User: %s has user level of: %d\n", user, DBUserManager.getUserLevel(DBUserManager.getUserId(user)));
     }
+
+
 }
