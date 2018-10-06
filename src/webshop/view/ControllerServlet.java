@@ -8,8 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @WebServlet("/ControllerServlet")
 public class ControllerServlet extends HttpServlet {
@@ -64,6 +67,7 @@ public class ControllerServlet extends HttpServlet {
 
     private void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if(Proxy.tryLogin((String)request.getSession().getAttribute("username"), (String)request.getSession().getAttribute("password"))){
+            request.getSession().setAttribute("cart", new ArrayList<HashMap<String, String>>());
             request.getSession().setAttribute("loggedIn", Boolean.TRUE);
         }
         else{
@@ -102,18 +106,40 @@ public class ControllerServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void addToCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //TODO Database interaction and formating create interface to db? proxy yes.. that's right proxy
-        /*
-         * ItemInfo item = new ItemInfo();
-         * if(proxy.getItem(request.getParameter("item").getQuantity() > 0){
-         *
-         * items.add(item);
-         * request.setAttribute("items", items);
-         * }*/
+    private void addToCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<HashMap<String, String>> cart = ((ArrayList<HashMap<String, String>>)(request.getSession().getAttribute("cart")));
+        List<HashMap<String, String>> items = ((ArrayList<HashMap<String, String>>)(request.getSession().getAttribute("items")));
 
-        request.setAttribute("items", items);
-        request.getRequestDispatcher("browse.jsp").forward(request, response);
+        String itemId = request.getParameter("iid");
+        PrintWriter out = response.getWriter();
+
+        boolean hasItem = false;
+
+
+        for(HashMap<String, String> cartItem : cart){
+            if(cartItem.get("itemId").equals(itemId)){
+                cartItem.replace("quantity", String.valueOf(Integer.parseInt(cartItem.get("quantity")) + 1));
+                hasItem = true;
+                break;
+            }
+        }
+
+        if(!hasItem){
+            for(HashMap<String, String> item : items){
+                if(item.get("itemId").equals(itemId)){
+                    HashMap<String, String> newItem = new HashMap<>();
+                    newItem.put("itemId", item.get("itemId"));
+                    newItem.put("name", item.get("name"));
+                    newItem.put("price", item.get("price"));
+                    newItem.put("quantity", "1");
+                    newItem.put("category", item.get("category"));
+                    cart.add(newItem);
+                    break;
+                }
+            }
+        }
+
+        response.sendRedirect("browse.jsp");
     }
 
     /**
@@ -124,7 +150,7 @@ public class ControllerServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void browse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void browse(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.getSession().setAttribute("items", Proxy.findAllItems());
         response.sendRedirect("browse.jsp");
     }

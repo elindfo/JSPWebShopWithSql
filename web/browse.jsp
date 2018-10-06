@@ -55,7 +55,8 @@
                     <td><%=items.get(i).get("name")%></td>
                     <td><%=items.get(i).get("price")%></td>
                     <td><%=items.get(i).get("quantity")%></td>
-                    <td><a class="my-button" href="ControllerServlet?action=addToCart">buy</a></td>
+                    <td><%=items.get(i).get("category")%></td>
+                    <td><a class="my-button" href="ControllerServlet?action=addToCart&iid=<%=items.get(i).get("itemId")%>">BUY</a></td>
                 </tr>
                 <%
                     }
