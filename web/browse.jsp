@@ -17,15 +17,15 @@
 
 <body>
     <div class="topnav">
-        <a href="ServletHandler?action=browse">Browse</a>
-        <a href="ServletHandler?action=viewCart">ShoppingCart</a>
-        <a href="ServletHandler?action=logout">Logout</a>
+        <a href="ControllerServlet?action=browse">Browse</a>
+        <a href="ControllerServlet?action=viewCart">ShoppingCart</a>
+        <a href="ControllerServlet?action=logout">Logout</a>
         <puser><%=request.getSession().getAttribute("username")%></puser>
         <puser>User: </puser>
     </div>
 
     <div class="content">
-        <form action="findByCategory" method="POST" style="padding-left: 100px">
+        <form action="ControllerServlet?action=findByCategory" method="POST" style="padding-left: 100px">
             <select name="category">
                 <%List<String> categories = Proxy.getCategories();%>
                 <%for(String s : categories){%>
@@ -55,7 +55,8 @@
                     <td><%=items.get(i).get("name")%></td>
                     <td><%=items.get(i).get("price")%></td>
                     <td><%=items.get(i).get("quantity")%></td>
-                    <td><a class="my-button" href="servlethandler?action=addToCart">buy</a></td>
+                    <td><%=items.get(i).get("category")%></td>
+                    <td><a class="my-button" href="ControllerServlet?action=addToCart&iid=<%=items.get(i).get("itemId")%>">BUY</a></td>
                 </tr>
                 <%
                     }

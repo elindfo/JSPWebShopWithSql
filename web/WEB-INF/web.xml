@@ -4,15 +4,6 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-    <servlet>
-        <servlet-name>findByCategoryServlet</servlet-name>
-        <servlet-class>webshop.view.FindbyCategoryServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>findByCategoryServlet</servlet-name>
-        <url-pattern>/findByCategory</url-pattern>
-    </servlet-mapping>
-
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Admin</web-resource-name>
