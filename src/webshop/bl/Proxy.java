@@ -59,6 +59,23 @@ public class Proxy {
         return copy;
     }
 
+    public static boolean placeOrder(ArrayList<HashMap<String, String>> shoppingCart){
+        ItemInfo itemInfo = null;
+        ArrayList<Item> order = new ArrayList<>(itemInfo.convertHashToItem(shoppingCart));
+        boolean orderInStock = true;
+        for(Item item : order){
+            int qty = Proxy.findById(item.getId()).getQty();
+            if(qty <= 0){
+                orderInStock = false;
+            }
+        }
+        if(orderInStock){
+            //TODO Add order to database connected to userId and OrderId
+            return DBItemManager.update(order);
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         for(String s : Proxy.getCategories()){
             System.out.println(s);

@@ -28,6 +28,20 @@ public class ItemInfo {
         return items;
     }
 
+    public List<Item> convertHashToItem(List<HashMap<String, String>> list){
+        ArrayList<Item> order = new ArrayList<>();
+        for(HashMap<String, String> item : list){
+            Item newItem = new Item(
+                    Integer.valueOf(item.get("itemId")),
+                    item.get("name"),
+                    Integer.valueOf(item.get("price")),
+                    Integer.valueOf(item.get("quantity")),
+                    Item.convertStringToCategory(item.get("category")));
+            order.add(newItem);
+        }
+        return order;
+    }
+
     public List<HashMap<String, String>> getItems() {
         return items;
     }
