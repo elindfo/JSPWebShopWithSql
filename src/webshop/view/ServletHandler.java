@@ -126,14 +126,8 @@ public class ServletHandler extends HttpServlet {
      * @throws IOException
      */
     private void browse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        items = new ArrayList<>();
-        items = (ArrayList<HashMap<String, String>>) Proxy.findAllItems();
-        //request.removeAttribute("items");
-        //items = (ArrayList<Item>) Proxy.findAllItems();
-        request.getSession().setAttribute("items", items);
-        //Item item = new Item(1,"Fullkorn", 25.5,2,Item.Category.SPORTS);
-        //items.add(item);
-        //request.setAttribute("items", items);
+
+        request.getSession().setAttribute("items", Proxy.findAllItems());
         request.getRequestDispatcher("browse.jsp").forward(request, response);
     }
 
