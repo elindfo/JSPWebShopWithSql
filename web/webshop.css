@@ -73,6 +73,8 @@ tr td {
     padding: 20px 20px 20px 20px;
 }
 
+
+
 .table {
     overflow: auto;
     width: 50%;
@@ -80,15 +82,21 @@ tr td {
     margin-left: 100px;
 }
 
+.table h6 {
+    padding: 20px 20px 20px 20px;
+    font-size: 30px;
+}
+
 .my-button{ /*button rounded edges*/
     background-color: #333333;
     color: #f1f1f1;
+    font-size: 39px;
     border-radius: 5px;
     min-width: 30px;
     text-align: center;
     padding: 10px 20px;
     display: inline-block;
-    font-size: 11px;
+
 }
 
 .my-button:hover{

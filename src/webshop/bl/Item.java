@@ -3,7 +3,7 @@ package webshop.bl;
 public class Item {
 
     public enum Category{
-        CLOTHING, SPORTS, MUSIC, INSTRUMENTS, VEHICLES, FOOD
+        CLOTHING, SPORTS, MUSIC, INSTRUMENTS, VEHICLES, FOOD, EVERYTHING
     }
 
     private int id;
@@ -40,6 +40,30 @@ public class Item {
         return qty;
     }
 
+    public static Category convertStringToCategory(String category){
+        category = category.toUpperCase();
+        switch (category){
+            case "CLOTHING": {
+                return Category.CLOTHING;
+            }
+            case "SPORTS": {
+                return Category.SPORTS;
+            }
+            case "MUSIC": {
+                return Category.MUSIC;
+            }
+            case "INSTRUMENTS": {
+                return Category.INSTRUMENTS;
+            }
+            case "VEHICLES": {
+                return Category.VEHICLES;
+            }
+            case "FOOD": {
+                return Category.FOOD;
+            }
+            default: return Category.EVERYTHING;
+        }
+    }
 
     @Override
     public String toString(){

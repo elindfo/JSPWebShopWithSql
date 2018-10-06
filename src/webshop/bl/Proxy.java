@@ -18,6 +18,13 @@ public class Proxy {
     public static boolean tryLogin(String username, String password){
         return mainLogic.tryLogin(username, password);
     }
+    public static List<String> getCategories(){
+        List<String> categories = new ArrayList<>();
+        for(Item.Category c : Item.Category.values()){
+            categories.add(c.toString());
+        }
+        return categories;
+    }
 
     public static boolean addUser(String username, String password, int level){
         return DBUserManager.addUser(username, password, level);
@@ -27,8 +34,9 @@ public class Proxy {
         return DBItemManager.addItem(item.getName(), item.getPrice(), item.getQty(), item.getCategory());
     }
 
-    public static List<Item> findByCategory(Item.Category category){
-        return getDeepCopy(DBItemManager.findByCategory(category));
+    public static List<HashMap<String, String>> findByCategory(Item.Category category){
+        ItemInfo items = new ItemInfo();
+        return items.convertListToItemInfoList(DBItemManager.findByCategory(category));
     }
 
     public static Item findById(int iid){
@@ -49,6 +57,12 @@ public class Proxy {
             copy.add(newItem);
         }
         return copy;
+    }
+
+    public static void main(String[] args) {
+        for(String s : Proxy.getCategories()){
+            System.out.println(s);
+        }
     }
 
 }
