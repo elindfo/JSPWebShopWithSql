@@ -16,14 +16,14 @@
 
     <%
         if(session.getAttribute("loggedIn") == Boolean.TRUE){
-            response.sendRedirect("ServletHandler?action=browse");
+            response.sendRedirect("ControllerServlet?action=browse");
         }
         else if(request.getParameter("username") != null || request.getParameter("password") != null){
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             session.setAttribute("username", username);
             session.setAttribute("password", password);
-            response.sendRedirect("ServletHandler?action=login");
+            response.sendRedirect("ControllerServlet?action=login");
         }
         else{
     %>

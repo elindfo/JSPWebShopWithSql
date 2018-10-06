@@ -17,9 +17,9 @@
 
 <body>
     <div class="topnav">
-        <a href="ServletHandler?action=browse">Browse</a>
-        <a href="ServletHandler?action=viewCart">ShoppingCart</a>
-        <a href="ServletHandler?action=logout">Logout</a>
+        <a href="ControllerServlet?action=browse">Browse</a>
+        <a href="ControllerServlet?action=viewCart">ShoppingCart</a>
+        <a href="ControllerServlet?action=logout">Logout</a>
         <puser><%=request.getSession().getAttribute("username")%></puser>
         <puser>User: </puser>
     </div>
@@ -55,7 +55,7 @@
                     <td><%=items.get(i).get("name")%></td>
                     <td><%=items.get(i).get("price")%></td>
                     <td><%=items.get(i).get("quantity")%></td>
-                    <td><a class="my-button" href="servlethandler?action=addToCart">buy</a></td>
+                    <td><a class="my-button" href="ControllerServlet?action=addToCart">buy</a></td>
                 </tr>
                 <%
                     }

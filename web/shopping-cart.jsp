@@ -7,9 +7,9 @@
 %>
 <body>
     <div class="topnav">
-        <a href="ServletHandler?action=browse">Browse</a>
-        <a href="ServletHandler?action=viewCart">ShoppingCart</a>
-        <a href="ServletHandler?action=logout">Logout</a>
+        <a href="ControllerServlet?action=browse">Browse</a>
+        <a href="ControllerServlet?action=viewCart">ShoppingCart</a>
+        <a href="ControllerServlet?action=logout">Logout</a>
         <puser>
             <%
                 out.println(session.getAttribute("username"));

@@ -11,12 +11,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@WebServlet("/ServletHandler")
-public class ServletHandler extends HttpServlet {
+@WebServlet("/ControllerServlet")
+public class ControllerServlet extends HttpServlet {
 
     private ArrayList<HashMap<String, String>> items;
 
-    public ServletHandler() {
+    public ControllerServlet() {
         super();
     }
 
