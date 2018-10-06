@@ -32,21 +32,11 @@
         <div class="table">
             <table>
                 <tr>
-                    <th>
-                        <h6>Id</h6>
-                    </th>
-                    <th>
-                        <h6>Name</h6>
-                    </th>
-                    <th>
-                        <h6>Price</h6>
-                    </th>
-                    <th>
-                        <h6>Quantity</h6>
-                    </th>
-                    <th>
-                        <h6>Category</h6>
-                    </th>
+                    <th><h6>Id</h6></th>
+                    <th><h6>Name</h6></th>
+                    <th><h6>Price</h6></th>
+                    <th><h6>Quantity</h6></th>
+                    <th><h6>Category</h6></th>
                 </tr>
 
                 <%
@@ -55,29 +45,15 @@
                 %>
 
                 <tr>
-                    <td>
-                        <%----%>
-                        <%=items.get(i).get("itemId")%>
-                    </td>
-                    <td>
-                        <%--load name from ItemInfo--%>
-                        <%--<%=itemlist.get(i).getName()%>--%>
-                        <%=items.get(i).get("name")%>
-                    </td>
-                    <td>
-                                    <%--load price from ItemInfo--%>
-                        <%=items.get(i).get("price")%>
-                    </td>
-                    <td>
-                                    <%--load price from ItemInfo--%>
-                        <%=items.get(i).get("quantity")%>
-                    </td>
-                    <td>
-                        <a class="my-button" href="servlethandler?action=addToCart">buy</a>
-                    </td>
+                    <td><%=items.get(i).get("itemId")%></td>
+                    <td><%=items.get(i).get("name")%></td>
+                    <td><%=items.get(i).get("price")%></td>
+                    <td><%=items.get(i).get("quantity")%></td>
+                    <td><a class="my-button" href="servlethandler?action=addToCart">buy</a></td>
                 </tr>
-                    <%}
-                    %>
+                <%
+                    }
+                %>
             </table>
         </div>
     </div>

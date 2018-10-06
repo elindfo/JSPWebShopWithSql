@@ -1,11 +1,10 @@
 package webshop.view;
 
-import webshop.bl.Item;
-import webshop.bl.Item.Category;
 import webshop.bl.Proxy;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@WebServlet("/ServletHandler")
 public class ServletHandler extends HttpServlet {
 
     private ArrayList<HashMap<String, String>> items;
@@ -23,9 +23,9 @@ public class ServletHandler extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
-        if(action == null || action.isEmpty()){
-            action = (String) request.getAttribute("action");
+        String action = (String)request.getAttribute("action");
+        if(action == null){
+            action = request.getParameter("action");
         }
         items = new ArrayList<>();
         switch (action) {
@@ -49,6 +49,10 @@ public class ServletHandler extends HttpServlet {
                 this.emptyCart(request, response);
                 break;
             }
+            case "login": {
+                this.login(request, response);
+                break;
+            }
             case "logout": {
                 this.logout(request, response);
                 break;
@@ -59,9 +63,22 @@ public class ServletHandler extends HttpServlet {
 
     }
 
+    private void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if(Proxy.tryLogin((String)request.getSession().getAttribute("username"), (String)request.getSession().getAttribute("password"))){
+            request.getSession().setAttribute("loggedIn", Boolean.TRUE);
+        }
+        else{
+            request.getSession().setAttribute("loggedIn", Boolean.FALSE);
+        }
+        request.getSession().setAttribute("password", null);
+        response.sendRedirect("login.jsp");
+    }
+
     private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
-        requestDispatcher.forward(request, response);
+        request.getSession().setAttribute("loggedIn", Boolean.FALSE);
+        request.getSession().setAttribute("username", null);
+        request.getSession().setAttribute("password", null);
+        response.sendRedirect("login.jsp");
     }
 
     /**
@@ -108,9 +125,8 @@ public class ServletHandler extends HttpServlet {
      * @throws IOException
      */
     private void browse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         request.getSession().setAttribute("items", Proxy.findAllItems());
-        request.getRequestDispatcher("browse.jsp").forward(request, response);
+        response.sendRedirect("browse.jsp");
     }
 
     /**
@@ -141,11 +157,6 @@ public class ServletHandler extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        request.getSession().setAttribute("username", username);
-        request.getSession().setAttribute("password", password);
-        request.setAttribute("action", "login");
         doGet(request, response);
     }
 
