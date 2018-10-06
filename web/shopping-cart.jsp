@@ -44,7 +44,8 @@
                     <td><%=items.get(i).get("price")%></td>
                     <td><%=items.get(i).get("quantity")%></td>
                     <td><%=items.get(i).get("category")%></td>
-                    <td><a class="my-button" href="ControllerServlet?action=removeFromCart&iid=<%=items.get(i).get("itemId")%>">Remove</a></td>
+                    <td><a class="my-button" href="ControllerServlet?action=removeFromCart&iid=<%=items.get(i).get("itemId")%>">Remove One</a></td>
+                    <td><a href="ControllerServlet?action=removeAllFromCart&iid=<%=items.get(i).get("itemId")%>">x</a></td>
                 </tr>
                 <%
                     }

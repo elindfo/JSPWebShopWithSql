@@ -48,6 +48,10 @@ public class ControllerServlet extends HttpServlet {
                 this.removeFromCart(request, response);
                 break;
             }
+            case "removeAllFromCart": {
+                this.removeAllFromCart(request, response);
+                break;
+            }
             case "browse": {
                 this.browse(request, response);
                 break;
@@ -73,6 +77,8 @@ public class ControllerServlet extends HttpServlet {
         }
 
     }
+
+
 
 
     private void findByCategory(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -181,6 +187,25 @@ public class ControllerServlet extends HttpServlet {
         if(toBeRemoved){
             cart.remove(indexToBeRemoved);
         }
+        response.sendRedirect("shopping-cart.jsp");
+    }
+
+    private void removeAllFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<HashMap<String, String>> cart = ((ArrayList<HashMap<String, String>>)(request.getSession().getAttribute("cart")));
+
+        String itemId = request.getParameter("iid");
+
+        int indexToBeRemoved = -1;
+
+        for(HashMap<String, String> cartItem : cart){
+            if(cartItem.get("itemId").equals(itemId)){
+                indexToBeRemoved = cart.indexOf(cartItem);
+                break;
+            }
+        }
+
+        cart.remove(indexToBeRemoved);
+
         response.sendRedirect("shopping-cart.jsp");
     }
 
