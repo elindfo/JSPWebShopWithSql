@@ -44,6 +44,10 @@ public class ControllerServlet extends HttpServlet {
                 this.addToCart(request, response);
                 break;
             }
+            case "removeFromCart": {
+                this.removeFromCart(request, response);
+                break;
+            }
             case "browse": {
                 this.browse(request, response);
                 break;
@@ -69,6 +73,7 @@ public class ControllerServlet extends HttpServlet {
         }
 
     }
+
 
     private void findByCategory(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Item.Category category = Item.convertStringToCategory(request.getParameter("category"));
@@ -123,10 +128,8 @@ public class ControllerServlet extends HttpServlet {
         List<HashMap<String, String>> items = ((ArrayList<HashMap<String, String>>)(request.getSession().getAttribute("items")));
 
         String itemId = request.getParameter("iid");
-        PrintWriter out = response.getWriter();
 
         boolean hasItem = false;
-
 
         for(HashMap<String, String> cartItem : cart){
             if(cartItem.get("itemId").equals(itemId)){
@@ -152,6 +155,33 @@ public class ControllerServlet extends HttpServlet {
         }
 
         response.sendRedirect("browse.jsp");
+    }
+
+    private void removeFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<HashMap<String, String>> cart = ((ArrayList<HashMap<String, String>>)(request.getSession().getAttribute("cart")));
+
+        String itemId = request.getParameter("iid");
+
+        boolean toBeRemoved = false;
+        int indexToBeRemoved = -1;
+
+        for(HashMap<String, String> cartItem : cart){
+            if(cartItem.get("itemId").equals(itemId)){
+                int qty = Integer.parseInt(cartItem.get("quantity"));
+                if(qty <= 1){
+                    indexToBeRemoved = cart.indexOf(cartItem);
+                    toBeRemoved = true;
+                    break;
+                }
+                cartItem.replace("quantity", String.valueOf(qty - 1));
+                break;
+            }
+        }
+
+        if(toBeRemoved){
+            cart.remove(indexToBeRemoved);
+        }
+        response.sendRedirect("shopping-cart.jsp");
     }
 
     /**
