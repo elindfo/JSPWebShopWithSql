@@ -34,7 +34,7 @@ CREATE TABLE item_prc(
 
 CREATE TABLE item_qty(
   iid INT NOT NULL PRIMARY KEY,
-  qty INT NOT NULL,
+  qty INT UNSIGNED NOT NULL,
   FOREIGN KEY(iid) REFERENCES item(iid)
 );
 
