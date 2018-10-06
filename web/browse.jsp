@@ -3,6 +3,12 @@
 <%@ page import="webshop.bl.Proxy" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<%
+    if(request.getSession().getAttribute("username") == null){
+        response.sendRedirect("login.jsp");
+    }
+%>
+
 <link href="webshop.css" rel="stylesheet" type="text/css">
 <html>
 <head>
@@ -11,9 +17,9 @@
 
 <body>
     <div class="topnav">
-        <a href="servlethandler?action=browse">Home</a>
-        <a href="servlethandler?action=viewCart">Cart</a>
-        <a href="servlethandler?action=logout">Logout</a>
+        <a href="ServletHandler?action=browse">Browse</a>
+        <a href="ServletHandler?action=viewCart">ShoppingCart</a>
+        <a href="ServletHandler?action=logout">Logout</a>
         <puser><%=request.getSession().getAttribute("username")%></puser>
         <puser>User: </puser>
     </div>

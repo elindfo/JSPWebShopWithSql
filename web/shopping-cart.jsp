@@ -1,16 +1,20 @@
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="webshop.view.ItemInfo" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link href="${pageContext.request.contextPath}/webshop.css" rel="stylesheet" type="text/css">
-
-</head>
+<%
+    if(request.getSession().getAttribute("username") == null){
+        response.sendRedirect("login.jsp");
+    }
+%>
 <body>
-
     <div class="topnav">
-        <a href="servlethandler?action=browse">Home</a>
-        <a href="servlethandler?action=viewCart">Cart</a>
-        <a href="servlethandler?action=logout">Logout</a>
-        <puser><%out.println(session.getAttribute("username"));%></puser>
+        <a href="ServletHandler?action=browse">Browse</a>
+        <a href="ServletHandler?action=viewCart">ShoppingCart</a>
+        <a href="ServletHandler?action=logout">Logout</a>
+        <puser>
+            <%
+                out.println(session.getAttribute("username"));
+            %>
+        </puser>
         <puser>User: </puser>
     </div>
 

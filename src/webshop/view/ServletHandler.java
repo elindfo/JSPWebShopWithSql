@@ -2,7 +2,6 @@ package webshop.view;
 
 import webshop.bl.Proxy;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -78,7 +77,8 @@ public class ServletHandler extends HttpServlet {
         request.getSession().setAttribute("loggedIn", Boolean.FALSE);
         request.getSession().setAttribute("username", null);
         request.getSession().setAttribute("password", null);
-        response.sendRedirect("login.jsp");
+        request.getSession().invalidate();
+        response.sendRedirect("index.jsp");
     }
 
     /**

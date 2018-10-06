@@ -11,15 +11,13 @@
 <body>
 
     <div class="topnav">
-        <a href="ServletHandler?action=logout">back</a>
+        <a href="index.jsp">Home</a>
     </div>
-
 
     <%
         if(session.getAttribute("loggedIn") == Boolean.TRUE){
             session.setAttribute("action", "browse");
             response.sendRedirect("ServletHandler?action=browse");
-            response.getWriter().println("loggedIn");
         }
         else if(request.getParameter("username") != null || request.getParameter("password") != null){
             String username = request.getParameter("username");
@@ -31,7 +29,6 @@
         else{
     %>
 
-
     <div class="content">
         <form action="login.jsp" method="post">
             Username:<br>
@@ -39,9 +36,6 @@
             Password:<br>
             <input type="password" name="password" style="background-color: whitesmoke"><br><br>
             <input type="submit" name="login" value="LogIn" style="background-color: whitesmoke">
-            <%if(request.getAttribute("failedLoginMessage") != null){%>
-                <%out.print(request.getAttribute("failedLoginMessage"));%>
-            <%}%>
         </form>
     </div>
 
