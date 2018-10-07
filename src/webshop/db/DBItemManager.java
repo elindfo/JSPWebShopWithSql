@@ -114,18 +114,28 @@ public class DBItemManager {
         try{
             DBManager.getConnection().setAutoCommit(false); //Init transaction
 
+            String updateItemQtyQuery = "UPDATE item_qty SET item_qty.qty = item_qty.qty - ? WHERE item_qty.iid = ?;";
+            PreparedStatement updateItemQty = DBManager.getConnection().prepareStatement(updateItemQtyQuery);
             for(Item item : items){
-                String updateItemQtyQuery = "UPDATE item_qty SET item_qty.qty = item_qty.qty - ? WHERE item_qty.iid = ?;";
-
-                PreparedStatement updateItemQty = DBManager.getConnection().prepareStatement(updateItemQtyQuery);
-
                 updateItemQty.setInt(1, item.getQty());
                 updateItemQty.setInt(2, item.getId());
-
                 updateItemQty.execute();
             }
 
             //TODO Add new order to order table in database here
+            String addOrderQuery = "INSERT INTO user_order(uid) VALUES(?);";
+            PreparedStatement addOrderStmnt = DBManager.getConnection().prepareStatement(addOrderQuery);
+            addOrderStmnt.setInt(1, uid);
+            addOrderStmnt.execute();
+
+            //TODO Add entries to order_item table
+            String addOrderItemQuery = "INSERT INTO order_item(oid, iid, iqty) VALUES(LAST_INSERT_ID(), ?, ?);";
+            PreparedStatement addOrderItemStmnt = DBManager.getConnection().prepareStatement(addOrderItemQuery);
+            for(Item item : items){
+                addOrderItemStmnt.setInt(1, item.getId());
+                addOrderItemStmnt.setInt(2, item.getQty());
+                addOrderItemStmnt.execute();
+            }
 
             DBManager.getConnection().commit();
             return true;
@@ -206,7 +216,6 @@ public class DBItemManager {
             }
         }
     }
-
 
     public static List<Item> findByCategory(Item.Category category){
         try{
@@ -377,8 +386,8 @@ public class DBItemManager {
     }
 
     public static void main(String[] args) {
-        //DBItemManager.fill();
-        testOrder();
+        DBItemManager.fill();
+        //testOrder();
     }
 
     private static void testOrder(){
