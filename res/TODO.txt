@@ -1,6 +1,12 @@
+Implementera admin-meny:
+    -Lista med users och ulevel
+    -Möjlighet att lägga till och ta bort användare
 
+Implementera employed-meny:
+    -Lista med ordrar
+    -Ordrar ska kunna packas och försändas
+    -Behövs eventuellt ett table i databasen för skickade ordrar
 
-Webshop
+Undersöka eventuell synchronized
 
-1. Sign up
-2.
+Undersöka så att inga referenser skickas från BL till View
