@@ -2,7 +2,8 @@ package webshop.bl;
 
 import webshop.db.DBItemManager;
 import webshop.db.DBUserManager;
-import webshop.view.ItemInfo;
+import webshop.view.ItemInfoConverter;
+import webshop.view.UserAccountInfoConverter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,8 +36,7 @@ public class Proxy {
     }
 
     public static List<HashMap<String, String>> findByCategory(Item.Category category){
-        ItemInfo items = new ItemInfo();
-        return items.convertListToItemInfoList(DBItemManager.findByCategory(category));
+        return ItemInfoConverter.convertListToItemInfoList(DBItemManager.findByCategory(category));
     }
 
     public static Item findById(int iid){
@@ -45,8 +45,7 @@ public class Proxy {
     }
 
     public static List<HashMap<String, String>> findAllItems(){
-        ItemInfo items = new ItemInfo();
-        return items.convertListToItemInfoList(DBItemManager.findAllItems());
+        return ItemInfoConverter.convertListToItemInfoList(DBItemManager.findAllItems());
     }
 
     private static List<Item> getDeepCopy(List<Item> items){
@@ -60,7 +59,7 @@ public class Proxy {
     }
 
     public static boolean placeOrder(ArrayList<HashMap<String, String>> shoppingCart, int uid){
-        List<Item> order = new ArrayList<>(ItemInfo.convertHashToItem(shoppingCart));
+        List<Item> order = new ArrayList<>(ItemInfoConverter.convertHashMapListToItemList(shoppingCart));
         return DBItemManager.placeOrder(order, uid);
     }
 
@@ -74,4 +73,11 @@ public class Proxy {
         }
     }
 
+    public static int getUserLevel(int uid) {
+        return DBUserManager.getUserLevel(uid);
+    }
+
+    public static List<HashMap<String, String>> findAllUsers() {
+        return UserAccountInfoConverter.convertListToUserAccountInfoList(DBUserManager.getAllUsers());
+    }
 }

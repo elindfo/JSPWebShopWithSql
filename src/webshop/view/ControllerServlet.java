@@ -74,8 +74,12 @@ public class ControllerServlet extends HttpServlet {
                 this.logout(request, response);
                 break;
             }
-            case "administrate": {
+            case "administration": {
                 this.administration(request, response);
+                break;
+            }
+            case "handleOrders": {
+                this.handleOrders(request, response);
                 break;
             }
             case "createAccount": {
@@ -88,9 +92,14 @@ public class ControllerServlet extends HttpServlet {
 
     }
 
-    private void administration(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void handleOrders(HttpServletRequest request, HttpServletResponse response) {
 
-        response.sendRedirect("administator.jsp");
+    }
+
+    private void administration(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<HashMap<String, String>> userAccounts = Proxy.findAllUsers();
+        request.getSession().setAttribute("useraccounts", userAccounts);
+        response.sendRedirect("administration.jsp");
     }
 
     private void createAccount(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -116,7 +125,9 @@ public class ControllerServlet extends HttpServlet {
     private void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if(Proxy.tryLogin((String)request.getSession().getAttribute("username"), (String)request.getSession().getAttribute("password"))){
             String uid = String.valueOf(Proxy.getUserId((String) request.getSession().getAttribute("username")));
+            String ulevel = String.valueOf(Proxy.getUserLevel(Integer.parseInt(uid)));
             request.getSession().setAttribute("uid", uid);
+            request.getSession().setAttribute("ulevel", ulevel);
             request.getSession().setAttribute("cart", new ArrayList<HashMap<String, String>>());
             request.getSession().setAttribute("loggedIn", Boolean.TRUE);
         }
@@ -273,9 +284,8 @@ public class ControllerServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void viewCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("items", items);
-        request.getRequestDispatcher("shopping-cart.jsp").forward(request, response);
+    private void viewCart(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect("shopping-cart.jsp");
     }
 
     /**

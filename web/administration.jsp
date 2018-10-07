@@ -4,7 +4,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    if(request.getSession().getAttribute("username") == null){
+    if (request.getSession().getAttribute("username") == null) {
         response.sendRedirect("login.jsp");
     }
 %>
@@ -20,45 +20,53 @@
     <a href="ControllerServlet?action=browse">Browse</a>
     <a href="ControllerServlet?action=viewCart">ShoppingCart</a>
     <a href="ControllerServlet?action=logout">Logout</a>
-    <puser><%=request.getSession().getAttribute("username")%></puser>
-    <puser>User: </puser>
-    <puser><%=session.getAttribute("")%> </puser>
+    <%
+        int level = Integer.parseInt((String) session.getAttribute("ulevel"));
+        if(level == 2){
+    %>
+    <a href="ControllerServlet?action=administration">Handle Orders</a>
+    <%
+        }
+        if(level == 3){
+    %>
+    <a href="ControllerServlet?action=administration">Administration</a>
+    <%
+        }
+    %>
+    <puser><%=request.getSession().getAttribute("username")%>
+    </puser>
+    <puser>User:</puser>
 </div>
 
 <div class="content">
-    <form action="ControllerServlet?action=findByCategory" method="POST" style="padding-left: 100px">
-        <select name="category">
-            <%List<String> categories = Proxy.getCategories();%>
-            <%for(String s : categories){%>
-            <option name="category" value=<%=s%>><%out.print(s);%></option>
-            <%}%>
-        </select>
-        <button class="my-button" value="Search" type="submit">GO</button>
-    </form>
 
     <div class="table">
         <table>
             <tr>
                 <th><h6>Id</h6></th>
                 <th><h6>Name</h6></th>
-                <th><h6>Price</h6></th>
-                <th><h6>Quantity</h6></th>
-                <th><h6>Category</h6></th>
+                <th><h6>Level</h6></th>
             </tr>
 
             <%
-                List<HashMap<String, String>> items = (List<HashMap<String, String>>)request.getSession().getAttribute("items");
-                for(int i = 0; i < items.size(); i++) {
+                List<HashMap<String, String>> userAccounts = (List<HashMap<String, String>>) request.getSession().getAttribute("useraccounts");
+                for (int i = 0; i < userAccounts.size(); i++) {
             %>
-
-            <tr>
-                <td><%=items.get(i).get("itemId")%></td>
-                <td><%=items.get(i).get("name")%></td>
-                <td><%=items.get(i).get("price")%></td>
-                <td><%=items.get(i).get("quantity")%></td>
-                <td><%=items.get(i).get("category")%></td>
-                <td><a class="my-button" name="BUY" href="ControllerServlet?action=addToCart&iid=<%=items.get(i).get("itemId")%>">buy</a></td>
-            </tr>
+                    <tr>
+                        <td><%=userAccounts.get(i).get("uid")%></td>
+                        <td><%=userAccounts.get(i).get("uname")%></td>
+                        <td><%
+                            int l = Integer.parseInt(userAccounts.get(i).get("ulevel"));
+                            switch(l){
+                                case 1: out.print("CUSTOMER"); break;
+                                case 2: out.print("EMPLOYEE"); break;
+                                case 3: out.print("ADMIN"); break;
+                                default: out.print("ERROR"); break;
+                            }
+                        %></td>
+                        <td><a class="my-button" name="Remove"
+                               href="ControllerServlet?action=removeUser&uid=<%=userAccounts.get(i).get("uid")%>">Remove</a></td>
+                     </tr>
             <%
                 }
             %>

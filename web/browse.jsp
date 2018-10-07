@@ -21,11 +21,18 @@
     <a href="ControllerServlet?action=viewCart">ShoppingCart</a>
     <a href="ControllerServlet?action=logout">Logout</a>
     <%
-        //int level = Integer.parseInt((String) session.getAttribute("uid"));
-
-        //if (level >= 1) {%>
+        int level = Integer.parseInt((String) session.getAttribute("ulevel"));
+        if(level == 2){
+    %>
+            <a href="ControllerServlet?action=handleOrders">Handle Orders</a>
+    <%
+        }
+        if(level == 3){
+    %>
     <a href="ControllerServlet?action=administration">Administration</a>
-    <%//}%>
+    <%
+        }
+    %>
     <puser><%=request.getSession().getAttribute("username")%>
     </puser>
     <puser>User:</puser>

@@ -1,11 +1,15 @@
 package webshop.db;
 
+import webshop.bl.UserAccount;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 //https://stackoverflow.com/questions/10006165/converting-string-to-character-array-in-java/10006225
 
@@ -63,7 +67,7 @@ public class DBUserManager {
     }
 
     public static boolean addUser(String username, String password, int level){
-        if(level < 1 || level > 2){
+        if(level < 1 || level > 3){
             return false;
         }
         try{
@@ -194,6 +198,42 @@ public class DBUserManager {
         }
     }
 
+    public static List<UserAccount> getAllUsers(){
+        try{
+            DBManager.getConnection().setAutoCommit(false); //Initiate transaction
+
+            String getAllUsersQuery = "SELECT user.uid, user.uname, user_level.level FROM user JOIN user_level ON user.uid = user_level.uid;";
+
+            PreparedStatement psmt = DBManager.getConnection().prepareStatement(getAllUsersQuery);
+
+            ResultSet result = psmt.executeQuery();
+            List<UserAccount> users = new ArrayList<>();
+            while(result.next()){
+                users.add(new UserAccount(result.getInt("uid"), result.getString("uname"), result.getInt("level")));
+            }
+
+            DBManager.getConnection().commit();
+            return users;
+        } catch (SQLException e) {
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            return new ArrayList<>();
+        } finally{
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     private static String hashWithSHA256(String s) throws NoSuchAlgorithmException{
         //TODO Check wether this is enough or if salt is to be used
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-256"); //https://www.mkyong.com/java/java-sha-hashing-example/
@@ -206,16 +246,13 @@ public class DBUserManager {
     }
 
     public static void main(String[] args) {
-        DBUserManager.fill();
+        //DBUserManager.fill();
+        System.out.println(getAllUsers());
     }
 
     private static void fill(){
-        DBUserManager.addUser("Joacim", "usling", 2);
-        DBUserManager.addUser("Erik", "glassfish_is_shait", 2);
-        DBUserManager.addUser("test", "test", 1);
-        String user = "a";
-        System.out.printf("User: %s has user level of: %d\n", user, DBUserManager.getUserLevel(DBUserManager.getUserId(user)));
+        DBUserManager.addUser("Customer", "customer", 1);
+        DBUserManager.addUser("Employee", "employee", 2);
+        DBUserManager.addUser("Admin", "admin", 3);
     }
-
-
 }

@@ -6,16 +6,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ItemInfo {
-    private HashMap<String, String> hashMap;
-    private List<HashMap<String, String>> items = null;
+public class ItemInfoConverter {
+    private ItemInfoConverter() {
 
-    public ItemInfo() {
-        this.hashMap = new HashMap<>();
-        this.items = new ArrayList<>();
     }
 
-    public List<HashMap<String, String>> convertListToItemInfoList(List<Item> list){
+    public static List<HashMap<String, String>> convertListToItemInfoList(List<Item> list){
+        HashMap<String, String> hashMap;
+        List<HashMap<String, String>> items = new ArrayList<>();
         for(int i = 0 ; i < list.size(); i++){
             hashMap = new HashMap<>();
             hashMap.put("itemId", String.valueOf(list.get(i).getId()));
@@ -28,7 +26,7 @@ public class ItemInfo {
         return items;
     }
 
-    public static List<Item> convertHashToItem(List<HashMap<String, String>> list){
+    public static List<Item> convertHashMapListToItemList(List<HashMap<String, String>> list){
         ArrayList<Item> order = new ArrayList<>();
         for(HashMap<String, String> item : list){
             Item newItem = new Item(
@@ -40,9 +38,5 @@ public class ItemInfo {
             order.add(newItem);
         }
         return order;
-    }
-
-    public List<HashMap<String, String>> getItems() {
-        return items;
     }
 }
