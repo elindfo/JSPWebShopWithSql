@@ -140,7 +140,6 @@ public class DBItemManager {
             DBManager.getConnection().commit();
             return true;
         }catch(SQLException e){
-            e.printStackTrace();
             if(DBManager.getConnection() != null){
                 try {
                     DBManager.getConnection().rollback();

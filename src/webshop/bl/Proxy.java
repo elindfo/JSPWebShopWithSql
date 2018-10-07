@@ -60,23 +60,14 @@ public class Proxy {
     }
 
     public static boolean placeOrder(ArrayList<HashMap<String, String>> shoppingCart, int uid){
-        ItemInfo itemInfo = null;
-        List<Item> order = new ArrayList<>(itemInfo.convertHashToItem(shoppingCart));
-        boolean orderInStock = true;
-        for(Item item : order){
-            int qty = Proxy.findById(item.getId()).getQty();
-            if(qty <= 0){
-                orderInStock = false;
-            }
-        }
-        if(orderInStock){
-            //TODO Add order to database connected to userId and OrderId
-            return DBItemManager.placeOrder(order, uid);
-        }
-        return false;
+        List<Item> order = new ArrayList<>(ItemInfo.convertHashToItem(shoppingCart));
+        return DBItemManager.placeOrder(order, uid);
     }
 
+    public static int getUserId(String username){
         return DBUserManager.getUserId(username);
+    }
+
     public static void main(String[] args) {
         for(String s : Proxy.getCategories()){
             System.out.println(s);

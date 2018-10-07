@@ -210,9 +210,9 @@ public class DBUserManager {
     }
 
     private static void fill(){
-        //DBUserManager.addUser("Joacim", "usling", 2);
-        //DBUserManager.addUser("Erik", "glassfish_is_shait", 2);
-        //DBUserManager.addUser("test", "test", 1);
+        DBUserManager.addUser("Joacim", "usling", 2);
+        DBUserManager.addUser("Erik", "glassfish_is_shait", 2);
+        DBUserManager.addUser("test", "test", 1);
         String user = "a";
         System.out.printf("User: %s has user level of: %d\n", user, DBUserManager.getUserLevel(DBUserManager.getUserId(user)));
     }
