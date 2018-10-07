@@ -38,19 +38,21 @@
     <puser>User:</puser>
 </div>
 
-<div class="content">
+<div class="content" align="center">
 
     <div class="table">
-        <table>
+        <table id="table">
             <tr>
-                <th><h6>Id</h6></th>
-                <th><h6>Name</h6></th>
-                <th><h6>Level</h6></th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Level</th>
+                <th></th>
             </tr>
 
             <%
                 List<HashMap<String, String>> userAccounts = (List<HashMap<String, String>>) request.getSession().getAttribute("useraccounts");
                 for (int i = 0; i < userAccounts.size(); i++) {
+
             %>
                     <tr>
                         <td><%=userAccounts.get(i).get("uid")%></td>
@@ -64,8 +66,10 @@
                                 default: out.print("ERROR"); break;
                             }
                         %></td>
-                        <td><a class="my-button" name="Remove"
-                               href="ControllerServlet?action=removeUser&uid=<%=userAccounts.get(i).get("uid")%>">Remove</a></td>
+                        <%if(!userAccounts.get(i).get("uid").equals(String.valueOf(Proxy.getUserId((String) session.getAttribute("username"))))){%>
+                            <td><a class="my-button" name="Remove"
+                                   href="ControllerServlet?action=removeUser&uid=<%=userAccounts.get(i).get("uid")%>">Remove</a></td>
+                        <%}%>
                      </tr>
             <%
                 }

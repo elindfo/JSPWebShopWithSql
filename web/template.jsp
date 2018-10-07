@@ -17,7 +17,7 @@
         <a href="#">Cart</a>
     </div>
 
-    <div class="content">
+    <div class="content" align="center">
         <p>content</p>
     </div>
 

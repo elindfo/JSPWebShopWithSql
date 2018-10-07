@@ -17,16 +17,19 @@ body {
 
 .topnav a {
     float: left;
-    display: block;
+    display: inline-block;
     color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    width:100px; /* or whatever width you want. */
+    max-width: 100px; /* or whatever width you want. */
 }
 
 .topnav a:hover {
     background-color: #ee3355;
     color: black;
+    box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
 }
 
 .topnav puser{
@@ -64,26 +67,38 @@ body {
     height: 10%;
 }
 
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-tr td {
-    padding: 20px 20px 20px 20px;
-}
-
-
-
-.table {
+#table {
     overflow: auto;
     width: 50%;
     border: 0px solid #333333;
-    margin-left: 100px;
 }
 
-.table h6 {
+#table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #333333;
+    color: white;
+    position: -webkit-sticky;
+}
+
+#table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#table tr td {
+    padding: 20px 20px 20px 20px;
+    border-bottom: 1px solid black;
+    min-width:50px
+}
+#table tr:hover {
+    background-color: azure;
+}
+
+#table h6 {
     padding: 20px 20px 20px 20px;
     font-size: 16px;
+    white-space: nowrap;
 }
 
 .my-button{ /*button rounded edges*/
@@ -99,8 +114,8 @@ tr td {
 }
 
 .my-button:hover{
-    background-color: black;
-    color: #ee3355;
+    background-color: #ee3355;
+    color: black;
     text-decoration-line: none;
     box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
 }
@@ -149,7 +164,7 @@ form.search button{
 .content input[type=submit] {
     padding:5px 15px;
     background:#ccc;
-    border:1 none;
+    border: none;
     cursor:pointer;
     -webkit-border-radius: 5px;
     border-radius: 5px;
