@@ -2,7 +2,9 @@ CREATE DATABASE IF NOT EXISTS webshop;
 
 USE webshop;
 
+DROP TABLE IF EXISTS order_item;
 DROP TABLE IF EXISTS user_level;
+DROP TABLE IF EXISTS user_order;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS item_category;
 DROP TABLE IF EXISTS item_prc;
@@ -21,6 +23,18 @@ CREATE TABLE user_level(
   FOREIGN KEY(uid) REFERENCES user(uid)
 );
 
+CREATE TABLE user_order(
+  oid INT AUTO_INCREMENT PRIMARY KEY,
+  uid INT NOT NULL REFERENCES user(uid)
+);
+
+CREATE TABLE order_item(
+  oid INT NOT NULL REFERENCES user_order(oid),
+  iid INT NOT NULL REFERENCES item(iid),
+  iqty INT unsigned NOT NULL,
+  PRIMARY KEY(oid, iid)
+);
+
 CREATE TABLE item(
   iid INT AUTO_INCREMENT PRIMARY KEY,
   iname VARCHAR(64) UNIQUE NOT NULL
@@ -34,7 +48,7 @@ CREATE TABLE item_prc(
 
 CREATE TABLE item_qty(
   iid INT NOT NULL PRIMARY KEY,
-  qty INT NOT NULL,
+  qty INT UNSIGNED NOT NULL,
   FOREIGN KEY(iid) REFERENCES item(iid)
 );
 
@@ -43,3 +57,4 @@ CREATE TABLE item_category(
   category VARCHAR(32) NOT NULL,
   FOREIGN KEY(iid) REFERENCES item(iid)
 );
+
