@@ -74,6 +74,10 @@ public class ControllerServlet extends HttpServlet {
                 this.logout(request, response);
                 break;
             }
+            case "administrate": {
+                this.administration(request, response);
+                break;
+            }
             case "createAccount": {
                 this.createAccount(request, response);
                 break;
@@ -82,6 +86,11 @@ public class ControllerServlet extends HttpServlet {
                 this.browse(request, response);
         }
 
+    }
+
+    private void administration(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        response.sendRedirect("administator.jsp");
     }
 
     private void createAccount(HttpServletRequest request, HttpServletResponse response) throws IOException {

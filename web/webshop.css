@@ -89,22 +89,23 @@ tr td {
 .my-button{ /*button rounded edges*/
     background-color: #333333;
     color: #f1f1f1;
-    font-size: 16px;
-    border-radius: 5px;
+    font-size: 12px;
+    text-decoration-line: none;
+    border-radius: 3px;
     min-width: 30px;
     text-align: center;
-    padding: 10px 20px;
+    padding: 5px 12px;
     display: inline-block;
-
 }
 
 .my-button:hover{
     background-color: black;
     color: #ee3355;
+    text-decoration-line: none;
     box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
 }
 
-form.search input[type=text]{ /*Styled buttons black with pink text*/
+form.search input[type=text]{
     padding: 5px;
     font-size: 16px;
     float: left;
@@ -113,12 +114,43 @@ form.search input[type=text]{ /*Styled buttons black with pink text*/
     background-color: #f1f1f1;
 }
 
-form.search button{ /*Not yet tested*/
+form.search button{
     float: left;
     border: 1px #333333;
     border-left: none;
     cursor: pointer;
     width: 20%;
     padding: 5px;
+}
 
+/*http://jsfiddle.net/vfUvZ/*/
+.content input[type=text] {
+    padding:5px;
+    border:2px solid #ccc;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.content input[type=password] {
+    padding:5px;
+    border:2px solid #ccc;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.content input[type=text]:focus {
+    border-color:#333;
+}
+
+.content input[type=password]:focus {
+    border-color:#333;
+}
+
+.content input[type=submit] {
+    padding:5px 15px;
+    background:#ccc;
+    border:1 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
 }

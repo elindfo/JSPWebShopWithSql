@@ -31,6 +31,7 @@
                     <th><h6>Quantity</h6></th>
                     <th><h6>Category</h6></th>
                     <td><a class="my-button" href="ControllerServlet?action=emptyCart">Empty Cart</a></td>
+                    <td><a class="my-button" href="ControllerServlet?action=placeOrder">Place Order</a></td>
                 </tr>
 
                 <%
@@ -45,7 +46,7 @@
                     <td><%=items.get(i).get("quantity")%></td>
                     <td><%=items.get(i).get("category")%></td>
                     <td><a class="my-button" href="ControllerServlet?action=removeFromCart&iid=<%=items.get(i).get("itemId")%>">Remove One</a></td>
-                    <td><a href="ControllerServlet?action=removeAllFromCart&iid=<%=items.get(i).get("itemId")%>">x</a></td>
+                    <td style="background-color: #ddd; max-width: 10px; text-decoration-line: none; color: #ee3355"><a href="ControllerServlet?action=removeAllFromCart&iid=<%=items.get(i).get("itemId")%>">x</a></td>
                 </tr>
                 <%
                     }
