@@ -80,4 +80,8 @@ public class Proxy {
     public static List<HashMap<String, String>> findAllUsers() {
         return UserAccountInfoConverter.convertListToUserAccountInfoList(DBUserManager.getAllUsers());
     }
+
+    public static boolean removeAccount(int uid, String ulevel) {
+        return DBUserManager.removeUser(uid, ulevel);
+    }
 }

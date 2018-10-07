@@ -2,6 +2,7 @@ package webshop.view;
 
 import webshop.bl.Item;
 import webshop.bl.Proxy;
+import webshop.bl.UserAccount;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -86,10 +87,25 @@ public class ControllerServlet extends HttpServlet {
                 this.createAccount(request, response);
                 break;
             }
+            case "removeUser": {
+                this.removeUser(request, response);
+                break;
+            }
             default:
                 this.browse(request, response);
         }
 
+    }
+
+    private void removeUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int uid = Integer.parseInt(request.getParameter("uid"));
+        String ulevel = (String) request.getSession().getAttribute("ulevel");
+        if(Proxy.removeAccount(uid, ulevel)){
+            response.sendRedirect("administration.jsp");
+        } else {
+               response.getWriter().println("Unable to remove Account");
+               response.sendRedirect("browse.jsp");
+        }
     }
 
     private void handleOrders(HttpServletRequest request, HttpServletResponse response) {
