@@ -63,7 +63,7 @@ public class DBUserManager {
     }
 
     public static boolean addUser(String username, String password, int level){
-        if(level < 1 || level > 2){
+        if(level < 1 || level > 3){
             return false;
         }
         try{
@@ -210,12 +210,8 @@ public class DBUserManager {
     }
 
     private static void fill(){
-        DBUserManager.addUser("Joacim", "usling", 2);
-        DBUserManager.addUser("Erik", "glassfish_is_shait", 2);
-        DBUserManager.addUser("test", "test", 1);
-        String user = "a";
-        System.out.printf("User: %s has user level of: %d\n", user, DBUserManager.getUserLevel(DBUserManager.getUserId(user)));
+        DBUserManager.addUser("Customer", "customer", 1);
+        DBUserManager.addUser("Employed", "employed", 2);
+        DBUserManager.addUser("Admin", "admin", 3);
     }
-
-
 }

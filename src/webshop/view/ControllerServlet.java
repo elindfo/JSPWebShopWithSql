@@ -116,7 +116,9 @@ public class ControllerServlet extends HttpServlet {
     private void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if(Proxy.tryLogin((String)request.getSession().getAttribute("username"), (String)request.getSession().getAttribute("password"))){
             String uid = String.valueOf(Proxy.getUserId((String) request.getSession().getAttribute("username")));
+            String ulevel = String.valueOf(Proxy.getUserLevel(Integer.parseInt(uid)));
             request.getSession().setAttribute("uid", uid);
+            request.getSession().setAttribute("ulevel", ulevel);
             request.getSession().setAttribute("cart", new ArrayList<HashMap<String, String>>());
             request.getSession().setAttribute("loggedIn", Boolean.TRUE);
         }

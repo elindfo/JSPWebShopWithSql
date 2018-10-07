@@ -74,4 +74,7 @@ public class Proxy {
         }
     }
 
+    public static int getUserLevel(int uid) {
+        return DBUserManager.getUserLevel(uid);
+    }
 }
