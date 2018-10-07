@@ -71,10 +71,12 @@ public class Proxy {
         }
         if(orderInStock){
             //TODO Add order to database connected to userId and OrderId
-            return DBItemManager.update(order);
+            //return DBItemManager.update(order);
         }
         return false;
     }
+
+
 
     public static void main(String[] args) {
         for(String s : Proxy.getCategories()){
