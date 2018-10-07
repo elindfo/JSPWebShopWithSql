@@ -98,13 +98,11 @@ public class ControllerServlet extends HttpServlet {
     }
 
     private void removeUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int uid = Integer.parseInt(request.getParameter("uid"));
-        String ulevel = (String) request.getSession().getAttribute("ulevel");
-        if(Proxy.removeAccount(uid, ulevel)){
-            response.sendRedirect("administration.jsp");
+        if(Proxy.removeAccount(Integer.parseInt(request.getParameter("uid")), (String) request.getSession().getAttribute("ulevel"))){
+            administration(request, response);
         } else {
-               response.getWriter().println("Unable to remove Account");
-               response.sendRedirect("browse.jsp");
+            response.getWriter().println("Unable to remove Account");
+            response.sendRedirect("browse.jsp");
         }
     }
 
