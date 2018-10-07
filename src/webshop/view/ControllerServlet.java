@@ -115,6 +115,8 @@ public class ControllerServlet extends HttpServlet {
 
     private void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if(Proxy.tryLogin((String)request.getSession().getAttribute("username"), (String)request.getSession().getAttribute("password"))){
+            int uid = Proxy.getUserId((String) request.getSession().getAttribute("username"));
+            request.getSession().setAttribute("uid", uid);
             request.getSession().setAttribute("cart", new ArrayList<HashMap<String, String>>());
             request.getSession().setAttribute("loggedIn", Boolean.TRUE);
         }
@@ -189,7 +191,7 @@ public class ControllerServlet extends HttpServlet {
     }
 
     private void placeOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(Proxy.placeOrder((ArrayList<HashMap<String, String>>) request.getSession().getAttribute("cart"))){
+        if(Proxy.placeOrder((ArrayList<HashMap<String, String>>) request.getSession().getAttribute("cart"), Integer.parseInt((String) request.getSession().getAttribute("uid")))){
             emptyCart(request, response);
         }
         response.sendRedirect("shopping-cart.jsp");
