@@ -24,7 +24,7 @@
         int level = Integer.parseInt((String) session.getAttribute("ulevel"));
         if(level == 2){
     %>
-            <a href="ControllerServlet?action=administration">Handle Orders</a>
+            <a href="ControllerServlet?action=handleOrders">Handle Orders</a>
     <%
         }
         if(level == 3){
