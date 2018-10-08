@@ -46,6 +46,7 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Level</th>
+                <th>Action</th>
                 <th></th>
             </tr>
 
