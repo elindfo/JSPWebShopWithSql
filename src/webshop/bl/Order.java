@@ -8,6 +8,7 @@ public class Order {
 
     private List<Item> items;
     private int oid;
+    private boolean packed;
 
     public Order() {
         this.items = new ArrayList<>();
@@ -28,6 +29,10 @@ public class Order {
         this.oid = oid;
     }
 
+    public void setPacked(boolean packed){
+        this.packed = packed;
+    }
+
     @Override
     public String toString(){
         return String.format("Order[oid:%d, items:%s]", oid, items);
@@ -42,6 +47,7 @@ public class Order {
         for(int i = 0 ; i < order.items.size(); i++){
             hashMap = new HashMap<>();
             hashMap.put("oid", String.valueOf(order.oid));
+            hashMap.put("packed", String.valueOf(order.packed));
             hashMap.put("itemId", String.valueOf(order.items.get(i).getId()));
             hashMap.put("name", order.items.get(i).getName());
             hashMap.put("category", order.items.get(i).getCategory().toString());
