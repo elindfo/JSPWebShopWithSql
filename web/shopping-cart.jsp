@@ -18,9 +18,15 @@
         <a href="ControllerServlet?action=browse">Browse</a>
         <a href="ControllerServlet?action=viewCart">ShoppingCart</a>
         <a href="ControllerServlet?action=logout">Logout</a>
+        <%
+            if((request.getSession().getAttribute("cart")) != null && !((List<HashMap<String, String>>)request.getSession().getAttribute("cart")).isEmpty())
+            {
+        %>
         <a href="ControllerServlet?action=emptyCart">Empty Cart</a>
         <a href="ControllerServlet?action=placeOrder">Place Order</a>
-
+        <%
+            }
+        %>
         <%
             int level = Integer.parseInt((String) session.getAttribute("ulevel"));
             if (level == 2) {
