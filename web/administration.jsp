@@ -46,6 +46,7 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Level</th>
+                <th>Action</th>
                 <th></th>
             </tr>
 
@@ -60,13 +61,14 @@
                         <td><%
                             int l = Integer.parseInt(userAccounts.get(i).get("ulevel"));
                             switch(l){
+                                case 0: out.print("REMOVED"); break;
                                 case 1: out.print("CUSTOMER"); break;
                                 case 2: out.print("EMPLOYEE"); break;
                                 case 3: out.print("ADMIN"); break;
-                                default: out.print("ERROR"); break;
+                                default: out.print(l); break;
                             }
                         %></td>
-                        <%if(!userAccounts.get(i).get("uid").equals(String.valueOf(Proxy.getUserId((String) session.getAttribute("username"))))){%>
+                        <%if(!userAccounts.get(i).get("uid").equals(session.getAttribute("uid")) && !userAccounts.get(i).get("ulevel").equals("0")){%>
                             <td><a class="my-button" name="Remove"
                                    href="ControllerServlet?action=removeUser&uid=<%=userAccounts.get(i).get("uid")%>">Remove</a></td>
                         <%}%>

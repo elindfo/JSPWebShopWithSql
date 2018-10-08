@@ -35,7 +35,11 @@
             <input type="text" name="username" style="background-color: whitesmoke"><br>
             Password:<br>
             <input type="password" name="password" style="background-color: whitesmoke"><br><br>
-            <input type="submit" name="login" value="LogIn" style="background-color: whitesmoke">
+            <input type="submit" name="login" value="LogIn" style="background-color: whitesmoke"><br><br>
+            <%
+                if(request.getSession().getAttribute("loginStatus") != null)
+                    out.print(request.getSession().getAttribute("loginStatus"));
+            %>
         </form>
     </div>
 

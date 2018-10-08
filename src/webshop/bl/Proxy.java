@@ -81,7 +81,7 @@ public class Proxy {
         return UserAccountInfoConverter.convertListToUserAccountInfoList(DBUserManager.getAllUsers());
     }
 
-    public static boolean removeAccount(int uid, String ulevel) {
-        return DBUserManager.removeUser(uid, ulevel);
+    public static boolean setUserLevel(int uid, int ulevel) {
+        return DBUserManager.setUserLevel(uid, ulevel);
     }
 }
