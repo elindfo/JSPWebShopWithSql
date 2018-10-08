@@ -30,7 +30,7 @@
         }
         if (level == 3) {
     %>
-    <a href="ControllerServlet?action=administration" style="display: inline; float: right; background-color: black">Administration</a>
+    <a href="ControllerServlet?action=administration" style="display: inline; float: right; background-color: darkgray;" >Administration</a>
     <%
         }
     %>
