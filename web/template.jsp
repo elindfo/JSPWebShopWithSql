@@ -7,8 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link href="webshop.css" rel="stylesheet" type="text/css">
+<html>
 
-</head>
+<title>Webshop</title>
+
+<head></head>
 
 <body>
     <div class="topnav">
@@ -17,7 +20,7 @@
         <a href="#">Cart</a>
     </div>
 
-    <div class="content">
+    <div class="content" align="center">
         <p>content</p>
     </div>
 

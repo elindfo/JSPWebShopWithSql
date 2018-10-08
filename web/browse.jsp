@@ -20,44 +20,49 @@
     <a href="ControllerServlet?action=browse">Browse</a>
     <a href="ControllerServlet?action=viewCart">ShoppingCart</a>
     <a href="ControllerServlet?action=logout">Logout</a>
+
     <%
-        int level = Integer.parseInt((String) session.getAttribute("ulevel"));
-        if(level == 2){
+    int level = Integer.parseInt((String) session.getAttribute("ulevel"));
+    if (level == 2) {
     %>
-            <a href="ControllerServlet?action=handleOrders">Handle Orders</a>
-    <%
-        }
-        if(level == 3){
-    %>
-    <a href="ControllerServlet?action=administration">Administration</a>
+    <a href="ControllerServlet?action=handleOrders" style="display: inline; float: right">Handle Orders</a>
     <%
         }
+        if (level == 3) {
     %>
-    <puser><%=request.getSession().getAttribute("username")%>
-    </puser>
+    <a href="ControllerServlet?action=administration" style="display: inline; float: right; background-color: darkgray;" >Administration</a>
+    <%
+        }
+    %>
+    <puser><%=request.getSession().getAttribute("username")%></puser>
     <puser>User:</puser>
+
 </div>
 
-<div class="content">
-    <form action="ControllerServlet?action=findByCategory" method="POST" style="padding-left: 100px">
-        <select name="category">
-            <%List<String> categories = Proxy.getCategories();%>
-            <%for (String s : categories) {%>
-            <option name="category" value=<%=s%>><%out.print(s);%></option>
-            <%}%>
-        </select>
-        <button class="my-button" value="Search" type="submit">GO</button>
-    </form>
-
+<div class="content" align="center">
+    <div style="height: 50px; align-self: center">
+        <form action="ControllerServlet?action=findByCategory" method="POST">
+            <select name="category">
+                <%List<String> categories = Proxy.getCategories();%>
+                <%for (String s : categories) {%>
+                <option name="category" value=<%=s%>><%out.print(s);%></option>
+                <%}%>
+            </select>
+            <button class="my-button" value="Search" type="submit">GO</button>
+        </form>
+    </div>
     <div class="table">
-        <table>
+        <table id="table">
+            <thead>
             <tr>
-                <th><h6>Id</h6></th>
-                <th><h6>Name</h6></th>
-                <th><h6>Price</h6></th>
-                <th><h6>Quantity</h6></th>
-                <th><h6>Category</h6></th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>In stock</th>
+                <th>Category</th>
+                <th></th>
             </tr>
+            </thead>
 
             <%
                 List<HashMap<String, String>> items = (List<HashMap<String, String>>) request.getSession().getAttribute("items");
@@ -73,7 +78,7 @@
                 </td>
                 <td><%=items.get(i).get("quantity")%>
                 </td>
-                <td><%=items.get(i).get("category")%>
+                <td style="min-width:150px"><%=items.get(i).get("category")%>
                 </td>
                 <td><a class="my-button" name="BUY"
                        href="ControllerServlet?action=addToCart&iid=<%=items.get(i).get("itemId")%>">buy</a></td>
@@ -84,11 +89,6 @@
         </table>
     </div>
 </div>
-
-<div class="footer">
-    <p>Erik & Jocke</p>
-</div>
-
 </body>
 </html>
 

@@ -12,7 +12,7 @@
 
     <div class="topnav">
         <a href="index.jsp">Home</a>
-        <a href="createaccount.jsp">Create Account</a>
+        <a href="createaccount.jsp">Sign Up</a>
     </div>
 
     <%
@@ -29,7 +29,7 @@
         else{
     %>
 
-    <div class="content">
+    <div class="content" align="center" >
         <form action="login.jsp" method="post">
             Username:<br>
             <input type="text" name="username" style="background-color: whitesmoke"><br>
@@ -42,19 +42,5 @@
     <%
         }
     %>
-
-
-
-
-
-
-
-
-
-
-
-    <div class="footer">
-        <p>Erik & Jocke</p>
-    </div>
 </body>
 </html>

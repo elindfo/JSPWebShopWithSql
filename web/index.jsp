@@ -11,7 +11,7 @@
     <div class="topnav">
         <a href="login.jsp">Login</a>
     </div>
-    <div class="content">
+    <div class="content" align="center">
         <div class="color-animation-welcome-text">Welcome!</div>
     </div>
 

@@ -2,6 +2,7 @@ package webshop.view;
 
 import webshop.bl.Item;
 import webshop.bl.Proxy;
+import webshop.bl.UserAccount;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,10 +31,6 @@ public class ControllerServlet extends HttpServlet {
         }
         items = new ArrayList<>();
         switch (action) {
-            case "findByName": {
-                this.findByName(request, response);
-                break;
-            }
             case "findByCategory": {
                 this.findByCategory(request, response);
                 break;
@@ -86,10 +83,23 @@ public class ControllerServlet extends HttpServlet {
                 this.createAccount(request, response);
                 break;
             }
+            case "removeUser": {
+                this.removeUser(request, response);
+                break;
+            }
             default:
                 this.browse(request, response);
         }
 
+    }
+
+    private void removeUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if(Proxy.removeAccount(Integer.parseInt(request.getParameter("uid")), (String) request.getSession().getAttribute("ulevel"))){
+            administration(request, response);
+        } else {
+            response.getWriter().println("Unable to remove Account");
+            response.sendRedirect("browse.jsp");
+        }
     }
 
     private void handleOrders(HttpServletRequest request, HttpServletResponse response) {
@@ -140,24 +150,8 @@ public class ControllerServlet extends HttpServlet {
 
     private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getSession().setAttribute("loggedIn", Boolean.FALSE);
-        request.getSession().setAttribute("username", null);
-        request.getSession().setAttribute("password", null);
         request.getSession().invalidate();
         response.sendRedirect("index.jsp");
-    }
-
-    /**
-     * This method will initiate a search filtered by name, which is provided as a parameter "name"
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    private void findByName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //TODO Database interaction and formatin
-        request.setAttribute("items", items);
-        request.getRequestDispatcher("browse.jsp").forward(request, response);
     }
 
     /**

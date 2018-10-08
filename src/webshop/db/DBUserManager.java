@@ -116,6 +116,47 @@ public class DBUserManager {
         }
     }
 
+    public static boolean removeUser(int uid, String level){
+        try{
+            DBManager.getConnection().setAutoCommit(false); //Initiate transaction
+
+            String query = "DELETE FROM user_level WHERE uid = ?";
+            String levelQuery = "DELETE FROM user WHERE uid = ?";
+
+            PreparedStatement psmt = DBManager.getConnection().prepareStatement(query);
+            PreparedStatement levelPsmt = DBManager.getConnection().prepareStatement(levelQuery);
+
+
+            psmt.setInt(1, uid);
+            levelPsmt.setInt(1, uid);
+
+            psmt.execute();
+            levelPsmt.execute();
+
+            DBManager.getConnection().commit();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Exception: Unable to remove user from DB");
+            System.err.println("Error Code: " + e.getErrorCode());
+            if (DBManager.getConnection() != null) {
+                try {
+                    DBManager.getConnection().rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            return false;
+        } finally{
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public static int getUserId(String name) {
         try{
             DBManager.getConnection().setAutoCommit(false); //Initiate transaction
