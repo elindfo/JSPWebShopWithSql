@@ -1,6 +1,6 @@
 SELECT oid FROM user_order;
 
-SELECT order_item.iid, item.name, order_item.iqty, item_category.category, item_prc.prc
+SELECT order_item.oid, order_item.iid, item.iname, order_item.iqty, item_category.category, item_prc.prc
 FROM order_item
 JOIN item ON order_item.iid = item.iid
 JOIN item_category ON order_item.iid = item_category.iid

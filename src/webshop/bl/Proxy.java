@@ -2,8 +2,6 @@ package webshop.bl;
 
 import webshop.db.DBItemManager;
 import webshop.db.DBUserManager;
-import webshop.view.ItemInfoConverter;
-import webshop.view.UserAccountInfoConverter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +19,7 @@ public class Proxy {
     }
     public static List<String> getCategories(){
         List<String> categories = new ArrayList<>();
-        for(Item.Category c : Item.Category.values()){
+        for(webshop.bl.Item.Category c : webshop.bl.Item.Category.values()){
             categories.add(c.toString());
         }
         return categories;
@@ -31,35 +29,16 @@ public class Proxy {
         return DBUserManager.addUser(username, password, level);
     }
 
-    public static boolean addItem(Item item){
-        return DBItemManager.addItem(item.getName(), item.getPrice(), item.getQty(), item.getCategory());
-    }
-
-    public static List<HashMap<String, String>> findByCategory(Item.Category category){
-        return ItemInfoConverter.convertListToItemInfoList(DBItemManager.findByCategory(category));
-    }
-
-    public static Item findById(int iid){
-        Item item = DBItemManager.findById(iid);
-        return new Item(item.getId(), item.getName(), item.getPrice(), item.getQty(), item.getCategory());
+    public static List<HashMap<String, String>> findByCategory(webshop.bl.Item.Category category){
+        return Item.convertListToItemInfoList(DBItemManager.findByCategory(category));
     }
 
     public static List<HashMap<String, String>> findAllItems(){
-        return ItemInfoConverter.convertListToItemInfoList(DBItemManager.findAllItems());
-    }
-
-    private static List<Item> getDeepCopy(List<Item> items){
-        //TODO fråga reine om deepCopy är OK?
-        ArrayList<Item> copy = new ArrayList<>();
-        for(Item i : items){
-            Item newItem = new Item(i.getId(), i.getName(), i.getPrice(), i.getQty(), i.getCategory());
-            copy.add(newItem);
-        }
-        return copy;
+        return Item.convertListToItemInfoList(DBItemManager.findAllItems());
     }
 
     public static boolean placeOrder(ArrayList<HashMap<String, String>> shoppingCart, int uid){
-        List<Item> order = new ArrayList<>(ItemInfoConverter.convertHashMapListToItemList(shoppingCart));
+        List<webshop.bl.Item> order = new ArrayList<>(Item.convertHashMapListToItemList(shoppingCart));
         return DBItemManager.placeOrder(order, uid);
     }
 
@@ -78,10 +57,18 @@ public class Proxy {
     }
 
     public static List<HashMap<String, String>> findAllUsers() {
-        return UserAccountInfoConverter.convertListToUserAccountInfoList(DBUserManager.getAllUsers());
+        return UserAccount.convertListToUserAccountInfoList(DBUserManager.getAllUsers());
     }
 
     public static boolean removeAccount(int uid, String ulevel) {
         return DBUserManager.removeUser(uid, ulevel);
+    }
+
+    public static int[] getOrderIds() {
+        return DBItemManager.getAllOrderIds().stream().mapToInt(i->i).toArray();
+    }
+
+    public static List<HashMap<String, String>> getOrder(int oid) {
+        return Order.convertListToOrderInfoList(DBItemManager.getOrder(oid));
     }
 }

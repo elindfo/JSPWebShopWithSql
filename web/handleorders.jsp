@@ -41,23 +41,25 @@
     <div style="height: 50px"></div>
 
     <div>
-        <form action="ControllerServlet?action=getAllOrders" method="POST">
-            <select name="category">
-                <%List<String> categories = Proxy.getOrders;%>
-                <%for (String s : categories) {%>
-                <option name="category" value=<%=s%>><%out.print(s);%></option>
+        <form action="ControllerServlet?action=getOrder" method="POST">
+            <select name="oid">
+                <%int[] orders = Proxy.getOrderIds();%>
+                <%for (int oid : orders) {%>
+                <option name="oid" value=<%=String.valueOf(oid)%>><%out.print(oid);%></option>
                 <%}%>
             </select>
             <button class="my-button" value="Search" type="submit">GO</button>
         </form>
     </div>
     <%
-        if(request.getSession().getAttribute("orderRequest") != null)
-        {%>
+        if(request.getSession().getAttribute("currentOrderHandled") != null)
+        {
+    %>
     <div class="table">
         <table id="table">
             <tr>
-                <th>Id</th>
+                <th>Order</th>
+                <th>Item Id</th>
                 <th>Name</th>
                 <th>Price</th>
                 <th>Quantity</th>
@@ -66,18 +68,18 @@
                 <th>All</th>
             </tr>
             <%
-                List<HashMap<String, String>> items = (List<HashMap<String, String>>)request.getSession().getAttribute("cart");
+                List<HashMap<String, String>> items = (List<HashMap<String, String>>)request.getSession().getAttribute("currentOrderHandled");
                 for(int i = 0; i < items.size(); i++) {
             %>
 
             <tr>
+                <td><%=items.get(i).get("oid")%></td>
                 <td><%=items.get(i).get("itemId")%></td>
                 <td><%=items.get(i).get("name")%></td>
                 <td><%=items.get(i).get("price")%></td>
                 <td><%=items.get(i).get("quantity")%></td>
                 <td style="min-width:150px"><%=items.get(i).get("category")%></td>
-                <td><a class="my-button" href="ControllerServlet?action=removeFromCart&iid=<%=items.get(i).get("itemId")%>">-</a></td>
-                <td><a class="my-button" href="ControllerServlet?action=removeAllFromCart&iid=<%=items.get(i).get("itemId")%>">X</a></td>
+                <td><a class="my-button" href="ControllerServlet?action=removeFromCart&iid=<%=items.get(i).get("itemId")%>">Pack</a></td>
             </tr>
             <%
                 }

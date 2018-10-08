@@ -79,6 +79,10 @@ public class ControllerServlet extends HttpServlet {
                 this.handleOrders(request, response);
                 break;
             }
+            case "getOrder": {
+                this.getOrder(request, response);
+                break;
+            }
             case "createAccount": {
                 this.createAccount(request, response);
                 break;
@@ -93,6 +97,12 @@ public class ControllerServlet extends HttpServlet {
 
     }
 
+    private void getOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int oid = Integer.parseInt(request.getParameter("oid"));
+        request.getSession().setAttribute("currentOrderHandled", Proxy.getOrder(oid));
+        response.sendRedirect("handleorders.jsp");
+    }
+
     private void removeUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if(Proxy.removeAccount(Integer.parseInt(request.getParameter("uid")), (String) request.getSession().getAttribute("ulevel"))){
             administration(request, response);
@@ -103,7 +113,7 @@ public class ControllerServlet extends HttpServlet {
     }
 
     private void handleOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+        request.getSession().setAttribute("orderIds", Proxy.getOrderIds());
         response.sendRedirect("handleorders.jsp");
     }
 
