@@ -39,7 +39,8 @@ public class DBItemManager {
             DBManager.getConnection().commit();
             return true;
         }catch(SQLException e){
-            e.printStackTrace();
+            System.err.println("Exception: Unable to add item to DB");
+            System.err.println("Error Code: " + e.getErrorCode());
             if(DBManager.getConnection() != null){
                 try {
                     DBManager.getConnection().rollback();
