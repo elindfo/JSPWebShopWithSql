@@ -115,7 +115,7 @@ public class DBItemManager {
         try{
             DBManager.getConnection().setAutoCommit(false);
 
-            String packOrderQuery = "UPDATE user_order SET packed = true WHERE oid = ?;";
+            String packOrderQuery = "UPDATE user_order SET packed = 1 WHERE oid = ?;";
             PreparedStatement packorder = DBManager.getConnection().prepareStatement(packOrderQuery);
             packorder.setInt(1, oid);
             packorder.execute();
@@ -134,7 +134,7 @@ public class DBItemManager {
         } finally {
             if(DBManager.getConnection() != null){
                 try {
-                    DBManager.getConnection().close();
+                    DBManager.getConnection().setAutoCommit(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -146,12 +146,13 @@ public class DBItemManager {
         try{
             DBManager.getConnection().setAutoCommit(false); //Init transaction
             Order order = new Order();
-            String getOrdersQuery = "SELECT order_item.oid, order_item.iid, item.iname, order_item.iqty, item_category.category, item_prc.prc\n" +
-                    "FROM order_item\n" +
-                    "JOIN item ON order_item.iid = item.iid\n" +
-                    "JOIN item_category ON order_item.iid = item_category.iid\n" +
-                    "JOIN item_prc ON order_item.iid = item_prc.iid\n" +
-                    "WHERE order_item.oid = ?";
+            String getOrdersQuery = "SELECT order_item.oid, order_item.iid, item.iname, order_item.iqty, item_category.category, item_prc.prc, user_order.packed " +
+                    "FROM order_item " +
+                    "JOIN item ON order_item.iid = item.iid " +
+                    "JOIN item_category ON order_item.iid = item_category.iid " +
+                    "JOIN item_prc ON order_item.iid = item_prc.iid " +
+                    "JOIN user_order ON order_item.oid = user_order.oid " +
+                    "WHERE order_item.oid = ?;";
 
             PreparedStatement stmt = DBManager.getConnection().prepareStatement(getOrdersQuery);
             stmt.setInt(1,oid);
@@ -167,6 +168,7 @@ public class DBItemManager {
                 }
                 order.addItem(new Item(resultSet.getInt("iid"), resultSet.getString("iname"), resultSet.getDouble("prc"), resultSet.getInt("iqty"), c));
                 order.setOid(resultSet.getInt("oid"));
+                order.setPacked(resultSet.getBoolean("packed"));
             }
 
             DBManager.getConnection().commit();
@@ -195,8 +197,7 @@ public class DBItemManager {
         try{
             DBManager.getConnection().setAutoCommit(false); //Init transaction
 
-            String getAllOrderIdQuery =
-                    "SELECT oid FROM user_order;";
+            String getAllOrderIdQuery = "SELECT oid FROM user_order;";
 
             PreparedStatement getOrderId = DBManager.getConnection().prepareStatement(getAllOrderIdQuery);
 
@@ -505,7 +506,7 @@ public class DBItemManager {
     }
 
     public static void main(String[] args) {
-        //DBItemManager.fill();
+        DBItemManager.fill();
         System.out.println(getAllOrderIds());
         System.out.println(getOrder(1));
         //testOrder();
