@@ -25,7 +25,8 @@ CREATE TABLE user_level(
 
 CREATE TABLE user_order(
   oid INT AUTO_INCREMENT PRIMARY KEY,
-  uid INT NOT NULL REFERENCES user(uid)
+  uid INT NOT NULL REFERENCES user(uid),
+  packed BOOLEAN
 );
 
 CREATE TABLE order_item(
