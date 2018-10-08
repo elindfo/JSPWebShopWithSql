@@ -71,4 +71,8 @@ public class Proxy {
     public static List<HashMap<String, String>> getOrder(int oid) {
         return Order.convertListToOrderInfoList(DBItemManager.getOrder(oid));
     }
+
+    public static boolean packOrder(int oid) {
+        return DBItemManager.packOrder(oid);
+    }
 }

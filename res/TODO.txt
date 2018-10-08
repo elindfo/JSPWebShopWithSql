@@ -1,12 +1,7 @@
-Implementera admin-meny:
-    -Lista med users och ulevel
-    -Möjlighet att lägga till och ta bort användare
-
-Implementera employed-meny:
-    -Lista med ordrar
-    -Ordrar ska kunna packas och försändas
-    -Behövs eventuellt ett table i databasen för skickade ordrar
-
 Undersöka eventuell synchronized
 
 Undersöka så att inga referenser skickas från BL till View
+
+Fixa så att man inte kan lägga till en tom order OK
+
+Flytta packknappen och sätt den till currentOrderHandled för ID
