@@ -22,14 +22,9 @@
     <a href="ControllerServlet?action=logout">Logout</a>
     <%
         int level = Integer.parseInt((String) session.getAttribute("ulevel"));
-        if(level == 2){
-    %>
-    <a href="ControllerServlet?action=administration">Handle Orders</a>
-    <%
-        }
         if(level == 3){
     %>
-    <a href="ControllerServlet?action=administration">Administration</a>
+    <a href="ControllerServlet?action=administration" style="display: inline; float: right; background-color: darkgray;">Administration</a>
     <%
         }
     %>

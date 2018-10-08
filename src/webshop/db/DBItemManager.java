@@ -1,6 +1,7 @@
 package webshop.db;
 
 import webshop.bl.Item;
+import webshop.bl.Order;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -111,6 +112,127 @@ public class DBItemManager {
         }
     }
 
+    public static boolean packOrder(int oid){
+        try{
+            DBManager.getConnection().setAutoCommit(false);
+
+            String packOrderQuery = "UPDATE user_order SET packed = 1 WHERE oid = ?;";
+            PreparedStatement packorder = DBManager.getConnection().prepareStatement(packOrderQuery);
+            packorder.setInt(1, oid);
+            packorder.execute();
+
+            DBManager.getConnection().commit();
+            return true;
+        } catch (SQLException e) {
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            return false;
+        } finally {
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static Order getOrder(int oid){
+        try{
+            DBManager.getConnection().setAutoCommit(false); //Init transaction
+            Order order = new Order();
+            String getOrdersQuery = "SELECT order_item.oid, order_item.iid, item.iname, order_item.iqty, item_category.category, item_prc.prc, user_order.packed " +
+                    "FROM order_item " +
+                    "JOIN item ON order_item.iid = item.iid " +
+                    "JOIN item_category ON order_item.iid = item_category.iid " +
+                    "JOIN item_prc ON order_item.iid = item_prc.iid " +
+                    "JOIN user_order ON order_item.oid = user_order.oid " +
+                    "WHERE order_item.oid = ?;";
+
+            PreparedStatement stmt = DBManager.getConnection().prepareStatement(getOrdersQuery);
+            stmt.setInt(1,oid);
+
+            ResultSet resultSet = stmt.executeQuery();
+            while(resultSet.next()){
+                Item.Category c = null;
+                for(Item.Category category : Item.Category.values()){
+                    if(resultSet.getString("category").equals(category.toString())){
+                        c = category;
+                        break;
+                    }
+                }
+                order.addItem(new Item(resultSet.getInt("iid"), resultSet.getString("iname"), resultSet.getDouble("prc"), resultSet.getInt("iqty"), c));
+                order.setOid(resultSet.getInt("oid"));
+                order.setPacked(resultSet.getBoolean("packed"));
+            }
+
+            DBManager.getConnection().commit();
+            return order;
+        }catch(SQLException e){
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            return null;
+        }finally{
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static List<Integer> getAllOrderIds(){
+        try{
+            DBManager.getConnection().setAutoCommit(false); //Init transaction
+
+            String getAllOrderIdQuery = "SELECT oid FROM user_order;";
+
+            PreparedStatement getOrderId = DBManager.getConnection().prepareStatement(getAllOrderIdQuery);
+
+            ResultSet result = getOrderId.executeQuery();
+
+            List<Integer> orderIds = new ArrayList<>();
+
+
+            while(result.next()){
+                 orderIds.add(result.getInt("oid"));
+            }
+
+            DBManager.getConnection().commit();
+            return orderIds;
+        }catch(SQLException e){
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            return new ArrayList<>();
+        }finally{
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public static boolean placeOrder(List<Item> items, int uid){
         try{
             DBManager.getConnection().setAutoCommit(false); //Init transaction
@@ -123,13 +245,12 @@ public class DBItemManager {
                 updateItemQty.execute();
             }
 
-            //TODO Add new order to order table in database here
-            String addOrderQuery = "INSERT INTO user_order(uid) VALUES(?);";
+            String addOrderQuery = "INSERT INTO user_order(uid, packed) VALUES(?, ?);";
             PreparedStatement addOrderStmnt = DBManager.getConnection().prepareStatement(addOrderQuery);
             addOrderStmnt.setInt(1, uid);
+            addOrderStmnt.setBoolean(2, false);
             addOrderStmnt.execute();
 
-            //TODO Add entries to order_item table
             String addOrderItemQuery = "INSERT INTO order_item(oid, iid, iqty) VALUES(LAST_INSERT_ID(), ?, ?);";
             PreparedStatement addOrderItemStmnt = DBManager.getConnection().prepareStatement(addOrderItemQuery);
             for(Item item : items){
@@ -387,6 +508,8 @@ public class DBItemManager {
 
     public static void main(String[] args) {
         DBItemManager.fill();
+        System.out.println(getAllOrderIds());
+        System.out.println(getOrder(1));
         //testOrder();
     }
 

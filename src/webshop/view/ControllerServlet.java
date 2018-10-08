@@ -1,5 +1,6 @@
 package webshop.view;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import webshop.bl.Item;
 import webshop.bl.Proxy;
 
@@ -78,6 +79,10 @@ public class ControllerServlet extends HttpServlet {
                 this.handleOrders(request, response);
                 break;
             }
+            case "getOrder": {
+                this.getOrder(request, response);
+                break;
+            }
             case "createAccount": {
                 this.createAccount(request, response);
                 break;
@@ -86,10 +91,36 @@ public class ControllerServlet extends HttpServlet {
                 this.removeUser(request, response);
                 break;
             }
+            case "packOrder": {
+                this.packOrder(request, response);
+                break;
+            }
             default:
                 this.browse(request, response);
         }
 
+    }
+
+    private void packOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<HashMap<String,String>> currentOrder = (List<HashMap<String,String>>)request.getSession().getAttribute("currentOrderHandled");
+        String oid = "";
+        if(!currentOrder.isEmpty()){
+            oid = currentOrder.get(0).get("oid");
+            if(Proxy.packOrder(Integer.parseInt(oid))){
+                request.getSession().setAttribute("handleordersInfo", "Order " + oid + " packed");
+                request.getSession().setAttribute("currentOrderHandled", null);
+                handleOrders(request, response);
+            }
+            else{
+                request.getSession().setAttribute("handleordersInfo", "Unable to pack order " + oid);
+            }
+        }
+    }
+
+    private void getOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int oid = Integer.parseInt(request.getParameter("oid"));
+        request.getSession().setAttribute("currentOrderHandled", Proxy.getOrder(oid));
+        response.sendRedirect("handleorders.jsp");
     }
 
     private void removeUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -101,8 +132,9 @@ public class ControllerServlet extends HttpServlet {
         }
     }
 
-    private void handleOrders(HttpServletRequest request, HttpServletResponse response) {
-
+    private void handleOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.getSession().setAttribute("orderIds", Proxy.getOrderIds());
+        response.sendRedirect("handleorders.jsp");
     }
 
     private void administration(HttpServletRequest request, HttpServletResponse response) throws IOException {
