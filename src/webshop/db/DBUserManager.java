@@ -116,22 +116,18 @@ public class DBUserManager {
         }
     }
 
-    public static boolean removeUser(int uid, String level){
+    public static boolean setUserLevel(int uid, int level){
         try{
             DBManager.getConnection().setAutoCommit(false); //Initiate transaction
 
-            String query = "DELETE FROM user_level WHERE uid = ?";
-            String levelQuery = "DELETE FROM user WHERE uid = ?";
+            String query = "UPDATE user_level SET level = ? WHERE uid = ?;";
 
             PreparedStatement psmt = DBManager.getConnection().prepareStatement(query);
-            PreparedStatement levelPsmt = DBManager.getConnection().prepareStatement(levelQuery);
 
-
-            psmt.setInt(1, uid);
-            levelPsmt.setInt(1, uid);
+            psmt.setInt(1, level);
+            psmt.setInt(2, uid);
 
             psmt.execute();
-            levelPsmt.execute();
 
             DBManager.getConnection().commit();
             return true;
@@ -287,13 +283,20 @@ public class DBUserManager {
     }
 
     public static void main(String[] args) {
-        //DBUserManager.fill();
+        DBUserManager.fill();
         System.out.println(getAllUsers());
     }
 
     private static void fill(){
+        DBUserManager.addUser("Admin", "admin", 3);
         DBUserManager.addUser("Customer", "customer", 1);
         DBUserManager.addUser("Employee", "employee", 2);
-        DBUserManager.addUser("Admin", "admin", 3);
+        DBUserManager.addUser("Erik", "hejsan", 2);
+        DBUserManager.addUser("Joacim", "usling", 2);
+        DBUserManager.addUser("Anna", "panna", 1);
+        DBUserManager.addUser("Schtekern", "stekaren", 1);
+        DBUserManager.addUser("DjingisKhan", "kung", 2);
+        DBUserManager.addUser("Paladin", "rage", 1);
+        DBUserManager.addUser("Evie", "win", 1);
     }
 }
