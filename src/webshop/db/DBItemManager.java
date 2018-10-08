@@ -110,6 +110,37 @@ public class DBItemManager {
         }
     }
 
+    public static boolean packOrder(int oid){
+        try{
+            DBManager.getConnection().setAutoCommit(false);
+
+            String packOrderQuery = "UPDATE user_order SET packed = true WHERE oid = ?;";
+            PreparedStatement packorder = DBManager.getConnection().prepareStatement(packOrderQuery);
+            packorder.setInt(1, oid);
+            packorder.execute();
+
+            DBManager.getConnection().commit();
+            return true;
+        } catch (SQLException e) {
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            return false;
+        } finally {
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public static boolean placeOrder(List<Item> items, int uid){
         try{
             DBManager.getConnection().setAutoCommit(false); //Init transaction
@@ -122,13 +153,12 @@ public class DBItemManager {
                 updateItemQty.execute();
             }
 
-            //TODO Add new order to order table in database here
-            String addOrderQuery = "INSERT INTO user_order(uid) VALUES(?);";
+            String addOrderQuery = "INSERT INTO user_order(uid, packed) VALUES(?, ?);";
             PreparedStatement addOrderStmnt = DBManager.getConnection().prepareStatement(addOrderQuery);
             addOrderStmnt.setInt(1, uid);
+            addOrderStmnt.setBoolean(2, false);
             addOrderStmnt.execute();
 
-            //TODO Add entries to order_item table
             String addOrderItemQuery = "INSERT INTO order_item(oid, iid, iqty) VALUES(LAST_INSERT_ID(), ?, ?);";
             PreparedStatement addOrderItemStmnt = DBManager.getConnection().prepareStatement(addOrderItemQuery);
             for(Item item : items){
@@ -139,6 +169,44 @@ public class DBItemManager {
 
             DBManager.getConnection().commit();
             return true;
+        }catch(SQLException e){
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().rollback();
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            return false;
+        }finally{
+            if(DBManager.getConnection() != null){
+                try {
+                    DBManager.getConnection().setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static List<List<Item>> getAllOrders(){
+        try{
+            DBManager.getConnection().setAutoCommit(false); //Init transaction
+
+            String findByIidQuery =
+                    "SELECT item.iid, item.iname, item_prc.prc, item_qty.qty, item_category.category\n" +
+                            "FROM item\n" +
+                            "INNER JOIN item_prc\n" +
+                            "ON item.iid = item_prc.iid\n" +
+                            "INNER JOIN item_qty\n" +
+                            "ON item_prc.iid = item_qty.iid\n" +
+                            "INNER JOIN item_category\n" +
+                            "ON item_qty.iid = item_category.iid\n" +
+                            "WHERE item.iname = ?;";
+
+            PreparedStatement getAllOrders
+            DBManager.getConnection().commit();
+            return orders;
         }catch(SQLException e){
             if(DBManager.getConnection() != null){
                 try {

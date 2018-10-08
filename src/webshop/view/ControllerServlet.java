@@ -102,8 +102,9 @@ public class ControllerServlet extends HttpServlet {
         }
     }
 
-    private void handleOrders(HttpServletRequest request, HttpServletResponse response) {
+    private void handleOrders(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        response.sendRedirect("handleorders.jsp");
     }
 
     private void administration(HttpServletRequest request, HttpServletResponse response) throws IOException {
