@@ -2,7 +2,6 @@ package webshop.view;
 
 import webshop.bl.Item;
 import webshop.bl.Proxy;
-import webshop.bl.UserAccount;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -94,7 +93,7 @@ public class ControllerServlet extends HttpServlet {
     }
 
     private void removeUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if(Proxy.removeAccount(Integer.parseInt(request.getParameter("uid")), (String) request.getSession().getAttribute("ulevel"))){
+        if(Proxy.setUserLevel(Integer.parseInt(request.getParameter("uid")), 0)){
             administration(request, response);
         } else {
             response.getWriter().println("Unable to remove Account");
@@ -136,13 +135,21 @@ public class ControllerServlet extends HttpServlet {
         if(Proxy.tryLogin((String)request.getSession().getAttribute("username"), (String)request.getSession().getAttribute("password"))){
             String uid = String.valueOf(Proxy.getUserId((String) request.getSession().getAttribute("username")));
             String ulevel = String.valueOf(Proxy.getUserLevel(Integer.parseInt(uid)));
-            request.getSession().setAttribute("uid", uid);
-            request.getSession().setAttribute("ulevel", ulevel);
-            request.getSession().setAttribute("cart", new ArrayList<HashMap<String, String>>());
-            request.getSession().setAttribute("loggedIn", Boolean.TRUE);
+            if(Integer.parseInt(ulevel) == 0){
+                request.getSession().setAttribute("loggedIn", Boolean.FALSE);
+                request.getSession().setAttribute("loginStatus", "Unable to login: User has been removed");
+            }
+            else{
+                request.getSession().setAttribute("uid", uid);
+                request.getSession().setAttribute("ulevel", ulevel);
+                request.getSession().setAttribute("cart", new ArrayList<HashMap<String, String>>());
+                request.getSession().setAttribute("loggedIn", Boolean.TRUE);
+                request.getSession().setAttribute("loginStatus", "Login successful");
+            }
         }
         else{
             request.getSession().setAttribute("loggedIn", Boolean.FALSE);
+            request.getSession().setAttribute("loginStatus", "Invalid username or password");
         }
         request.getSession().setAttribute("password", null);
         response.sendRedirect("login.jsp");
