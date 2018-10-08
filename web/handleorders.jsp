@@ -17,9 +17,15 @@
 <body>
 <div class="topnav">
     <a href="ControllerServlet?action=browse">Browse</a>
-    <a href="ControllerServlet?action=viewCart">ShoppingCart</a>
+    <a href="ControllerServlet?action=viewCart">Shopping Cart</a>
     <a href="ControllerServlet?action=logout">Logout</a>
-
+    <%
+        if(request.getSession().getAttribute("currentOrderHandled") != null){
+    %>
+            <a href="ControllerServlet?action=packOrder">Pack Order</a>
+    <%
+        }
+    %>
     <%
         int level = Integer.parseInt((String) session.getAttribute("ulevel"));
         if (level == 2) {
@@ -43,10 +49,16 @@
     <div>
         <form action="ControllerServlet?action=getOrder" method="POST">
             <select name="oid">
-                <%int[] orders = Proxy.getOrderIds();%>
-                <%for (int oid : orders) {%>
+                <%
+                    int[] orders = Proxy.getOrderIds();
+                    for (int oid : orders) {
+                        if(Boolean.parseBoolean((Proxy.getOrder(oid)).get(0).get("packed")) == false){
+                %>
                 <option name="oid" value=<%=String.valueOf(oid)%>><%out.print(oid);%></option>
-                <%}%>
+                <%
+                        }
+                    }
+                %>
             </select>
             <button class="my-button" value="Search" type="submit">GO</button>
         </form>
@@ -79,13 +91,18 @@
                 <td><%=items.get(i).get("price")%></td>
                 <td><%=items.get(i).get("quantity")%></td>
                 <td style="min-width:150px"><%=items.get(i).get("category")%></td>
-                <td><a class="my-button" href="ControllerServlet?action=removeFromCart&iid=<%=items.get(i).get("itemId")%>">Pack</a></td>
             </tr>
             <%
                 }
-        } %>
+            %>
         </table>
     </div>
+    <%
+        }
+        else{
+            out.print(session.getAttribute("handleordersInfo"));
+        }
+    %>
 
 </div>
 </body>
