@@ -7,6 +7,12 @@
         response.sendRedirect("login.jsp");
     }
 %>
+<html>
+
+<title>Webshop</title>
+
+<head></head>
+
 <body>
     <div class="topnav">
         <a href="ControllerServlet?action=browse">Browse</a>
@@ -68,10 +74,5 @@
         </div>
 
     </div>
-
-    <div class="footer">
-        <p>Erik & Jocke</p>
-    </div>
-
 </body>
 </html>

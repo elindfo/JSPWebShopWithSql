@@ -89,12 +89,6 @@
         </table>
     </div>
 </div>
-
-
-<div class="footer">
-    <p>Erik & Jocke</p>
-</div>
-
 </body>
 </html>
 

@@ -31,10 +31,6 @@ public class ControllerServlet extends HttpServlet {
         }
         items = new ArrayList<>();
         switch (action) {
-            case "findByName": {
-                this.findByName(request, response);
-                break;
-            }
             case "findByCategory": {
                 this.findByCategory(request, response);
                 break;
@@ -154,24 +150,8 @@ public class ControllerServlet extends HttpServlet {
 
     private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getSession().setAttribute("loggedIn", Boolean.FALSE);
-        request.getSession().setAttribute("username", null);
-        request.getSession().setAttribute("password", null);
         request.getSession().invalidate();
         response.sendRedirect("index.jsp");
-    }
-
-    /**
-     * This method will initiate a search filtered by name, which is provided as a parameter "name"
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    private void findByName(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //TODO Database interaction and formatin
-        request.setAttribute("items", items);
-        request.getRequestDispatcher("browse.jsp").forward(request, response);
     }
 
     /**
