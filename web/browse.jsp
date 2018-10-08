@@ -72,7 +72,7 @@
             <tr>
                 <td><%=items.get(i).get("itemId")%>
                 </td>
-                <td style="min-width:400px"><%=items.get(i).get("name")%>
+                <td><%=items.get(i).get("name")%>
                 </td>
                 <td><%=items.get(i).get("price")%>
                 </td>

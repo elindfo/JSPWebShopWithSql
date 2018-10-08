@@ -136,7 +136,7 @@ public class DBUserManager {
             DBManager.getConnection().commit();
             return true;
         } catch (SQLException e) {
-            System.err.println("Exception: Unable to remove user to DB");
+            System.err.println("Exception: Unable to remove user from DB");
             System.err.println("Error Code: " + e.getErrorCode());
             if (DBManager.getConnection() != null) {
                 try {

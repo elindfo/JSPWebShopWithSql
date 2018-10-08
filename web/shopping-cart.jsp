@@ -54,7 +54,7 @@
 
                 <tr>
                     <td><%=items.get(i).get("itemId")%></td>
-                    <td style="min-width:400px"><%=items.get(i).get("name")%></td>
+                    <td><%=items.get(i).get("name")%></td>
                     <td><%=items.get(i).get("price")%></td>
                     <td><%=items.get(i).get("quantity")%></td>
                     <td style="min-width:150px"><%=items.get(i).get("category")%></td>
