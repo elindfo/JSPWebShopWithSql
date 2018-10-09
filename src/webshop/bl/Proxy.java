@@ -75,4 +75,30 @@ public class Proxy {
     public static boolean packOrder(int oid) {
         return DBItemManager.packOrder(oid);
     }
+
+    public static boolean addItem(String name, String quantity, String price, String category) {
+        return DBItemManager.addItem(name, Double.parseDouble(price), Integer.parseInt(quantity), Item.convertStringToCategory(category));
+    }
+
+    public static HashMap<String, String> findItemById(String iid) {
+        Item item = DBItemManager.findById(Integer.parseInt(iid));
+        HashMap<String, String> foundItem = new HashMap<>();
+        if(item == null){
+            return null;
+        }
+        foundItem.put("itemId", String.valueOf(item.getId()));
+        foundItem.put("name", item.getName());
+        foundItem.put("category", item.getCategory().toString());
+        foundItem.put("price", String.valueOf(item.getPrice()));
+        foundItem.put("quantity", String.valueOf(item.getQty()));
+        return foundItem;
+    }
+
+    public static boolean updateItem(String iid, String name, String quantity, String price, String category) {
+        int itemId = Integer.parseInt(iid);
+        double itemPrice = Double.parseDouble(price);
+        int itemQuantity = Integer.parseInt(quantity);
+        Item.Category itemCategory = Item.convertStringToCategory(category);
+        return DBItemManager.update(itemId, name, itemPrice, itemQuantity, itemCategory);
+    }
 }

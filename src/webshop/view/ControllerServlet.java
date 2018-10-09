@@ -39,6 +39,18 @@ public class ControllerServlet extends HttpServlet {
                 this.addToCart(request, response);
                 break;
             }
+            case "addItem": {
+                this.addItem(request, response);
+                break;
+            }
+            case "editItem": {
+                this.editItem(request, response);
+                break;
+            }
+            case "updateItem": {
+                this.updateItem(request, response);
+                break;
+            }
             case "removeFromCart": {
                 this.removeFromCart(request, response);
                 break;
@@ -99,6 +111,56 @@ public class ControllerServlet extends HttpServlet {
                 this.browse(request, response);
         }
 
+    }
+
+    private void updateItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String iid = (String)request.getSession().getAttribute("currentIid");
+        String name = request.getParameter("itemName");
+        String quantity = request.getParameter("itemQuantity");
+        String price = request.getParameter("itemPrice");
+        String category = request.getParameter("itemCategory");
+        response.getWriter().println(iid);
+        response.getWriter().println(name);
+        response.getWriter().println(quantity);
+        response.getWriter().println(price);
+        response.getWriter().println(category);
+        if(Proxy.updateItem(iid, name, quantity, price, category)){
+            request.getSession().setAttribute("updateItemStatus", "Item updated");
+        }
+        else{
+            request.getSession().setAttribute("updateItemStatus", "Item update failed");
+        }
+        browse(request, response);
+    }
+
+    private void editItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        HashMap<String, String> item = Proxy.findItemById(request.getParameter("iid"));
+        request.getSession().setAttribute("currentIid", request.getParameter("iid"));
+
+        if(item != null){
+            request.getSession().setAttribute("item", item);
+            response.sendRedirect("edititem.jsp");
+        }
+        else{
+            response.sendRedirect("browse.jsp");
+        }
+    }
+
+
+
+    private void addItem(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String name = request.getParameter("itemName");
+        String quantity = request.getParameter("itemQuantity");
+        String price = request.getParameter("itemPrice");
+        String category = request.getParameter("itemCategory");
+        if(Proxy.addItem(name, quantity, price, category)){
+            request.getSession().setAttribute("addItemStatus", "Item added");
+        }
+        else{
+            request.getSession().setAttribute("addItemStatus", "Unable to add item");
+        }
+        response.sendRedirect("additem.jsp");
     }
 
     private void packOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {

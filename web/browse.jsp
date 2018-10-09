@@ -26,6 +26,7 @@
     if (level == 2) {
     %>
     <a href="ControllerServlet?action=handleOrders" style="display: inline; float: right">Handle Orders</a>
+    <a href="additem.jsp" style="display: inline; float: right">Add Item</a>
     <%
         }
         if (level == 3) {
@@ -80,8 +81,14 @@
                 </td>
                 <td style="min-width:150px"><%=items.get(i).get("category")%>
                 </td>
-                <td><a class="my-button" name="BUY"
-                       href="ControllerServlet?action=addToCart&iid=<%=items.get(i).get("itemId")%>">buy</a></td>
+                <td><a class="my-button" name="BUY" href="ControllerServlet?action=addToCart&iid=<%=items.get(i).get("itemId")%>">buy</a></td>
+                <%
+                    if(level == 2){
+                %>
+                <td><a class="my-button" name="EDIT" href="ControllerServlet?action=editItem&iid=<%=items.get(i).get("itemId")%>">edit</a></td>
+                <%
+                    }
+                %>
             </tr>
             <%
                 }
